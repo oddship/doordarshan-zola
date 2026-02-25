@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+    <header class="section-header">
+        <h1 class="text-display">{{ taxonomy.name | title }}</h1>
+        <p class="text-intro">
+            {% if taxonomy.name == "tags" %}
+            Browse posts by topic.
+            {% else %}
+            Browse content by {{ taxonomy.name }}.
+            {% endif %}
+        </p>
+    </header>
+
+    <div class="tags-index spacing-component">
+        {% for term in terms %}
+        <a href="{{ term.permalink }}" class="tag-index-item">
+            <span class="tag-name">{{ term.name }}</span>
+            <span class="tag-count">{{ term.pages | length }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

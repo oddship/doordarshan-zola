@@ -1,0 +1,64 @@
+// ==========================
+// Minimal Card Components
+// ==========================
+
+// Base card styles
+.card-base,
+.card,
+.card-interactive,
+.content-preview,
+.filter-panel {
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  transition: border-color 150ms ease;
+
+  &:hover {
+    border-color: var(--c-text-primary);
+  }
+}
+
+// Card content
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.card-title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-2);
+}
+
+.card-description {
+  font-size: var(--text-sm);
+  color: var(--c-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+// Filter panels for blog
+.filter-heading {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--c-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-3);
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.filter-panel {
+  padding: var(--space-4);
+
+  &:hover {
+    border-color: var(--c-border);
+  }
+}

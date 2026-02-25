@@ -1,0 +1,165 @@
+// ==========================
+// Helper Utilities & Animations
+// ==========================
+
+// ========== UTILITIES ==========
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.muted { color: var(--c-text-muted); }
+.w-full { width: 100%; }
+.rounded { border-radius: var(--radius); }
+
+// Content utilities
+.text-content {
+  max-width: min(65ch, 100%);
+  line-height: var(--line-height-relaxed);
+}
+
+.responsive-spacing {
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+}
+
+.responsive-padding {
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .hidden-mobile { display: none; }
+}
+
+@media (min-width: 641px) {
+  .hidden-desktop { display: none; }
+}
+
+// ========== ANIMATION ==========
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade {
+  animation: fadeIn 0.6s var(--transition) both;
+}
+
+// ========== TABLE OF CONTENTS ==========
+.toc-content {
+  ul, ol {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  
+  ul ul, ol ol {
+    padding-left: var(--space-md);
+    margin-top: var(--space-xs);
+  }
+  
+  li {
+    margin-bottom: var(--space-xs);
+  }
+  
+  a {
+    color: var(--c-text-secondary);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    transition: color var(--transition);
+    
+    &:hover {
+      color: var(--c-text-primary);
+    }
+  }
+}
+
+// ========== CONTENT STYLING ==========
+.content-readable {
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-sm);
+    
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  
+  p {
+    margin-bottom: var(--space-md);
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  ul, ol {
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-lg);
+    
+    li {
+      margin-bottom: var(--space-xs);
+    }
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    margin: var(--space-lg) 0;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-lg) 0;
+    font-size: var(--font-size-sm);
+    
+    th, td {
+      padding: var(--space-sm);
+      text-align: left;
+      border-bottom: 1px solid var(--c-border-light);
+    }
+    
+    th {
+      font-weight: var(--font-weight-semibold);
+      color: var(--c-text-main);
+      background: var(--c-bg-tertiary);
+    }
+    
+    td {
+      color: var(--c-text-secondary);
+    }
+  }
+  
+  hr {
+    border: none;
+    height: 1px;
+    background: var(--c-border-light);
+    margin: var(--space-xl) 0;
+  }
+}
+
+// Handdrawn border styling - visible cards with subtle rotation effect
+.handdrawn-border {
+  border: 1px solid var(--c-border);
+  border-radius: 2px;
+  background: var(--c-bg-subtle);
+  padding: var(--space-6);
+
+  &:hover {
+    border-color: var(--c-border-strong);
+  }
+}

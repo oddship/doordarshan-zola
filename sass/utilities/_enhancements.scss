@@ -1,0 +1,61 @@
+// ==========================
+// Visual Enhancements for Notebook × Terminal Aesthetic
+// ==========================
+
+// Removed: Paper texture overlay - was causing choppy scrolling
+
+// ========== SIMPLE LINK STYLING ==========
+// Clean underlines - no double effects
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--transition);
+}
+
+// Content links get simple underlines
+.text-body a,
+.text-content a,
+article p a,
+article li a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+
+  &:hover {
+    color: var(--c-accent);
+    text-decoration-color: var(--c-accent);
+  }
+}
+
+// No underlines for navigation, buttons, tags, cards
+.nav-item a,
+.nav-brand,
+.tag,
+.card a,
+.card-title a,
+.content-preview-title a,
+.read-more-link,
+.back-link {
+  text-decoration: none;
+}
+
+// Theme toggle is instant - no animations needed
+
+// ========== ASCII ART ENHANCEMENTS ==========
+.ascii-logo {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  line-height: 1;
+  color: var(--c-text-muted);
+  white-space: pre;
+  letter-spacing: 0;
+  display: none; // Hidden by default, can be toggled
+
+  @media (max-width: 768px) {
+    font-size: 0.5rem;
+  }
+}
+
+// Removed: Perforated edge - was causing choppy scrolling
+
+// Removed: Washi tape, terminal history, CRT effects, custom cursors

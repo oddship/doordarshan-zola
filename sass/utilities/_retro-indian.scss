@@ -1,0 +1,113 @@
+// ==========================
+// Retro Indian Design Elements
+// ==========================
+// Oddship-inspired terminal + Indian retro fusion
+// Minimal, playful, distinctive
+
+// ========== BODY SCAN LINES ==========
+// Subtle CRT/Doordarshan TV effect - works in both themes
+body {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(128, 128, 128, 0.02) 2px,
+      rgba(128, 128, 128, 0.02) 4px
+    );
+}
+
+
+// ========== SHAKTIMAAN ENERGY EFFECTS ==========
+// Playful hover state for avatar
+
+.energy-glow {
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow:
+      0 0 20px rgba(234, 162, 33, 0.3),
+      0 0 40px rgba(234, 162, 33, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+// ========== PLAYFUL BUTTON STYLES ==========
+
+.btn-retro {
+  position: relative;
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--c-border);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+
+  // Halftone hover effect
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--c-marigold) 1.5px, transparent 1.5px);
+    background-size: 6px 6px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover {
+    border-color: var(--c-marigold);
+    color: var(--c-marigold);
+
+    &::before {
+      opacity: 0.2;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// ========== RANGOLI DIVIDER ==========
+// Decorative section separator
+
+.rangoli-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  color: var(--c-text-tertiary);
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--c-border) 20%,
+      var(--c-border) 80%,
+      transparent
+    );
+  }
+
+  .rangoli-symbol {
+    font-size: var(--text-base);
+    color: var(--c-marigold);
+    animation: rangoli-pulse 3s ease-in-out infinite;
+  }
+}
+
+@keyframes rangoli-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}

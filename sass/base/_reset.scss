@@ -1,0 +1,86 @@
+// ==========================
+// Minimal Reset
+// ==========================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--c-text-primary);
+  background: var(--c-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: color var(--transition), background-color var(--transition);
+}
+
+// Focus states
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--c-text-primary);
+  outline-offset: 2px;
+}
+
+// Containers
+.container {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+// Sections
+.section {
+  padding-block: var(--space-16);
+
+  @media (max-width: 640px) {
+    padding-block: var(--space-12);
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// ========== ADDITIONAL CONTAINERS ==========
+// Ensure all legacy container classes are constrained
+.container-content,
+.container-narrow,
+.container-wide {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.container-full {
+  max-width: 100%;
+  
+  > * {
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: var(--container-padding);
+  }
+}

@@ -1,0 +1,80 @@
+// ==========================
+// Minimal Theme Utilities
+// ==========================
+
+// Theme toggle
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--c-border);
+  padding: var(--space-2);
+  cursor: pointer;
+  color: var(--c-text-primary);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+
+  &:hover {
+    background: var(--c-bg-subtle);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-text-primary);
+    outline-offset: 2px;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // CSS-only icon visibility (no Alpine flicker)
+  .theme-icon-light {
+    display: none;
+  }
+  .theme-icon-dark {
+    display: flex;
+  }
+}
+
+// Light theme: show sun, hide moon
+:root[data-theme="light"] .theme-toggle {
+  .theme-icon-light {
+    display: flex;
+  }
+  .theme-icon-dark {
+    display: none;
+  }
+}
+
+// Progress bar
+.progress-container-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--c-border);
+  z-index: 1000;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--c-text-primary);
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-container">
+    <!-- Section Header -->
+    <header class="section-header">
+        <h1 class="text-display">{{ section.title }}</h1>
+        {% if section.description %}
+        <p class="text-intro">{{ section.description }}</p>
+        {% endif %}
+    </header>
+
+    <!-- Year-Grouped Archive -->
+    {% set blog = get_section(path="blog/_index.md") %}
+    {% for year, posts in blog.pages | sort(attribute="date") | reverse | group_by(attribute="year") %}
+    <section class="archive-year spacing-component">
+        <h2 class="archive-year-header">{{ year }}</h2>
+        <div class="blog-list">
+            {% for page in posts %}
+            <article class="blog-item">
+                <time datetime="{{ page.date }}">{{ page.date | date(format="%m-%d") }}</time>
+                <a href="{{ page.permalink }}" class="blog-item-title">{{ page.title }}</a>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+
+    <!-- Back to Blog -->
+    <nav class="section-nav spacing-component">
+        <a href="{{ get_url(path='blog/') }}">← Back to Blog</a>
+    </nav>
+</div>
+{% endblock content %}

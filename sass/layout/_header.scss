@@ -1,0 +1,162 @@
+// ==========================
+// Header & Footer
+// ==========================
+// Oddship-inspired terminal aesthetic with Indian retro flair
+
+// ========== HEADER ==========
+.header-main,
+.header-enhanced {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-border);
+  padding: var(--space-3) 0;
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.header-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  display: grid;
+  grid-template-columns: auto 1fr auto;  // brand | nav (centered) | toggle
+  align-items: center;
+  gap: var(--space-4);
+}
+
+// Terminal prompt before brand
+// Pseudo-element positioned absolutely to not affect text alignment
+.nav-brand,
+.nav-brand-enhanced {
+  position: relative;
+  white-space: nowrap;
+
+  &::before {
+    content: '॰';
+    color: var(--c-marigold);
+    font-weight: var(--weight-bold);
+    position: absolute;
+    right: 100%;
+    margin-right: 0.35em;
+  }
+}
+
+.header-nav,
+.header-nav-enhanced {
+  display: flex;
+  justify-content: center;  // Center nav links
+  align-items: center;
+  gap: var(--space-4);
+
+  @media (max-width: 640px) {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--c-bg);
+    border-top: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-border);
+    padding: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    &.mobile-menu-open {
+      display: flex;
+    }
+
+    // Full-width centered nav items
+    .nav-item {
+      width: 100%;
+      justify-content: center;
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--c-border);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+// Bracketed nav links - oddship style
+.nav-item {
+  &::before {
+    content: '[';
+    color: var(--c-text-tertiary);
+  }
+
+  &::after {
+    content: ']';
+    color: var(--c-text-tertiary);
+  }
+
+  &:hover,
+  &.active,
+  &[aria-current="page"] {
+    color: var(--c-marigold);
+
+    &::before,
+    &::after {
+      color: var(--c-marigold);
+    }
+  }
+}
+
+// ========== FOOTER ==========
+.footer-main {
+  margin-top: auto;
+  padding: var(--space-8) 0 var(--space-6);
+  border-top: 1px solid var(--c-border);
+  transition: border-color var(--transition);
+}
+
+.footer-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-text-tertiary);
+  text-align: center;
+
+  // Comment-wrapped style like oddship
+  &::before {
+    content: '/* ';
+    color: var(--c-text-tertiary);
+  }
+
+  &::after {
+    content: ' */';
+    color: var(--c-text-tertiary);
+  }
+
+  p {
+    display: inline;
+  }
+}
+
+// ========== MAIN CONTENT SPACING ==========
+.main-content {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+// ========== CONTAINER OVERRIDES ==========
+// Ensure all container classes are properly constrained
+.container,
+.container-content,
+.container-narrow,
+.container-wide,
+.container-full,
+.content-container,
+.content-container-narrow {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+// .content-container-narrow now uses --max-width (720px) like all containers

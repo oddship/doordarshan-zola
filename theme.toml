@@ -1,0 +1,12 @@
+name = "doordarshan"
+description = "Doordarshan meets Developer — retro Indian terminal aesthetic with monospace typography, warm terracotta accent, and CRT scanlines"
+license = "MIT"
+homepage = "https://github.com/rhnvrm/rohanverma.net"
+min_version = "0.19.0"
+tags = ["monospace", "retro", "terminal", "dark-light", "blog", "minimal"]
+
+[extra]
+
+[author]
+name = "Rohan Verma"
+homepage = "https://rohanverma.net"

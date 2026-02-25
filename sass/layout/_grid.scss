@@ -1,0 +1,35 @@
+// ==========================
+// Minimal Grid System
+// ==========================
+
+// Simple responsive grid
+.grid,
+.grid-auto,
+.feature-grid,
+.content-grid,
+.content-grid-responsive,
+.social-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Single column grid
+.grid-1 {
+  grid-template-columns: 1fr !important;
+}
+
+// Two column grid
+.grid-2 {
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

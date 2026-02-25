@@ -1,0 +1,178 @@
+// ==========================
+// Minimal Typography System
+// ==========================
+
+// Everything uses the same monospace font
+h1, h2, h3, h4, h5, h6, p, li, a, span, div {
+  font-family: var(--font-mono);
+  color: var(--c-text-primary);
+  transition: color var(--transition);
+}
+
+// Headings - simple weight hierarchy
+h1 {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-6);
+  letter-spacing: -0.02em;
+
+  @media (max-width: 640px) {
+    font-size: var(--text-2xl);
+  }
+}
+
+h2 {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  margin: var(--space-12) 0 var(--space-4);
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
+  margin: var(--space-8) 0 var(--space-3);
+}
+
+h4, h5, h6 {
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+// Body text
+p {
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-4);
+  max-width: 65ch;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Emphasis
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: var(--weight-bold);
+}
+
+// Small text
+small,
+.text-sm {
+  font-size: var(--text-sm);
+  color: var(--c-text-secondary);
+}
+
+.text-xs {
+  font-size: var(--text-xs);
+  color: var(--c-text-tertiary);
+}
+
+// Lists
+ul, ol {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-6);
+
+  li {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-2);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+// Code - inline code with accent styling
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--c-bg-subtle);
+  color: var(--c-accent);
+  padding: 0.15em 0.4em;
+  border-radius: 2px;
+  // Subtle border matching accent
+  border: 1px solid color-mix(in srgb, var(--c-accent) 20%, transparent);
+}
+
+// Code blocks - terminal style
+// Zola puts .z-code class directly on pre element
+pre,
+pre.z-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  background: #1d2021 !important; // Gruvbox dark bg
+  color: #ebdbb2; // Gruvbox fg
+  padding: var(--space-4);
+  border: 1px solid #3c3836;
+  border-radius: 2px;
+  overflow-x: auto;
+  margin: var(--space-6) 0;
+  // Subtle left accent border
+  border-left: 3px solid var(--c-marigold);
+
+  code {
+    background: transparent;
+    color: inherit; // Use pre's Gruvbox fg, not accent color
+    padding: 0;
+    border: none;
+  }
+}
+
+// ========== SYNTAX HIGHLIGHTING ==========
+// Ensure all syntax highlighting spans use Gruvbox colors on dark bg
+pre, pre.z-code {
+  // Reset ALL nested spans to inherit the Gruvbox foreground
+  span, code span {
+    color: #ebdbb2; // Gruvbox fg - override any inherited page colors
+  }
+}
+
+// Punctuation slightly muted
+.z-punctuation {
+  color: #a89984 !important; // Gruvbox gray
+}
+
+// Blockquotes
+blockquote {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--c-text-secondary);
+  border-left: 2px solid var(--c-text-primary);
+  padding-left: var(--space-4);
+  margin: var(--space-6) 0;
+  font-style: italic;
+}
+
+// Horizontal rule
+hr {
+  border: none;
+  border-top: 1px solid var(--c-border);
+  margin: var(--space-12) 0;
+}
+
+// Selection
+::selection {
+  background: var(--c-text-primary);
+  color: var(--c-bg);
+}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container-narrow">
+    <article>
+        <header class="section-header">
+            <h1 class="text-display">{{ page.title }}</h1>
+            
+            <div class="content-preview-meta">
+                {% if page.date %}
+                <span class="meta-item">
+                    <time datetime="{{ page.date }}">
+                        {{ page.date | date(format="%B %d, %Y") }}
+                    </time>
+                </span>
+                {% endif %}
+                
+                {% if page.reading_time %}
+                <span class="meta-item read-time">{{ page.reading_time }} min read</span>
+                {% endif %}
+            </div>
+
+            {% if page.taxonomies.tags %}
+            <div class="tag-list spacing-top-element">
+                {% for tag in page.taxonomies.tags %}
+                <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag">{{ tag }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </header>
+
+        <div class="text-content spacing-component">
+            <div class="text-body">
+                {{ page.content | safe }}
+            </div>
+        </div>
+
+        {% if page.extra.toc %}
+        <aside class="card spacing-component">
+            <h3 class="text-title">Table of Contents</h3>
+            <div class="toc-content">
+                {{ page.toc | safe }}
+            </div>
+        </aside>
+        {% endif %}
+
+        <div class="post-footer">
+            <a href="/blog/" class="back-link">← Blog</a>
+        </div>
+    </article>
+</div>
+
+<!-- Article Navigation -->
+<div class="content-container">
+    <nav class="section-spacing">
+        <div class="content-grid-responsive">
+            {% if page.earlier %}
+            <div class="card card-content">
+                <div class="text-caption">Previous</div>
+                <h4 class="text-title card-title">
+                    <a href="{{ page.earlier.permalink }}" class="link--plain">
+                        {{ page.earlier.title }}
+                    </a>
+                </h4>
+            </div>
+            {% else %}
+            <div></div>
+            {% endif %}
+
+            {% if page.later %}
+            <div class="card card-content">
+                <div class="text-caption">Next</div>
+                <h4 class="text-title card-title">
+                    <a href="{{ page.later.permalink }}" class="link--plain">
+                        {{ page.later.title }}
+                    </a>
+                </h4>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+</div>
+{% endblock content %}

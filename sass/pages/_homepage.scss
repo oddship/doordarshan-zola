@@ -1,0 +1,289 @@
+// ==========================
+// Retro Indian Homepage
+// ==========================
+
+// Hero - centered with retro textures
+.hero-section {
+  padding: var(--space-24) 0;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 640px) {
+    padding: var(--space-16) 0;
+    min-height: auto;
+  }
+}
+
+.hero-card {
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+// Avatar with Mughal arch frame
+.avatar-frame {
+  position: relative;
+  display: inline-block;
+  margin-bottom: var(--space-8);
+  padding-top: var(--space-6);
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--c-marigold);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+
+  &:hover {
+    border-color: var(--c-accent);
+    transform: scale(1.05);
+  }
+}
+
+.hero-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-4);
+
+  @media (max-width: 640px) {
+    font-size: var(--text-2xl);
+  }
+}
+
+.hero-description {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--c-text-secondary);
+  margin-bottom: var(--space-6);
+
+  .highlight {
+    color: var(--c-accent);
+    font-weight: var(--weight-medium);
+  }
+}
+
+.hero-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+// Features
+.section-features,
+.features-section {
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--c-border);
+
+  @media (max-width: 640px) {
+    padding: var(--space-12) 0;
+  }
+}
+
+.feature-grid-enhanced {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.feature-item-card {
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-3);
+  }
+
+  p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--c-text-secondary);
+  }
+}
+
+.feature-icon-enhanced {
+  display: inline-block;
+  margin-right: var(--space-2);
+
+  svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+}
+
+// Posts
+.section-posts {
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--c-border);
+
+  @media (max-width: 640px) {
+    padding: var(--space-12) 0;
+  }
+}
+
+.section-header-enhanced {
+  margin-bottom: var(--space-8);
+}
+
+.section-title-prominent {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-2);
+}
+
+.section-subtitle {
+  font-size: var(--text-sm);
+  color: var(--c-text-secondary);
+}
+
+.content-grid-enhanced {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.content-preview-enhanced {
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--c-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    margin-bottom: var(--space-2);
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  .meta {
+    font-size: var(--text-xs);
+    color: var(--c-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+  }
+
+  p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--c-text-secondary);
+  }
+}
+
+// Now section
+.section-now,
+.now-section {
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--c-border);
+
+  @media (max-width: 640px) {
+    padding: var(--space-12) 0;
+  }
+}
+
+.now-card {
+  border: 1px solid var(--c-border);
+  padding: var(--space-6);
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--c-border);
+  }
+}
+
+.now-title {
+  margin: 0;
+}
+
+.now-content {
+  margin-bottom: var(--space-4);
+}
+
+.now-list {
+  list-style: disc;
+  padding-left: var(--space-4);
+  margin-bottom: var(--space-4);
+
+  li {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-2);
+  }
+}
+
+.now-meta {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--c-border);
+}
+
+.now-updated {
+  font-size: var(--text-xs);
+  color: var(--c-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Now page
+.now-page {
+  padding: var(--space-16) 0;
+}
+
+.now-page-header {
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--c-border);
+
+  h1 {
+    margin-bottom: var(--space-2);
+  }
+}
+
+.now-page-subtitle {
+  font-size: var(--text-sm);
+  color: var(--c-text-secondary);
+}
+
+.now-page-content {
+  h2 {
+    margin: var(--space-12) 0 var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  h3 {
+    margin: var(--space-8) 0 var(--space-3);
+  }
+}
+
+.now-page-footer {
+  margin-top: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--c-border);
+}
+
+.now-page-note {
+  font-size: var(--text-sm);
+  color: var(--c-text-secondary);
+}

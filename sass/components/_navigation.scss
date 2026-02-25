@@ -1,0 +1,69 @@
+// ==========================
+// Minimal Navigation
+// ==========================
+
+.nav,
+.nav-horizontal {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  font-size: var(--text-sm);
+
+  @media (max-width: 640px) {
+    gap: var(--space-4);
+  }
+}
+
+.nav-item {
+  display: flex;
+}
+
+.nav a,
+.nav-item a,
+a.nav-item {
+  color: var(--c-text-secondary);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color var(--transition);
+
+  &:hover {
+    color: var(--c-text-primary);
+  }
+
+  &.active {
+    color: var(--c-text-primary);
+    font-weight: var(--weight-bold);
+  }
+}
+
+// Brand
+.nav-brand,
+.nav-brand-enhanced {
+  font-weight: var(--weight-bold);
+  color: var(--c-text-primary);
+  text-decoration: none;
+}
+
+// Mobile toggle
+.mobile-menu-toggle,
+#mobile-menu-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--c-border);
+  padding: var(--space-2);
+  cursor: pointer;
+  color: var(--c-text-primary);
+
+  &:hover {
+    background: var(--c-bg-subtle);
+  }
+
+  @media (max-width: 640px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+  }
+}

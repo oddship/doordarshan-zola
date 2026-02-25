@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="now-page">
+    <div class="content-container-narrow">
+        <header class="now-page-header">
+            <h1 class="text-display">What I'm up to now</h1>
+            <p class="text-meta now-page-subtitle">
+                Last updated: {{ page.date | date(format="%B %d, %Y") }}
+            </p>
+        </header>
+
+        <div class="content-readable now-page-content text-content responsive-padding">
+            {{ page.content | safe }}
+        </div>
+
+        <footer class="now-page-footer section-spacing">
+            <p class="text-caption now-page-note">
+                This is a <a href="https://nownownow.com/about" target="_blank" rel="noopener">now page</a>, 
+                inspired by Derek Sivers. It's a regularly updated snapshot of what I'm currently focused on.
+            </p>
+        </footer>
+    </div>
+</article>
+{% endblock content %}

@@ -1,0 +1,54 @@
+// ==========================
+// Minimal Feature Components
+// ==========================
+
+.feature-card,
+.feature-item {
+  padding: var(--space-6);
+  text-align: center;
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--space-4) auto;
+  display: block;
+  color: var(--c-text-primary);
+  stroke-width: 1.5;
+}
+
+.feature-title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-2);
+  color: var(--c-text-primary);
+}
+
+.feature-description {
+  font-size: var(--text-base);
+  color: var(--c-text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+.fun-fact-card {
+  padding: var(--space-6);
+  margin: var(--space-8) auto;
+  max-width: 500px;
+  text-align: center;
+  border: 1px solid var(--c-border);
+
+  p {
+    margin: 0;
+    font-style: italic;
+    color: var(--c-text-secondary);
+  }
+}
+
+.avatar--handdrawn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto var(--space-4) auto;
+  display: block;
+}

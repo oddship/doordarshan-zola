@@ -1,0 +1,116 @@
+// ==========================
+// Retro Indian Terminal Design System
+// ==========================
+//
+// Philosophy: Doordarshan meets Developer
+// - Monospace typography with weight hierarchy
+// - Indian color palette (terracotta, saffron, peacock)
+// - Jali patterns + halftone textures
+// - Playful retro energy
+//
+// ==========================
+
+// IBM Plex Mono - only weights actually used (400, 500, 600)
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+// ========== DESIGN TOKENS ==========
+:root {
+  // ——— Color palette with signature accent
+  --c-text-primary: #1a1a1a;
+  --c-text-secondary: #555555;
+  --c-text-tertiary: #888888;
+
+  --c-bg: #fefefe;
+  --c-bg-subtle: #f8f8f8;
+
+  --c-border: #e8e8e8;
+  --c-border-strong: #1a1a1a;
+
+  // Signature accent: warm terracotta
+  --c-accent: #c44536;
+  --c-accent-hover: #a33a2d;
+
+  // ——— Retro Indian palette
+  --c-saffron: #FF9933;        // Indian flag saffron
+  --c-marigold: #EAA221;       // Temple marigold
+  --c-peacock: #006D77;        // Peacock teal
+  --c-magenta: #D81159;        // Shaktimaan energy
+  --c-cream: #FFF8E7;          // Old paper / dhurrie
+  --c-henna: #8B4513;          // Mehndi brown
+
+  // ——— Typography: One font, perfect hierarchy
+  --font-mono: "IBM Plex Mono", monospace;
+
+  // Type scale - mathematical harmony (1.25 ratio)
+  --text-xs: 0.75rem;      // 12px
+  --text-sm: 0.875rem;     // 14px
+  --text-base: 1rem;       // 16px
+  --text-lg: 1.125rem;     // 18px
+  --text-xl: 1.25rem;      // 20px
+  --text-2xl: 1.5rem;      // 24px
+  --text-3xl: 2rem;        // 32px
+  --text-4xl: 2.5rem;      // 40px
+
+  // Font weights
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-bold: 600;
+
+  // Line heights - perfect rhythm
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  // ——— Spacing - 8px base scale
+  --space-1: 0.25rem;   // 4px
+  --space-2: 0.5rem;    // 8px
+  --space-3: 0.75rem;   // 12px
+  --space-4: 1rem;      // 16px
+  --space-6: 1.5rem;    // 24px
+  --space-8: 2rem;      // 32px
+  --space-12: 3rem;     // 48px
+  --space-16: 4rem;     // 64px
+  --space-24: 6rem;     // 96px
+
+  // Legacy spacing aliases (used in _mobile.scss, _helpers.scss)
+  --space-xs: var(--space-1);
+  --space-sm: var(--space-2);
+  --space-md: var(--space-4);
+  --space-lg: var(--space-6);
+  --space-xl: var(--space-8);
+
+  // Legacy line-height alias
+  --line-height-loose: var(--leading-loose);
+
+  // ——— Layout
+  --max-width: 720px;
+  --container-padding: clamp(1rem, 5vw, 2rem);
+
+  // ——— Transitions
+  --transition: 150ms ease;
+}
+
+// Dark theme: Inverted monotone
+@mixin dark-theme {
+  --c-text-primary: #ffffff;
+  --c-text-secondary: #a0a0a0;
+  --c-text-tertiary: #707070;
+
+  --c-bg: #000000;
+  --c-bg-subtle: #0a0a0a;
+
+  --c-border: #2a2a2a;
+  --c-border-strong: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    @include dark-theme;
+  }
+}
+
+:root[data-theme="dark"] {
+  @include dark-theme;
+}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container-narrow">
+    <article>
+        <header class="section-header">
+            <h1 class="text-display">
+                {{ page.title }}
+                {% if page.extra.status is defined and page.extra.status == "archived" %}
+                <span class="project-status">archived</span>
+                {% endif %}
+            </h1>
+
+            {% if page.extra.github_url or page.extra.demo_url %}
+            <div class="project-links">
+                {% if page.extra.github_url %}
+                <a href="{{ page.extra.github_url }}" target="_blank" rel="noopener" class="project-link">
+                    GitHub
+                </a>
+                {% endif %}
+                {% if page.extra.demo_url %}
+                <a href="{{ page.extra.demo_url }}" target="_blank" rel="noopener" class="project-link">
+                    Demo
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </header>
+
+        <div class="text-content spacing-component">
+            <div class="text-body">
+                {{ page.content | safe }}
+            </div>
+        </div>
+
+        <div class="post-footer">
+            <a href="/projects/" class="back-link">← Projects</a>
+        </div>
+    </article>
+</div>
+{% endblock content %}

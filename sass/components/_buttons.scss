@@ -1,0 +1,45 @@
+// ==========================
+// Minimal Buttons
+// ==========================
+
+button,
+.button,
+.btn {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--c-border);
+  background: var(--c-bg);
+  color: var(--c-text-primary);
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+
+  &:hover {
+    border-color: var(--c-text-primary);
+    background: var(--c-bg-subtle);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-text-primary);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.button-primary,
+.btn-primary {
+  background: var(--c-text-primary);
+  color: var(--c-bg);
+  border-color: var(--c-text-primary);
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
