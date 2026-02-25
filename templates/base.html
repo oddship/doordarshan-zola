@@ -263,5 +263,144 @@
     </script>
 
     {% block site_scripts %}{% endblock site_scripts %}
+
+    <!-- Footnotes: collapsible + margin-note positioning -->
+    <script>
+    (function() {
+      var defs = document.querySelectorAll('.footnote-definition');
+      if (!defs.length) return;
+
+      defs.forEach(function(def) {
+        // Wrap all content after the label in a collapsible body
+        var label = def.querySelector('.footnote-definition-label');
+        if (!label) return;
+
+        var body = document.createElement('div');
+        body.className = 'footnote-body';
+
+        // Move all siblings after label into body
+        while (label.nextSibling) {
+          body.appendChild(label.nextSibling);
+        }
+        def.appendChild(body);
+
+        // Add toggle indicator after label
+        var toggle = document.createElement('span');
+        toggle.className = 'footnote-toggle';
+        toggle.textContent = '▸';
+        label.after(toggle);
+
+        // Click to expand/collapse
+        def.addEventListener('click', function(e) {
+          // Don't toggle if clicking a link inside the footnote
+          if (e.target.tagName === 'A') return;
+          def.classList.toggle('is-expanded');
+        });
+
+        // Widescreen: reposition next to reference paragraph
+        if (window.innerWidth >= 1100) {
+          var id = def.id;
+          var ref = document.querySelector('.footnote-reference a[href="#' + id + '"]');
+          if (!ref) return;
+
+          var refParagraph = ref.closest('p') || ref.parentElement;
+          if (refParagraph && refParagraph.parentNode) {
+            refParagraph.parentNode.insertBefore(def, refParagraph.nextSibling);
+          }
+        }
+      });
+
+      // Also make inline references toggle their footnote on click
+      document.querySelectorAll('.footnote-reference a').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          var targetId = a.getAttribute('href').replace('#', '');
+          var targetDef = document.getElementById(targetId);
+          if (targetDef) {
+            targetDef.classList.toggle('is-expanded');
+            targetDef.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        });
+      });
+    })();
+    </script>
+
+    <!-- Image Lightbox -->
+    <script>
+    (function() {
+      // Create overlay element
+      var overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      document.body.appendChild(overlay);
+
+      function openLightbox(imgSrc, originalHref) {
+        overlay.innerHTML = '';
+        var img = document.createElement('img');
+        img.src = imgSrc;
+        img.alt = 'Enlarged image';
+        img.addEventListener('click', function(e) { e.stopPropagation(); });
+        overlay.appendChild(img);
+
+        if (originalHref) {
+          var link = document.createElement('a');
+          link.className = 'lightbox-original-link';
+          link.href = originalHref;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.textContent = 'Open original ' + String.fromCharCode(8599);
+          link.addEventListener('click', function(e) { e.stopPropagation(); });
+          overlay.appendChild(link);
+        }
+
+        // Force reflow then show
+        overlay.offsetHeight;
+        overlay.classList.add('is-visible');
+      }
+
+      function closeLightbox() {
+        overlay.classList.remove('is-visible');
+      }
+
+      // Close on backdrop click
+      overlay.addEventListener('click', closeLightbox);
+
+      // Close on Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      // Attach to all images in article/post content
+      var containers = document.querySelectorAll('.post-content, .content, article');
+      containers.forEach(function(container) {
+        container.querySelectorAll('img').forEach(function(img) {
+          img.style.cursor = 'zoom-in';
+          img.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var parentLink = img.closest('a');
+            var originalHref = null;
+            if (parentLink) {
+              // Check if the link goes somewhere meaningful (not just a fragment)
+              var href = parentLink.getAttribute('href');
+              if (href && !href.startsWith('#')) {
+                originalHref = href;
+              }
+            }
+            openLightbox(img.src, originalHref);
+          });
+
+          // Prevent parent <a> from navigating when image is clicked
+          var parentLink = img.closest('a');
+          if (parentLink) {
+            parentLink.addEventListener('click', function(e) {
+              if (e.target === img || img.contains(e.target)) {
+                e.preventDefault();
+              }
+            });
+          }
+        });
+      });
+    })();
+    </script>
 </body>
 </html>

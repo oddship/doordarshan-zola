@@ -370,6 +370,145 @@
   }
 }
 
+// ==========================
+// Footnotes - Tufte-style margin notes (wide) / callout boxes (narrow)
+// ==========================
+
+// Inline footnote reference (superscript number)
+.footnote-reference {
+  a {
+    color: var(--c-accent);
+    text-decoration: none;
+    font-weight: var(--weight-bold);
+    font-size: var(--text-xs);
+    padding: 0 2px;
+    position: relative;
+    top: -1px;
+    transition: color 150ms ease;
+
+    &:hover {
+      color: var(--c-text-primary);
+    }
+  }
+}
+
+// Footnote definition block - collapsible on all screen sizes
+.footnote-definition {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--c-text-secondary);
+  position: relative;
+  cursor: pointer;
+  scroll-margin-top: 80px; // Account for fixed navbar when scrolling to footnotes
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: var(--space-2) 0;
+    border: 1px solid var(--c-border);
+  }
+
+  .footnote-definition-label {
+    color: var(--c-accent);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-xs);
+    user-select: none;
+  }
+
+  // Collapsed state: hide the text content
+  .footnote-body {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 300ms ease, opacity 200ms ease, margin 200ms ease;
+    margin-top: 0;
+  }
+
+  // Expanded state
+  &.is-expanded .footnote-body {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: var(--space-2);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  // Back-reference link
+  a[href^="#"] {
+    color: var(--c-accent);
+    text-decoration: none;
+    font-size: var(--text-xs);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // Expand indicator
+  .footnote-toggle {
+    font-size: var(--text-xs);
+    color: var(--c-text-tertiary);
+    margin-left: var(--space-1);
+    transition: transform 200ms ease;
+    display: inline-block;
+    vertical-align: super;
+  }
+
+  &.is-expanded .footnote-toggle {
+    transform: rotate(90deg);
+  }
+}
+
+// --- Narrow screen: Wikipedia-style callout boxes ---
+@media (max-width: 1099px) {
+  .footnote-definition {
+    margin: var(--space-4) 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--c-bg-subtle);
+    border-left: 3px solid var(--c-accent);
+    border-radius: 0;
+
+    .footnote-definition-label {
+      margin-right: var(--space-2);
+    }
+  }
+}
+
+// --- Widescreen: Tufte-style margin notes ---
+@media (min-width: 1100px) {
+  .footnote-definition {
+    float: right;
+    clear: right;
+    width: 240px;
+    margin-right: -280px;
+    margin-bottom: var(--space-4);
+    margin-top: var(--space-1);
+    padding: var(--space-3);
+    background: var(--c-bg-subtle);
+    border: 1px solid var(--c-border);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    transition: border-color 150ms ease, background 150ms ease;
+
+    .footnote-definition-label {
+      display: inline;
+      margin-right: var(--space-1);
+    }
+
+    &:hover,
+    &:target {
+      border-color: var(--c-accent);
+    }
+
+    &.is-expanded {
+      background: var(--c-bg);
+      border-color: var(--c-accent);
+    }
+  }
+}
+
 // Individual blog post
 .post-content,
 .content,
@@ -575,5 +714,54 @@ article {
   .link-desc {
     font-size: var(--text-sm);
     color: var(--c-text-tertiary);
+  }
+}
+
+// ==========================
+// Image Lightbox
+// ==========================
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 200ms ease;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  img {
+    max-width: calc(100vw - 4rem);
+    max-height: calc(100vh - 6rem);
+    object-fit: contain;
+    border: none;
+    margin: 0;
+    cursor: default;
+    border-radius: 2px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .lightbox-original-link {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    font-family: var(--font-mono);
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 150ms ease;
+
+    &:hover {
+      color: #fff;
+    }
   }
 }
