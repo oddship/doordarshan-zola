@@ -4,24 +4,18 @@
 
 // ========== MOBILE OVERRIDES ==========
 @media (max-width: 768px) {
-  // Body background is inherited from _reset.scss - no override needed
-  // The scanline effect from _retro-indian.scss works at all sizes
-
   // Increase base font size for better readability
   :root {
-    --font-size-base: 1rem;
-    --font-size-sm: 0.9375rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.5rem;
-    --font-size-2xl: 2rem;
+    --text-base: 1rem;
+    --text-sm: 0.9375rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
 
     // Tighter spacing on mobile
-    --space-md: 1.2rem;
-    --space-lg: 1.8rem;
-    --space-xl: 2.4rem;
-
-    // No margin line offset on mobile
-    --margin-left: 0;
+    --space-4: 1.2rem;
+    --space-6: 1.8rem;
+    --space-8: 2.4rem;
   }
 
   // Better padding for all containers
@@ -45,7 +39,7 @@
     &::before {
       position: static;
       display: inline-block;
-      margin-right: var(--space-xs);
+      margin-right: var(--space-1);
       left: auto;
       top: auto;
     }
@@ -53,19 +47,18 @@
 
   // Improve mobile typography
   h1 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--text-2xl);
     line-height: 1.3;
   }
 
   h2 {
-    font-size: var(--font-size-xl);
-    margin: var(--space-md) 0 var(--space-sm) 0;
+    font-size: var(--text-xl);
+    margin: var(--space-4) 0 var(--space-2) 0;
   }
 
   h3 {
-    font-size: var(--font-size-lg);
+    font-size: var(--text-lg);
 
-    // Move arrow inline on mobile
     &::before {
       position: static;
       display: inline;
@@ -82,9 +75,9 @@
 
   // Improve "What I'm Up To" on mobile
   .now-card {
-    padding: var(--space-md);
+    padding: var(--space-4);
     transform: rotate(-0.25deg);
-    margin-inline: -0.5rem; // Bleed slightly for authenticity
+    margin-inline: -0.5rem;
   }
 
   :root[data-theme="dark"] .now-card {
@@ -111,20 +104,20 @@
 
   // Better list items on mobile
   .now-list li {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-loose);
+    font-size: var(--text-sm);
+    line-height: var(--leading-loose);
   }
 
   // Improve hero description on mobile
   .hero-description {
-    padding: var(--space-sm);
-    font-size: var(--font-size-sm);
+    padding: var(--space-2);
+    font-size: var(--text-sm);
   }
 
   // Mobile-friendly footer
   .footer-links {
     flex-wrap: wrap;
-    gap: var(--space-sm);
+    gap: var(--space-2);
   }
 
   // Better mobile touch targets (exclude tags and inline code links)
@@ -142,16 +135,16 @@
   }
 
   .nav-item a {
-    padding: var(--space-sm) 0;
+    padding: var(--space-2) 0;
   }
 }
 
 // ========== SMALL MOBILE (< 400px) ==========
 @media (max-width: 400px) {
   :root {
-    --font-size-2xl: 1.75rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
+    --text-2xl: 1.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
   }
 
   .container,
@@ -163,11 +156,10 @@
   }
 
   .now-card {
-    padding: var(--space-sm);
+    padding: var(--space-2);
   }
 
   h1::after {
-    // Smaller cursor on tiny screens
     font-size: 0.9em;
   }
 }
@@ -175,7 +167,7 @@
 // ========== TABLET (769px - 1024px) ==========
 @media (min-width: 769px) and (max-width: 1024px) {
   :root {
-    --max-content: 720px;
+    --max-width: 720px;
   }
 
   .container,

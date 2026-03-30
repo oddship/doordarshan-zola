@@ -1,0 +1,12 @@
+{% extends "pages-base.html" %}
+
+{% block sidebar %}
+{{ nav::sidebar(ancestors=section.ancestors, current_path=section.path) }}
+{% endblock sidebar %}
+
+{% block pages_content %}
+{% if section.title %}
+<h1>{{ section.title }}</h1>
+{% endif %}
+{{ section.content | safe }}
+{% endblock pages_content %}

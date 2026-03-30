@@ -6,15 +6,29 @@ a {
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;
-  transition: opacity var(--transition);
+  transition: color var(--transition), opacity var(--transition);
 
   &:hover {
     opacity: 0.6;
   }
 
   &:focus-visible {
-    outline: 2px solid var(--c-text-primary);
+    outline: 2px solid var(--c-marigold);
     outline-offset: 2px;
+  }
+}
+
+// Content links — terracotta with marigold hover
+article a:not(.blog-item-title):not(.project-link):not(.back-link):not(.archive-link) {
+  color: var(--c-accent);
+  text-decoration-color: color-mix(in srgb, var(--c-accent) 40%, transparent);
+  text-decoration-thickness: 1px;
+  opacity: 1;
+
+  &:hover {
+    color: var(--c-marigold);
+    text-decoration-color: var(--c-marigold);
+    opacity: 1;
   }
 }
 

@@ -1,17 +1,13 @@
 {% extends "base.html" %}
+{% import "macros/section-header.html" as header %}
 
 {% block content %}
 <div class="content-container">
-    <header class="section-header">
-        <h1 class="text-display">{{ taxonomy.name | title }}</h1>
-        <p class="text-intro">
-            {% if taxonomy.name == "tags" %}
-            Browse posts by topic.
-            {% else %}
-            Browse content by {{ taxonomy.name }}.
-            {% endif %}
-        </p>
-    </header>
+    {% if taxonomy.name == "tags" %}
+    {{ header::section_header(title=taxonomy.name | title, description="Browse posts by topic.") }}
+    {% else %}
+    {{ header::section_header(title=taxonomy.name | title, description="Browse content by " ~ taxonomy.name ~ ".") }}
+    {% endif %}
 
     <div class="tags-index spacing-component">
         {% for term in terms %}

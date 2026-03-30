@@ -1,0 +1,106 @@
+{#
+  Unified sidebar for all pages templates.
+  
+  1. Find the nav root (the section whose children we list)
+  2. Optionally show a back link
+  3. Render one list: folders + pages, expanding the active branch
+
+  Visual language: ॰ terminal markers instead of folder emojis.
+  Sections use ॰ prefix. Featured uses ◆. Active sections show ▸.
+  Leaf pages have no marker — clean indented text.
+#}
+
+{% macro sidebar(ancestors, current_path) %}
+
+{# ── Step 1: Determine nav_root ── #}
+{% set pages_root = get_section(path="pages/_index.md") %}
+
+{% if ancestors | length <= 2 %}
+  {# At /pages/ or a direct child like /pages/go/ #}
+  {% set_global nav_root = pages_root %}
+  {% set_global show_back = false %}
+{% else %}
+  {# Inside a subsection — find nearest ancestor with subsections #}
+  {% set_global nav_root = get_section(path=ancestors | last) %}
+  {% if nav_root.subsections | length == 0 %}
+    {% for anc in ancestors | reverse %}
+      {% set candidate = get_section(path=anc) %}
+      {% if candidate.subsections | length > 0 %}
+        {% set_global nav_root = candidate %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% set_global show_back = true %}
+{% endif %}
+
+{# ── Step 2: Back link ── #}
+{% if show_back and nav_root.ancestors | length > 1 %}
+  {% set back = get_section(path=nav_root.ancestors | last) %}
+  <a href="{{ back.permalink }}" class="sidebar-back-link">← {{ back.extra.section_title | default(value=back.title) }}</a>
+{% endif %}
+
+{# ── Step 3: Title ── #}
+{% if show_back %}
+<a href="{{ nav_root.permalink }}" class="sidebar-section-title">{{ nav_root.extra.section_title | default(value=nav_root.title) }}</a>
+{% else %}
+<a href="/pages/" class="sidebar-section-title" {% if current_path == "pages/_index.md" %}aria-current="page"{% endif %}>PAGES</a>
+{% endif %}
+
+{# ── Step 4: One unified list ── #}
+<nav>
+<ul>
+  {% for sub_path in nav_root.subsections %}
+  {% set sub = get_section(path=sub_path) %}
+  {% if not sub.extra.hidden | default(value=false) %}
+
+    {# Is this branch active? #}
+    {% set_global is_active = sub.path == current_path %}
+    {% for anc in ancestors %}
+      {% if anc == sub_path %}{% set_global is_active = true %}{% endif %}
+    {% endfor %}
+
+    <li class="sidebar-subsection{% if is_active %} sidebar-subsection-open{% endif %}">
+      <a href="{{ sub.permalink }}" {% if is_active %}aria-current="true"{% endif %}>
+        <span class="sidebar-marker" aria-hidden="true">{% if is_active %}▸{% elif sub.extra.featured | default(value=false) %}◆{% else %}॰{% endif %}</span>
+        {{ sub.title }}
+        {% if not is_active %}
+          {% if sub.pages | length > 0 %}<span class="sidebar-count">({{ sub.pages | length }})</span>
+          {% elif sub.subsections | length > 0 %}<span class="sidebar-count">({{ sub.subsections | length }})</span>
+          {% endif %}
+        {% endif %}
+      </a>
+    </li>
+
+    {# Expand active branch: pages then child folders #}
+    {% if is_active %}
+      {% for pg in sub.pages %}
+      <li class="sidebar-group-item">
+        <a href="{{ pg.permalink }}" {% if pg.path == current_path %}aria-current="page"{% endif %}>{{ pg.title }}</a>
+      </li>
+      {% endfor %}
+      {% for child_path in sub.subsections %}
+      {% set child = get_section(path=child_path) %}
+      {% if not child.extra.hidden | default(value=false) %}
+      <li class="sidebar-group-item sidebar-subsection">
+        <a href="{{ child.permalink }}"><span class="sidebar-marker" aria-hidden="true">॰</span> {{ child.title }}
+          {% if child.pages | length > 0 %}<span class="sidebar-count">({{ child.pages | length }})</span>{% endif %}
+        </a>
+      </li>
+      {% endif %}
+      {% endfor %}
+    {% endif %}
+
+  {% endif %}
+  {% endfor %}
+
+  {# Direct pages of nav_root #}
+  {% for pg in nav_root.pages %}
+  <li class="sidebar-group-item">
+    <a href="{{ pg.permalink }}" {% if pg.path == current_path %}aria-current="page"{% endif %}>{{ pg.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+</nav>
+
+{% endmacro sidebar %}

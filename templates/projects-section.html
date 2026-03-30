@@ -1,48 +1,37 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="content-container">
-    <header class="section-header">
-        <h1 class="text-display">{{ section.title }}</h1>
-        {% if section.description %}
-        <p class="text-intro">{{ section.description }}</p>
+{% extends "pages-base.html" %}
+
+{% block sidebar %}
+{{ nav::sidebar(ancestors=section.ancestors, current_path=section.path) }}
+{% endblock sidebar %}
+
+{% block pages_content %}
+<h1>{{ section.title }}</h1>
+{{ section.content | safe }}
+
+{% for sub_path in section.subsections %}
+{% set sub = get_section(path=sub_path) %}
+<a href="{{ sub.permalink }}" class="pages-featured">
+    <div class="subsection-content">
+        <span class="subsection-title">{{ sub.title }} Projects</span>
+        {% if sub.description %}
+        <span class="section-desc">{{ sub.description }}</span>
         {% endif %}
-    </header>
-
-    <a href="/projects/starred/" class="projects-subsection-link">
-        <div class="subsection-content">
-            <span class="subsection-title">Starred Projects</span>
-            <span class="subsection-desc">Projects I contribute to or find interesting</span>
-        </div>
-        <span class="subsection-arrow">→</span>
-    </a>
-
-    {% if section.pages %}
-    <div class="projects-list spacing-component">
-        {% for page in section.pages %}
-        <article class="project-item{% if page.extra.status is defined and page.extra.status == 'archived' %} project-archived{% endif %}">
-            <h2 class="project-name">
-                <a href="{{ page.permalink }}">{{ page.title }}</a>
-                {% if page.extra.status is defined and page.extra.status == "archived" %}<span class="project-status">archived</span>{% endif %}
-            </h2>
-            {% if page.description %}
-            <p class="project-desc">{{ page.description }}</p>
-            {% endif %}
-            <div class="project-meta">
-                {% if page.extra.github_url %}
-                <a href="{{ page.extra.github_url }}" target="_blank" rel="noopener">Code</a>
-                {% endif %}
-                {% if page.extra.demo_url %}
-                <a href="{{ page.extra.demo_url }}" target="_blank" rel="noopener">Demo</a>
-                {% endif %}
-            </div>
-        </article>
-        {% endfor %}
     </div>
-    {% else %}
-    <div class="empty-state">
-        <p>No projects yet.</p>
-        <a href="/">← Home</a>
-    </div>
-    {% endif %}
-</div>
-{% endblock content %}
+    <span class="subsection-arrow">→</span>
+</a>
+{% endfor %}
+
+{% if section.pages %}
+<ul class="pages-index-list">
+    {% for page in section.pages %}
+    <li onclick="window.location='{{ page.permalink }}'">
+        <a href="{{ page.permalink }}">{{ page.title }}</a>
+        {% if page.extra.status is defined and page.extra.status == "archived" %}<span class="project-status">archived</span>{% endif %}
+        {% if page.description %}
+        <p class="section-desc">{{ page.description }}</p>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock pages_content %}

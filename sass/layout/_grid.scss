@@ -7,8 +7,7 @@
 .grid-auto,
 .feature-grid,
 .content-grid,
-.content-grid-responsive,
-.social-cards-grid {
+.content-grid-responsive {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-8);

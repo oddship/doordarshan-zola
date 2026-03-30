@@ -44,9 +44,9 @@ article li a {
 // ========== ASCII ART ENHANCEMENTS ==========
 .ascii-logo {
   font-family: var(--font-mono);
-  font-size: var(--font-size-xs);
+  font-size: var(--text-xs);
   line-height: 1;
-  color: var(--c-text-muted);
+  color: var(--c-text-tertiary);
   white-space: pre;
   letter-spacing: 0;
   display: none; // Hidden by default, can be toggled

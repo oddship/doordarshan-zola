@@ -8,7 +8,7 @@
   text-align: center;
   position: relative;
   z-index: 1;
-  min-height: 80vh;
+  min-height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,4 +286,70 @@
 .now-page-note {
   font-size: var(--text-sm);
   color: var(--c-text-secondary);
+}
+
+// ==========================
+// Recent Updates
+// ==========================
+
+.recent-updates {
+  padding: var(--space-8) 0;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.recent-updates-title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--c-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.recent-updates-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-update-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  font-size: var(--text-sm);
+
+  time {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--c-text-tertiary);
+    min-width: 4em;
+    flex-shrink: 0;
+  }
+
+  a {
+    color: var(--c-text-primary);
+    text-decoration: none;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--c-accent);
+    }
+  }
+
+  .update-type {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--c-marigold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
 }

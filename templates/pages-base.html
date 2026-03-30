@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "macros/pages-sidebar.html" as nav %}
+
+{% block content %}
+<div data-sidebar-layout class="pages-layout">
+    <aside data-sidebar>
+        <button data-sidebar-toggle class="pages-sidebar-toggle" aria-label="Close sidebar">✕</button>
+        <div class="sidebar-search">
+            <input type="text" id="pages-search" placeholder="Search pages..." autocomplete="off" aria-label="Search pages">
+            <div id="pages-search-results" class="search-results"></div>
+        </div>
+        {% block sidebar %}
+        {{ nav::sidebar(ancestors=section.ancestors | default(value=page.ancestors), current_path=section.path | default(value=page.path)) }}
+        {% endblock sidebar %}
+    </aside>
+
+    <div class="pages-main-wrapper">
+        <div class="pages-mobile-bar">
+            <button data-sidebar-toggle class="pages-sidebar-open" aria-label="Open sidebar">☰ Pages</button>
+        </div>
+        <article class="pages-article">
+            {% block pages_content %}{% endblock pages_content %}
+        </article>
+    </div>
+</div>
+
+<script src="{{ get_url(path='js/sidebar.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/sidebar.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+<script src="{{ get_url(path='elasticlunr.min.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='elasticlunr.min.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+<script src="{{ get_url(path='search_index.en.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='search_index.en.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+<script src="{{ get_url(path='js/search.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/search.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+{% endblock content %}

@@ -6,14 +6,14 @@
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
-.muted { color: var(--c-text-muted); }
+.muted { color: var(--c-text-tertiary); }
 .w-full { width: 100%; }
-.rounded { border-radius: var(--radius); }
+.rounded { border-radius: 2px; }
 
 // Content utilities
 .text-content {
   max-width: min(65ch, 100%);
-  line-height: var(--line-height-relaxed);
+  line-height: var(--leading-relaxed);
 }
 
 .responsive-spacing {
@@ -65,18 +65,18 @@
   }
   
   ul ul, ol ol {
-    padding-left: var(--space-md);
-    margin-top: var(--space-xs);
+    padding-left: var(--space-4);
+    margin-top: var(--space-1);
   }
   
   li {
-    margin-bottom: var(--space-xs);
+    margin-bottom: var(--space-1);
   }
   
   a {
     color: var(--c-text-secondary);
     text-decoration: none;
-    font-size: var(--font-size-sm);
+    font-size: var(--text-sm);
     line-height: 1.5;
     transition: color var(--transition);
     
@@ -89,8 +89,8 @@
 // ========== CONTENT STYLING ==========
 .content-readable {
   h1, h2, h3, h4, h5, h6 {
-    margin-top: var(--space-xl);
-    margin-bottom: var(--space-sm);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-2);
     
     &:first-child {
       margin-top: 0;
@@ -98,7 +98,7 @@
   }
   
   p {
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-4);
     
     &:last-child {
       margin-bottom: 0;
@@ -106,37 +106,37 @@
   }
   
   ul, ol {
-    margin-bottom: var(--space-md);
-    padding-left: var(--space-lg);
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
     
     li {
-      margin-bottom: var(--space-xs);
+      margin-bottom: var(--space-1);
     }
   }
   
   img {
     max-width: 100%;
     height: auto;
-    border-radius: var(--radius);
-    margin: var(--space-lg) 0;
+    border-radius: 2px;
+    margin: var(--space-6) 0;
   }
   
   table {
     width: 100%;
     border-collapse: collapse;
-    margin: var(--space-lg) 0;
-    font-size: var(--font-size-sm);
+    margin: var(--space-6) 0;
+    font-size: var(--text-sm);
     
     th, td {
-      padding: var(--space-sm);
+      padding: var(--space-2);
       text-align: left;
-      border-bottom: 1px solid var(--c-border-light);
+      border-bottom: 1px solid var(--c-border);
     }
     
     th {
-      font-weight: var(--font-weight-semibold);
-      color: var(--c-text-main);
-      background: var(--c-bg-tertiary);
+      font-weight: var(--weight-bold);
+      color: var(--c-text-primary);
+      background: var(--c-bg-subtle);
     }
     
     td {
@@ -147,12 +147,12 @@
   hr {
     border: none;
     height: 1px;
-    background: var(--c-border-light);
-    margin: var(--space-xl) 0;
+    background: var(--c-border);
+    margin: var(--space-8) 0;
   }
 }
 
-// Handdrawn border styling - visible cards with subtle rotation effect
+// Handdrawn border styling
 .handdrawn-border {
   border: 1px solid var(--c-border);
   border-radius: 2px;

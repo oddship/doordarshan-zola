@@ -1,13 +1,9 @@
 {% extends "base.html" %}
+{% import "macros/section-header.html" as header %}
+
 {% block content %}
 <div class="content-container">
-    <!-- Section Header -->
-    <header class="section-header">
-        <h1 class="text-display">{{ section.title }}</h1>
-        {% if section.description %}
-        <p class="text-intro">{{ section.description }}</p>
-        {% endif %}
-    </header>
+    {{ header::section_header(title=section.title, description=section.description | default(value="")) }}
 
     {% if section.path == "blog/" or section.path == "/blog/" %}
     <!-- Archive Link -->
@@ -44,6 +40,4 @@
     </div>
     {% endif %}
 </div>
-
-<!-- No inline styles, using design language CSS classes -->
 {% endblock content %}

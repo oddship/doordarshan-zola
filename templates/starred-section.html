@@ -1,42 +1,27 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="content-container">
-    <nav class="section-nav">
-        <a href="/projects/">← Projects</a>
-    </nav>
+{% extends "pages-base.html" %}
 
-    <header class="section-header">
-        <h1 class="text-display">{{ section.title }}</h1>
-        {% if section.description %}
-        <p class="text-intro">{{ section.description }}</p>
+{% block sidebar %}
+{{ nav::sidebar(ancestors=section.ancestors, current_path=section.path) }}
+{% endblock sidebar %}
+
+{% block pages_content %}
+<h1>{{ section.title }}</h1>
+{{ section.content | safe }}
+
+{% if section.pages %}
+<ul class="pages-index-list">
+    {% for page in section.pages %}
+    <li onclick="window.location='{{ page.permalink }}'">
+        {% if page.extra.github_url %}
+        <a href="{{ page.permalink }}">{{ page.title }}</a>
+        {% else %}
+        <a href="{{ page.permalink }}">{{ page.title }}</a>
         {% endif %}
-    </header>
-
-    {% if section.pages %}
-    <div class="projects-list spacing-component">
-        {% for page in section.pages %}
-        <article class="project-item">
-            <h2 class="project-name">
-                {% if page.extra.github_url %}
-                <a href="{{ page.extra.github_url }}" target="_blank" rel="noopener">{{ page.title }}</a>
-                {% else %}
-                <a href="{{ page.permalink }}">{{ page.title }}</a>
-                {% endif %}
-            </h2>
-            {% if page.description %}
-            <p class="project-desc">{{ page.description }}</p>
-            {% endif %}
-            {% if page.extra.context %}
-            <p class="starred-context">{{ page.extra.context }}</p>
-            {% endif %}
-        </article>
-        {% endfor %}
-    </div>
-    {% else %}
-    <div class="empty-state">
-        <p>No starred projects yet.</p>
-        <a href="/projects/">← Back to Projects</a>
-    </div>
-    {% endif %}
-</div>
-{% endblock content %}
+        {% if page.description %}
+        <p class="section-desc">{{ page.description }}</p>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock pages_content %}

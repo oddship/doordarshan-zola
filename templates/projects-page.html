@@ -1,0 +1,65 @@
+{% extends "pages-base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
+
+{% block sidebar %}
+{{ nav::sidebar(ancestors=page.ancestors, current_path=page.path) }}
+{% endblock sidebar %}
+
+{% block pages_content %}
+<h1>
+    {{ page.title }}
+    {% if page.extra.status is defined and page.extra.status == "archived" %}
+    <span class="project-status">archived</span>
+    {% endif %}
+</h1>
+{% if page.date %}
+<p class="pages-last-updated"><small>Last updated: {{ page.date | date(format="%B %d, %Y") }}</small></p>
+{% endif %}
+
+{% if page.extra.github_url or page.extra.demo_url or page.extra.website_url %}
+<div class="project-links">
+    {% if page.extra.github_url %}
+    <a href="{{ page.extra.github_url }}" target="_blank" rel="noopener" class="project-link">GitHub</a>
+    {% endif %}
+    {% if page.extra.demo_url %}
+    <a href="{{ page.extra.demo_url }}" target="_blank" rel="noopener" class="project-link">Demo</a>
+    {% endif %}
+    {% if page.extra.website_url %}
+    <a href="{{ page.extra.website_url }}" target="_blank" rel="noopener" class="project-link">Website</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if page.extra.context %}
+<div class="starred-context-section">
+    <h2>Why I starred this</h2>
+    {{ page.extra.context | markdown | safe }}
+</div>
+{% endif %}
+
+<div class="text-content spacing-component">
+    <div class="text-body">
+        {{ page.content | safe }}
+    </div>
+</div>
+
+{% if page.lower or page.higher %}
+<nav class="pages-prev-next" aria-label="Previous and next pages">
+    {% if page.lower %}
+    <a href="{{ page.lower.permalink }}" class="pages-nav-prev">
+        <small>Previous</small>
+        <span>{{ page.lower.title }}</span>
+    </a>
+    {% else %}
+    <span></span>
+    {% endif %}
+    {% if page.higher %}
+    <a href="{{ page.higher.permalink }}" class="pages-nav-next">
+        <small>Next</small>
+        <span>{{ page.higher.title }}</span>
+    </a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock pages_content %}

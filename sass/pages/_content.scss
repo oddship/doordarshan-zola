@@ -156,6 +156,7 @@
   display: flex;
   gap: var(--space-4);
   margin-top: var(--space-4);
+  margin-bottom: var(--space-6);
 }
 
 .project-link {
@@ -213,14 +214,17 @@
 }
 
 .starred-context-section {
-  margin: var(--space-6) 0;
+  margin: var(--space-4) 0 var(--space-6);
   padding: var(--space-4);
   background: var(--c-bg-subtle);
   border-left: 2px solid var(--c-marigold);
 
   h2 {
     font-size: var(--text-base);
-    margin: 0 0 var(--space-2);
+    margin: 0 0 var(--space-2) !important;
+    margin-top: 0 !important;
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   p {
@@ -530,7 +534,7 @@ article {
   h2 {
     margin: var(--space-12) 0 var(--space-4);
     padding-bottom: var(--space-3);
-    border-bottom: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-marigold);
   }
 
   h3 {
@@ -561,10 +565,11 @@ article {
 
   blockquote {
     margin: var(--space-6) 0;
-    padding-left: var(--space-4);
-    border-left: 2px solid var(--c-text-primary);
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--c-marigold);
     color: var(--c-text-secondary);
     font-style: italic;
+    background: color-mix(in srgb, var(--c-marigold) 5%, var(--c-bg));
   }
 }
 

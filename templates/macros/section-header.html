@@ -1,0 +1,21 @@
+{#
+  Reusable section header with optional description and back navigation.
+  
+  Usage:
+    {{ header::section_header(title="My Title", description="Optional desc", back_url="/", back_text="← Home") }}
+#}
+
+{% macro section_header(title, description="", back_url="", back_text="") %}
+{% if back_url %}
+<nav class="section-nav">
+    <a href="{{ back_url }}">{{ back_text }}</a>
+</nav>
+{% endif %}
+
+<header class="section-header">
+    <h1 class="text-display">{{ title }}</h1>
+    {% if description %}
+    <p class="text-intro">{{ description }}</p>
+    {% endif %}
+</header>
+{% endmacro section_header %}

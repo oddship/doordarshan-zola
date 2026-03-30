@@ -1,0 +1,41 @@
+{% extends "pages-base.html" %}
+
+{% block sidebar %}
+{{ nav::sidebar(ancestors=section.ancestors, current_path=section.path) }}
+{% endblock sidebar %}
+
+{% block pages_content %}
+<h1>Pages</h1>
+{{ section.content | safe }}
+
+{# Featured sections as cards — entire card is a link #}
+{% for subsection in section.subsections %}
+{% set sub = get_section(path=subsection) %}
+{% if sub.extra.featured | default(value=false) and not sub.extra.hidden | default(value=false) %}
+<a href="{{ sub.permalink }}" class="pages-featured">
+    <div class="subsection-content">
+        <span class="subsection-title">{{ sub.title }}</span>
+        {% if sub.description %}
+        <span class="section-desc">{{ sub.description }}</span>
+        {% endif %}
+    </div>
+    <span class="subsection-arrow">→</span>
+</a>
+{% endif %}
+{% endfor %}
+
+{# Remaining sections as list — entire item is clickable #}
+<ul class="pages-index-list">
+    {% for subsection in section.subsections %}
+    {% set sub = get_section(path=subsection) %}
+    {% if not sub.extra.featured | default(value=false) and not sub.extra.hidden | default(value=false) %}
+    <li onclick="window.location='{{ sub.permalink }}'">
+        <a href="{{ sub.permalink }}">{{ sub.title }}</a>
+        {% if sub.description %}
+        <p class="section-desc">{{ sub.description }}</p>
+        {% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endblock pages_content %}

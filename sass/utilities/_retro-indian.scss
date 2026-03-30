@@ -6,7 +6,14 @@
 
 // ========== BODY SCAN LINES ==========
 // Subtle CRT/Doordarshan TV effect - works in both themes
-body {
+// Uses ::before overlay so scan lines show OVER all content
+// including pages section with explicit backgrounds
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
   background-image:
     repeating-linear-gradient(
       0deg,

@@ -10,8 +10,7 @@
 //
 // ==========================
 
-// IBM Plex Mono - only weights actually used (400, 500, 600)
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+// IBM Plex Mono loaded via <link> in partials/head.html (avoids render-blocking CSS @import)
 
 // ========== DESIGN TOKENS ==========
 :root {
@@ -90,19 +89,20 @@
 
   // ——— Transitions
   --transition: 150ms ease;
+
 }
 
-// Dark theme: Inverted monotone
+// Dark theme: warm lamplight (tokyonight-inspired doordarshan dark)
 @mixin dark-theme {
-  --c-text-primary: #ffffff;
-  --c-text-secondary: #a0a0a0;
-  --c-text-tertiary: #707070;
+  --c-text-primary: #d5cec6;
+  --c-text-secondary: #9a918a;
+  --c-text-tertiary: #6b6360;
 
-  --c-bg: #000000;
-  --c-bg-subtle: #0a0a0a;
+  --c-bg: #1a1614;
+  --c-bg-subtle: #211e1a;
 
-  --c-border: #2a2a2a;
-  --c-border-strong: #ffffff;
+  --c-border: #2e2822;
+  --c-border-strong: #d5cec6;
 }
 
 @media (prefers-color-scheme: dark) {

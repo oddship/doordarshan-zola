@@ -1,12 +1,7 @@
 // ==========================
-// Minimal Feature Components
+// Feature Components
 // ==========================
-
-.feature-card,
-.feature-item {
-  padding: var(--space-6);
-  text-align: center;
-}
+// Used on homepage for feature items
 
 .feature-icon {
   width: 48px;
@@ -29,26 +24,4 @@
   color: var(--c-text-secondary);
   line-height: var(--leading-relaxed);
   margin-bottom: var(--space-4);
-}
-
-.fun-fact-card {
-  padding: var(--space-6);
-  margin: var(--space-8) auto;
-  max-width: 500px;
-  text-align: center;
-  border: 1px solid var(--c-border);
-
-  p {
-    margin: 0;
-    font-style: italic;
-    color: var(--c-text-secondary);
-  }
-}
-
-.avatar--handdrawn {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin: 0 auto var(--space-4) auto;
-  display: block;
 }

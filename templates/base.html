@@ -1,131 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% if page.description %}{{ page.description }}{% elif section.description %}{{ section.description }}{% else %}{{ config.description }}{% endif %}">
-    <meta name="author" content="{{ config.author }}">
-    <meta name="theme-color" content="#14171c" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    
-    <title>{% if page.title %}{{ page.title }} | {{ config.title }}{% elif section.title %}{{ section.title }} | {{ config.title }}{% else %}{{ config.title }}{% if config.extra.subtitle %} {{ config.extra.subtitle }}{% endif %}{% endif %}</title>
-    
-    <!-- Favicon -->
-    {% if config.extra.favicon %}
-    <link rel="icon" href="{{ config.extra.favicon }}" type="image/x-icon">
-    {% endif %}
-    
-    <!-- RSS Feed -->
-    {% if config.generate_feeds %}
-    <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path="index.xml") }}">
-    {% endif %}
+    {% include "partials/head.html" %}
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="{% if current_url %}{{ current_url }}{% else %}{{ config.base_url }}{% endif %}">
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "WebSite",
-                "@id": "{{ config.base_url }}/#website",
-                "url": "{{ config.base_url }}",
-                "name": "{{ config.title }}",
-                "description": "{{ config.description }}",
-                "publisher": { "@id": "{{ config.base_url }}/#person" }
-            },
-            {
-                "@type": "Person",
-                "@id": "{{ config.base_url }}/#person",
-                "name": "{{ config.author }}",
-                "url": "{{ config.base_url }}",
-                "sameAs": [
-                    {% if config.extra.github %}"{{ config.extra.github }}"{% endif %}
-                ]
-            }
-            {% if page and page.date %},
-            {
-                "@type": "Article",
-                "headline": "{{ page.title }}",
-                "datePublished": "{{ page.date | date(format='%Y-%m-%d') }}",
-                "author": { "@id": "{{ config.base_url }}/#person" },
-                "publisher": { "@id": "{{ config.base_url }}/#person" },
-                "mainEntityOfPage": "{{ current_url }}"
-            }
-            {% endif %}
-        ]
-    }
-    </script>
-    
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="{% if page %}article{% else %}website{% endif %}">
-    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ config.title }}{% endif %}">
-    <meta property="og:description" content="{% if page.description %}{{ page.description }}{% elif section.description %}{{ section.description }}{% else %}{{ config.description }}{% endif %}">
-    <meta property="og:url" content="{% if current_url %}{{ current_url }}{% else %}{{ config.base_url }}{% endif %}">
-    <meta property="og:site_name" content="{{ config.title }}">
-    <meta property="og:image" content="{{ config.base_url }}/images/social-card.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-
-    {% if page.date %}
-    <meta property="article:published_time" content="{{ page.date | date(format='%Y-%m-%d') }}">
-    <meta property="article:author" content="{{ config.author }}">
-    {% endif %}
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    {% if config.extra.twitter_handle %}<meta name="twitter:site" content="{{ config.extra.twitter_handle }}">
-    <meta name="twitter:creator" content="{{ config.extra.twitter_handle }}">{% endif %}
-    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ config.title }}{% endif %}">
-    <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% elif section.description %}{{ section.description }}{% else %}{{ config.description }}{% endif %}">
-    <meta name="twitter:image" content="{{ config.base_url }}/images/social-card.png">
-    
-    <!-- Fonts (IBM Plex Mono loaded via SCSS, Shrikhand for accent) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="{{ config.extra.handwritten_font }}" rel="stylesheet">
-    
     <!-- Design System Styles -->
-    <link rel="stylesheet" href="{{ get_url(path='main.css') }}">
+    <link rel="stylesheet" href="{{ get_url(path='main.css') | trim_end_matches(pat='/') }}?h={{ get_hash(path='main.css', sha_type=256) | truncate(length=8, end='') }}">
 
-    <!-- Syntax Highlighting - always dark for terminal aesthetic -->
-    <link rel="stylesheet" href="{{ get_url(path='syntax-dark.css') }}">
-    
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Syntax Highlighting -->
+    <link rel="stylesheet" href="{{ get_url(path='syntax-dark.css') | trim_end_matches(pat='/') }}?h={{ get_hash(path='syntax-dark.css', sha_type=256) | truncate(length=8, end='') }}">
 
-    <!-- Lucide Icons (pinned version to avoid redirect) -->
+    {% block head_extra %}{% endblock head_extra %}
+
+    <!-- Lucide Icons (pinned version) -->
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
-
-    <!-- Theme Detection Script -->
-    <script>
-        // Detect theme preference and apply immediately to prevent flash
-        window.themeStore = {
-            theme: localStorage.getItem('theme') ||
-                   (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
-
-            toggle() {
-                this.theme = this.theme === 'dark' ? 'light' : 'dark';
-                this.apply();
-            },
-
-            apply() {
-                document.documentElement.setAttribute('data-theme', this.theme);
-                localStorage.setItem('theme', this.theme);
-            }
-        };
-        
-        // Apply initial theme
-        document.documentElement.setAttribute('data-theme', window.themeStore.theme);
-    </script>
 </head>
 
 <body>
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
+    {% block body %}
     <!-- Header -->
     <header class="header-main header-enhanced">
         <div class="header-content">
@@ -175,6 +69,7 @@
         <div class="progress-bar" id="progress-bar"></div>
     </div>
     {% endif %}
+    {% endblock body %}
 
     <script>
         // Mobile menu functionality
@@ -186,15 +81,12 @@
                 const isOpen = navMenu.classList.contains('mobile-menu-open');
                 navMenu.classList.toggle('mobile-menu-open');
                 
-                // Update ARIA attributes for accessibility
                 mobileMenuToggle.setAttribute('aria-expanded', (!isOpen).toString());
                 mobileMenuToggle.setAttribute('aria-label', 
                     isOpen ? 'Open navigation menu' : 'Close navigation menu'
                 );
                 
-                // Focus management
                 if (!isOpen) {
-                    // Menu is opening, focus first nav item
                     const firstNavItem = navMenu.querySelector('.nav-item a');
                     if (firstNavItem) {
                         setTimeout(() => firstNavItem.focus(), 100);
@@ -202,7 +94,6 @@
                 }
             });
             
-            // Close menu on Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && navMenu.classList.contains('mobile-menu-open')) {
                     navMenu.classList.remove('mobile-menu-open');
@@ -212,7 +103,6 @@
                 }
             });
             
-            // Close menu when clicking outside
             document.addEventListener('click', (e) => {
                 if (!mobileMenuToggle.contains(e.target) && !navMenu.contains(e.target)) {
                     if (navMenu.classList.contains('mobile-menu-open')) {
@@ -253,154 +143,18 @@
             });
         });
 
-        // Page loaded
+        // Initialize Lucide icons
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Lucide icons
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
         });
     </script>
 
+    <!-- Footnotes & Lightbox -->
+    <script src="{{ get_url(path='js/footnotes.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/footnotes.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+    <script src="{{ get_url(path='js/lightbox.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/lightbox.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+
     {% block site_scripts %}{% endblock site_scripts %}
-
-    <!-- Footnotes: collapsible + margin-note positioning -->
-    <script>
-    (function() {
-      var defs = document.querySelectorAll('.footnote-definition');
-      if (!defs.length) return;
-
-      defs.forEach(function(def) {
-        // Wrap all content after the label in a collapsible body
-        var label = def.querySelector('.footnote-definition-label');
-        if (!label) return;
-
-        var body = document.createElement('div');
-        body.className = 'footnote-body';
-
-        // Move all siblings after label into body
-        while (label.nextSibling) {
-          body.appendChild(label.nextSibling);
-        }
-        def.appendChild(body);
-
-        // Add toggle indicator after label
-        var toggle = document.createElement('span');
-        toggle.className = 'footnote-toggle';
-        toggle.textContent = '▸';
-        label.after(toggle);
-
-        // Click to expand/collapse
-        def.addEventListener('click', function(e) {
-          // Don't toggle if clicking a link inside the footnote
-          if (e.target.tagName === 'A') return;
-          def.classList.toggle('is-expanded');
-        });
-
-        // Widescreen: reposition next to reference paragraph
-        if (window.innerWidth >= 1100) {
-          var id = def.id;
-          var ref = document.querySelector('.footnote-reference a[href="#' + id + '"]');
-          if (!ref) return;
-
-          var refParagraph = ref.closest('p') || ref.parentElement;
-          if (refParagraph && refParagraph.parentNode) {
-            refParagraph.parentNode.insertBefore(def, refParagraph.nextSibling);
-          }
-        }
-      });
-
-      // Also make inline references toggle their footnote on click
-      document.querySelectorAll('.footnote-reference a').forEach(function(a) {
-        a.addEventListener('click', function(e) {
-          e.preventDefault();
-          var targetId = a.getAttribute('href').replace('#', '');
-          var targetDef = document.getElementById(targetId);
-          if (targetDef) {
-            targetDef.classList.toggle('is-expanded');
-            targetDef.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-        });
-      });
-    })();
-    </script>
-
-    <!-- Image Lightbox -->
-    <script>
-    (function() {
-      // Create overlay element
-      var overlay = document.createElement('div');
-      overlay.className = 'lightbox-overlay';
-      document.body.appendChild(overlay);
-
-      function openLightbox(imgSrc, originalHref) {
-        overlay.innerHTML = '';
-        var img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = 'Enlarged image';
-        img.addEventListener('click', function(e) { e.stopPropagation(); });
-        overlay.appendChild(img);
-
-        if (originalHref) {
-          var link = document.createElement('a');
-          link.className = 'lightbox-original-link';
-          link.href = originalHref;
-          link.target = '_blank';
-          link.rel = 'noopener';
-          link.textContent = 'Open original ' + String.fromCharCode(8599);
-          link.addEventListener('click', function(e) { e.stopPropagation(); });
-          overlay.appendChild(link);
-        }
-
-        // Force reflow then show
-        overlay.offsetHeight;
-        overlay.classList.add('is-visible');
-      }
-
-      function closeLightbox() {
-        overlay.classList.remove('is-visible');
-      }
-
-      // Close on backdrop click
-      overlay.addEventListener('click', closeLightbox);
-
-      // Close on Escape
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeLightbox();
-      });
-
-      // Attach to all images in article/post content
-      var containers = document.querySelectorAll('.post-content, .content, article');
-      containers.forEach(function(container) {
-        container.querySelectorAll('img').forEach(function(img) {
-          img.style.cursor = 'zoom-in';
-          img.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var parentLink = img.closest('a');
-            var originalHref = null;
-            if (parentLink) {
-              // Check if the link goes somewhere meaningful (not just a fragment)
-              var href = parentLink.getAttribute('href');
-              if (href && !href.startsWith('#')) {
-                originalHref = href;
-              }
-            }
-            openLightbox(img.src, originalHref);
-          });
-
-          // Prevent parent <a> from navigating when image is clicked
-          var parentLink = img.closest('a');
-          if (parentLink) {
-            parentLink.addEventListener('click', function(e) {
-              if (e.target === img || img.contains(e.target)) {
-                e.preventDefault();
-              }
-            });
-          }
-        });
-      });
-    })();
-    </script>
 </body>
 </html>
