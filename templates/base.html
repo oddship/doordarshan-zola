@@ -11,6 +11,11 @@
 
     {% block head_extra %}{% endblock head_extra %}
 
+    <!-- Umami Analytics -->
+    {% if config.extra.umami and config.extra.umami.website_id %}
+    <script defer src="{{ config.extra.umami.script_url }}" data-website-id="{{ config.extra.umami.website_id }}"></script>
+    {% endif %}
+
     <!-- Lucide Icons (pinned version) -->
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 </head>
