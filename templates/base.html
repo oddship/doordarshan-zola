@@ -61,7 +61,7 @@
             {% block footer %}
             <p>
                 {% if config.extra.github %}<a href="{{ config.extra.github }}">GitHub</a> · {% endif %}
-                <a href="/rss.xml">RSS</a> ·
+                <a href="{{ get_url(path="rss.xml") }}">RSS</a> ·
                 <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
             </p>
             {% endblock footer %}
