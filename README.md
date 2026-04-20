@@ -19,6 +19,17 @@ pages_search = true
 [extra.doordarshan.assets]
 social_image = "/images/social-card.png"
 
+[extra.doordarshan.homepage]
+show_recent = false
+recent_limit = 5
+
+[[extra.doordarshan.homepage.links]]
+label = "Blog"
+url = "/blog/"
+
+[extra.doordarshan.scripts]
+additional = ["js/site-only.js"]
+
 [extra.doordarshan.identity]
 nav_brand = "~/site"
 avatar = "/images/avatar.jpg"
@@ -80,14 +91,21 @@ The theme prefers a small number of source section paths, such as:
 - `extra.doordarshan.sections.blog`
 - `extra.doordarshan.sections.pages`
 
-Templates should derive URLs from the section objects (`get_section(...).permalink`, `section.path`) rather than duplicating a separate path config.
+Templates should prefer deriving URLs from section objects (`get_section(...).permalink`, `section.path`) when the section is already required for rendering. For resilient fallbacks such as the default 404 page, deriving a simple URL from the configured section path is acceptable to avoid turning error pages into hard topology dependencies.
 
 ## Known in-progress extraction items
 
 The following are still being normalized toward a cleaner theme/site split:
-- homepage defaults
-- 404 defaults
-- root template overrides
-- site-specific easter eggs script
 - pages search topology assumptions
 - fallback social asset ownership
+
+Phase 2 moved the default homepage and 404 templates into the theme. Root
+`templates/index.html`, `templates/404.html`, and `templates/base.html` are no
+longer required for the default experience. Site-specific JavaScript can be
+loaded intentionally via `extra.doordarshan.scripts.additional` without turning
+those scripts into theme-owned behavior.
+
+The default hero renders even on minimal sites. `homepage.links` is optional;
+when omitted, the theme falls back to simple buttons derived from configured
+section paths. Recent updates are opt-in via `extra.doordarshan.homepage.show_recent = true`,
+which intentionally requires the configured blog/pages sections to exist.

@@ -171,6 +171,12 @@
     <script src="{{ get_url(path='js/footnotes.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/footnotes.js', sha_type=256) | truncate(length=8, end='') }}"></script>
     <script src="{{ get_url(path='js/lightbox.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/lightbox.js', sha_type=256) | truncate(length=8, end='') }}"></script>
 
+    {% if config.extra.doordarshan is defined and config.extra.doordarshan.scripts is defined and config.extra.doordarshan.scripts.additional is defined %}
+        {% for script_path in config.extra.doordarshan.scripts.additional %}
+    <script src="{{ get_url(path=script_path) | trim_end_matches(pat='/') }}?h={{ get_hash(path=script_path, sha_type=256) | truncate(length=8, end='') }}"></script>
+        {% endfor %}
+    {% endif %}
+
     {% block site_scripts %}{% endblock site_scripts %}
 </body>
 </html>

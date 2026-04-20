@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set blog_section_path = config.extra.doordarshan.sections.blog | default(value="blog/_index.md") %}
+{% set pages_section_path = config.extra.doordarshan.sections.pages | default(value="pages/_index.md") %}
+{% set blog_section_url = get_url(path=blog_section_path | replace(from="_index.md", to="")) %}
+{% set pages_section_url = get_url(path=pages_section_path | replace(from="_index.md", to="")) %}
+{% set recent_limit = 5 %}
+{% set show_recent = false %}
+{% if config.extra.doordarshan.homepage is defined and config.extra.doordarshan.homepage.recent_limit is defined %}
+    {% set recent_limit = config.extra.doordarshan.homepage.recent_limit %}
+{% endif %}
+{% if config.extra.doordarshan.homepage is defined and config.extra.doordarshan.homepage.show_recent is defined %}
+    {% set show_recent = config.extra.doordarshan.homepage.show_recent %}
+{% endif %}
+
+<section class="hero-section">
+    <div class="content-container">
+        <div class="hero-card">
+            {% if config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.avatar is defined and config.extra.doordarshan.identity.avatar %}
+            <img src="{{ config.extra.doordarshan.identity.avatar }}" alt="{{ config.title }}" class="avatar energy-glow">
+            {% elif config.extra.avatar is defined and config.extra.avatar %}
+            <img src="{{ config.extra.avatar }}" alt="{{ config.title }}" class="avatar energy-glow">
+            {% endif %}
+
+            <h1 class="hero-title">
+                {% if config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.homepage_title is defined and config.extra.doordarshan.identity.homepage_title %}
+                    {{ config.extra.doordarshan.identity.homepage_title }}
+                {% elif config.extra.author is defined and config.extra.author %}
+                    {{ config.extra.author }}
+                {% else %}
+                    {{ config.title }}
+                {% endif %}
+            </h1>
+
+            {% if config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.homepage_tagline is defined and config.extra.doordarshan.identity.homepage_tagline %}
+            <p class="hero-description">{{ config.extra.doordarshan.identity.homepage_tagline }}</p>
+            {% elif config.description %}
+            <p class="hero-description">{{ config.description }}</p>
+            {% endif %}
+
+            <div class="rangoli-divider">
+                <span class="rangoli-symbol">✦</span>
+            </div>
+
+            <nav class="hero-links">
+                {% if config.extra.doordarshan.homepage is defined and config.extra.doordarshan.homepage.links is defined %}
+                    {% for link in config.extra.doordarshan.homepage.links %}
+                <a href="{{ link.url }}" class="btn-retro">{{ link.label }}</a>
+                    {% endfor %}
+                {% else %}
+                <a href="{{ blog_section_url }}" class="btn-retro">Blog</a>
+                <a href="{{ pages_section_url }}" class="btn-retro">Pages</a>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+</section>
+
+{% if show_recent %}
+{% set blog_section = get_section(path=blog_section_path) %}
+{% set pages_section = get_section(path=pages_section_path) %}
+<section class="recent-updates">
+    <div class="content-container">
+        <h2 class="recent-updates-title">/* Recent */</h2>
+        <ul class="recent-updates-list">
+            {% set_global all_items = [] %}
+            {% for post in blog_section.pages %}
+                {% set_global all_items = all_items | concat(with=[post]) %}
+            {% endfor %}
+            {% for page in pages_section.pages %}
+                {% if page.date %}{% set_global all_items = all_items | concat(with=[page]) %}{% endif %}
+            {% endfor %}
+            {% for subsection_path in pages_section.subsections %}
+                {% set subsection = get_section(path=subsection_path) %}
+                {% for page in subsection.pages %}
+                    {% if page.date %}{% set_global all_items = all_items | concat(with=[page]) %}{% endif %}
+                {% endfor %}
+                {% for sub2_path in subsection.subsections %}
+                    {% set sub2 = get_section(path=sub2_path) %}
+                    {% for page in sub2.pages %}
+                        {% if page.date %}{% set_global all_items = all_items | concat(with=[page]) %}{% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+            {% for item in all_items | sort(attribute="date") | reverse | slice(end=recent_limit) %}
+            <li class="recent-update-item">
+                <time datetime="{{ item.date }}">{{ item.date | date(format="%b %d") }}</time>
+                <a href="{{ item.permalink }}">{{ item.title }}</a>
+                {% if item.path is containing("projects") %}
+                <span class="update-type">project</span>
+                {% elif item.components is containing("pages") %}
+                <span class="update-type">page</span>
+                {% else %}
+                <span class="update-type">post</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}

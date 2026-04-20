@@ -17,6 +17,13 @@ pages_search = true
 [extra.doordarshan.assets]
 social_image = ""
 
+[extra.doordarshan.homepage]
+show_recent = false
+recent_limit = 5
+
+[extra.doordarshan.scripts]
+additional = []
+
 [extra.doordarshan.identity]
 nav_brand = ""
 avatar = ""

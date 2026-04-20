@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set blog_section_path = config.extra.doordarshan.sections.blog | default(value="blog/_index.md") %}
+{% set pages_section_path = config.extra.doordarshan.sections.pages | default(value="pages/_index.md") %}
+{% set blog_section_url = get_url(path=blog_section_path | replace(from="_index.md", to="")) %}
+{% set pages_section_url = get_url(path=pages_section_path | replace(from="_index.md", to="")) %}
+{% set blog_section_name = blog_section_path | replace(from="/_index.md", to="") | replace(from="_index.md", to="") | trim_end_matches(pat="/") %}
+{% set pages_section_name = pages_section_path | replace(from="/_index.md", to="") | replace(from="_index.md", to="") | trim_end_matches(pat="/") %}
+{% set search_domain = config.base_url | replace(from="https://", to="") | replace(from="http://", to="") | trim_end_matches(pat="/") %}
+
+<div class="error-404-container">
+    <div class="error-404-content">
+        <pre class="error-404-terminal"><code>$ cd /page/not/found
+bash: cd: /page/not/found: No such file or directory
+
+$ ls -la /page/not/found
+ls: cannot access '/page/not/found': No such file or directory
+
+$ cat /page/not/found
+cat: /page/not/found: No such file or directory
+
+$ █</code></pre>
+
+        <div class="error-404-message">
+            <h1>404: Page Not Found</h1>
+            <p>The page you're looking for doesn't exist in this repository.</p>
+
+            <div class="error-404-suggestions">
+                <h2>Try these commands:</h2>
+                <ul>
+                    <li><a href="/">$ cd ~</a> — Go to homepage</li>
+                    <li><a href="{{ blog_section_url }}">$ ls /{{ blog_section_name }}/</a> — Browse that section</li>
+                    <li><a href="{{ pages_section_url }}">$ ls /{{ pages_section_name }}/</a> — Browse that section</li>
+                    <li><a href="javascript:history.back()">$ cd -</a> — Go back to previous page</li>
+                </ul>
+            </div>
+
+            <div class="error-404-search">
+                <p>Or search the site:</p>
+                <form action="https://www.google.com/search" method="get" target="_blank">
+                    <input type="hidden" name="q" value="site:{{ search_domain }}" />
+                    <input
+                        type="text"
+                        name="q"
+                        placeholder="Search {{ search_domain }}..."
+                        aria-label="Search the site"
+                        class="error-404-search-input"
+                    />
+                    <button type="submit" class="error-404-search-button">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
