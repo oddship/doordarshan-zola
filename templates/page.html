@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% set back_section = false %}
+{% if page.ancestors %}
+    {% set back_section = get_section(path=page.ancestors | last) %}
+{% endif %}
 <div class="content-container-narrow">
     <article>
         <header class="section-header">
@@ -44,9 +48,11 @@
         </aside>
         {% endif %}
 
+        {% if back_section %}
         <div class="post-footer">
-            <a href="/blog/" class="back-link">← Blog</a>
+            <a href="{{ back_section.permalink }}" class="back-link">← {{ back_section.title }}</a>
         </div>
+        {% endif %}
     </article>
 </div>
 

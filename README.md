@@ -93,10 +93,14 @@ The theme prefers a small number of source section paths, such as:
 
 Templates should prefer deriving URLs from section objects (`get_section(...).permalink`, `section.path`) when the section is already required for rendering. For resilient fallbacks such as the default 404 page, deriving a simple URL from the configured section path is acceptable to avoid turning error pages into hard topology dependencies.
 
+Pages navigation, pages search, and blog archive links now follow the configured
+`sections.pages` and `sections.blog` roots instead of assuming `/pages/` and
+`/blog/`. `features.pages_search` scopes search results to the configured pages
+section prefix and only loads the search assets when enabled.
+
 ## Known in-progress extraction items
 
 The following are still being normalized toward a cleaner theme/site split:
-- pages search topology assumptions
 - fallback social asset ownership
 
 Phase 2 moved the default homepage and 404 templates into the theme. Root

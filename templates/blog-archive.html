@@ -2,11 +2,12 @@
 {% import "macros/section-header.html" as header %}
 
 {% block content %}
+{% set blog_section_path = config.extra.doordarshan.sections.blog | default(value="blog/_index.md") %}
+{% set blog = get_section(path=blog_section_path) %}
 <div class="content-container">
     {{ header::section_header(title=section.title, description=section.description | default(value="")) }}
 
     <!-- Year-Grouped Archive -->
-    {% set blog = get_section(path="blog/_index.md") %}
     {% for year, posts in blog.pages | sort(attribute="date") | reverse | group_by(attribute="year") %}
     <section class="archive-year spacing-component">
         <h2 class="archive-year-header">{{ year }}</h2>
@@ -23,7 +24,7 @@
 
     <!-- Back to Blog -->
     <nav class="section-nav spacing-component">
-        <a href="{{ get_url(path='blog/') }}">← Back to Blog</a>
+        <a href="{{ blog.permalink }}">← Back to {{ blog.title }}</a>
     </nav>
 </div>
 {% endblock content %}

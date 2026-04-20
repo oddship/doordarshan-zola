@@ -2,13 +2,16 @@
 {% import "macros/section-header.html" as header %}
 
 {% block content %}
+{% set blog_section_path = config.extra.doordarshan.sections.blog | default(value="blog/_index.md") %}
+{% set blog_section_relative_path = blog_section_path | replace(from="/_index.md", to="/") | replace(from="_index.md", to="") %}
+{% set blog_section_relative_path = blog_section_relative_path | trim_start_matches(pat="/") %}
 <div class="content-container">
     {{ header::section_header(title=section.title, description=section.description | default(value="")) }}
 
-    {% if section.path == "blog/" or section.path == "/blog/" %}
+    {% if section.path == blog_section_relative_path %}
     <!-- Archive Link -->
     <div class="blog-archive-link spacing-component">
-        <a href="{{ get_url(path='blog/archive/') }}" class="archive-link">View all posts by year →</a>
+        <a href="{{ section.permalink }}archive/" class="archive-link">View all posts by year →</a>
     </div>
     {% endif %}
     

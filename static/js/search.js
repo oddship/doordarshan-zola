@@ -6,6 +6,11 @@
   var results = document.getElementById("pages-search-results");
   var index = null;
   var docs = {};
+  var searchPrefix = "";
+
+  if (results && results.dataset.searchPrefix) {
+    searchPrefix = normalizePath(results.dataset.searchPrefix);
+  }
 
   function initSearch() {
     if (index) return;
@@ -33,9 +38,11 @@
       expand: true,
     });
 
-    // Filter to /pages/ paths only
+    // Filter to the configured section prefix when present
     hits = hits.filter(function (h) {
-      return h.ref.replace(/^https?:\/\/[^\/]+/, "").indexOf("/pages/") === 0;
+      var path = normalizePath(h.ref);
+      if (!searchPrefix) return true;
+      return path === searchPrefix || path.indexOf(searchPrefix + "/") === 0;
     });
 
     if (hits.length === 0) {
@@ -49,7 +56,7 @@
     for (var i = 0; i < max; i++) {
       var ref = hits[i].ref;
       // Strip base URL to get path — works in dev and production
-      var path = ref.replace(/^https?:\/\/[^\/]+/, "");
+      var path = normalizePath(ref) || "/";
       var doc = hits[i].doc || {};
       var title = doc.title || path.split("/").filter(Boolean).pop();
       html +=
@@ -106,6 +113,13 @@
       input.focus();
     }
   });
+
+  function normalizePath(value) {
+    if (!value) return "";
+    var path = value.replace(/^https?:\/\/[^\/]+/, "").replace(/\/$/, "");
+    if (!path) return "";
+    return path.charAt(0) === "/" ? path : "/" + path;
+  }
 
   function escapeHtml(s) {
     var d = document.createElement("div");
