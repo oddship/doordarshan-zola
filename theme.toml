@@ -7,6 +7,26 @@ tags = ["monospace", "retro", "terminal", "dark-light", "blog", "minimal"]
 
 [extra]
 
+[extra.doordarshan.sections]
+blog = "blog/_index.md"
+pages = "pages/_index.md"
+
+[extra.doordarshan.features]
+pages_search = true
+
+[extra.doordarshan.assets]
+social_image = ""
+
+[extra.doordarshan.identity]
+nav_brand = ""
+avatar = ""
+homepage_title = ""
+homepage_tagline = ""
+handwritten_font = ""
+favicon = ""
+github_url = ""
+twitter_handle = ""
+
 [author]
 name = "Rohan Verma"
 homepage = "https://rohanverma.net"

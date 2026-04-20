@@ -8,8 +8,12 @@
 <title>{% block title %}{% if page.title %}{{ page.title }} | {{ config.title }}{% elif section.title %}{{ section.title }} | {{ config.title }}{% else %}{{ config.title }}{% if config.extra.subtitle %} {{ config.extra.subtitle }}{% endif %}{% endif %}{% endblock title %}</title>
 
 <!-- Favicon -->
-{% if config.extra.favicon %}
+{% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.favicon is defined and config.extra.doordarshan.identity.favicon %}
+<link rel="icon" href="{{ config.extra.doordarshan.identity.favicon }}" type="image/x-icon">
+{% elif config.extra.favicon is defined and config.extra.favicon %}
 <link rel="icon" href="{{ config.extra.favicon }}" type="image/x-icon">
+{% else %}
+<link rel="icon" href="{{ get_url(path='images/favicon.ico') }}" type="image/x-icon">
 {% endif %}
 
 <!-- RSS Feed -->
@@ -39,7 +43,7 @@
             "name": "{{ config.author }}",
             "url": "{{ config.base_url }}",
             "sameAs": [
-                {% if config.extra.github %}"{{ config.extra.github }}"{% endif %}
+                {% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.github_url is defined and config.extra.doordarshan.identity.github_url %}"{{ config.extra.doordarshan.identity.github_url }}"{% elif config.extra.github is defined and config.extra.github %}"{{ config.extra.github }}"{% endif %}
             ]
         }
         {% if page and page.date %},
@@ -66,7 +70,9 @@
 <meta property="og:image" content="{{ config.base_url }}{{ page.extra.og_image }}">
 {% elif section.extra.og_image is defined %}
 <meta property="og:image" content="{{ config.base_url }}{{ section.extra.og_image }}">
-{% elif config.extra.social_image %}
+{% elif config.extra.doordarshan is defined and config.extra.doordarshan.assets is defined and config.extra.doordarshan.assets.social_image is defined and config.extra.doordarshan.assets.social_image %}
+<meta property="og:image" content="{{ config.base_url }}/{{ config.extra.doordarshan.assets.social_image | trim_start_matches(pat='/') }}">
+{% elif config.extra.social_image is defined and config.extra.social_image %}
 <meta property="og:image" content="{{ config.base_url }}{{ config.extra.social_image }}">
 {% else %}
 <meta property="og:image" content="{{ config.base_url }}/images/social-card.png">
@@ -81,7 +87,8 @@
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-{% if config.extra.twitter_handle %}<meta name="twitter:site" content="{{ config.extra.twitter_handle }}">
+{% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.twitter_handle is defined and config.extra.doordarshan.identity.twitter_handle %}<meta name="twitter:site" content="{{ config.extra.doordarshan.identity.twitter_handle }}">
+<meta name="twitter:creator" content="{{ config.extra.doordarshan.identity.twitter_handle }}">{% elif config.extra.twitter_handle is defined and config.extra.twitter_handle %}<meta name="twitter:site" content="{{ config.extra.twitter_handle }}">
 <meta name="twitter:creator" content="{{ config.extra.twitter_handle }}">{% endif %}
 <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ config.title }}{% endif %}">
 <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% elif section.description %}{{ section.description }}{% else %}{{ config.description }}{% endif %}">
@@ -89,7 +96,9 @@
 <meta name="twitter:image" content="{{ config.base_url }}{{ page.extra.og_image }}">
 {% elif section.extra.og_image is defined %}
 <meta name="twitter:image" content="{{ config.base_url }}{{ section.extra.og_image }}">
-{% elif config.extra.social_image %}
+{% elif config.extra.doordarshan is defined and config.extra.doordarshan.assets is defined and config.extra.doordarshan.assets.social_image is defined and config.extra.doordarshan.assets.social_image %}
+<meta name="twitter:image" content="{{ config.base_url }}/{{ config.extra.doordarshan.assets.social_image | trim_start_matches(pat='/') }}">
+{% elif config.extra.social_image is defined and config.extra.social_image %}
 <meta name="twitter:image" content="{{ config.base_url }}{{ config.extra.social_image }}">
 {% else %}
 <meta name="twitter:image" content="{{ config.base_url }}/images/social-card.png">
@@ -99,7 +108,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-{% if config.extra.handwritten_font %}
+{% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.handwritten_font is defined and config.extra.doordarshan.identity.handwritten_font %}
+<link href="{{ config.extra.doordarshan.identity.handwritten_font }}" rel="stylesheet">
+{% elif config.extra.handwritten_font is defined and config.extra.handwritten_font %}
 <link href="{{ config.extra.handwritten_font }}" rel="stylesheet">
 {% endif %}
 

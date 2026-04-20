@@ -11,8 +11,12 @@
 
     {% block head_extra %}{% endblock head_extra %}
 
-    <!-- Umami Analytics -->
-    {% if config.extra.umami and config.extra.umami.website_id %}
+    <!-- Analytics -->
+    {% if config.extra.doordarshan is defined and config.extra.doordarshan.analytics is defined %}
+        {% if config.extra.doordarshan.analytics.enabled is defined and config.extra.doordarshan.analytics.enabled and config.extra.doordarshan.analytics.script_url is defined and config.extra.doordarshan.analytics.script_url and config.extra.doordarshan.analytics.website_id is defined and config.extra.doordarshan.analytics.website_id %}
+    <script defer src="{{ config.extra.doordarshan.analytics.script_url }}" data-website-id="{{ config.extra.doordarshan.analytics.website_id }}"></script>
+        {% endif %}
+    {% elif config.extra.umami is defined and config.extra.umami.script_url is defined and config.extra.umami.script_url and config.extra.umami.website_id is defined and config.extra.umami.website_id %}
     <script defer src="{{ config.extra.umami.script_url }}" data-website-id="{{ config.extra.umami.website_id }}"></script>
     {% endif %}
 
@@ -28,7 +32,7 @@
     <!-- Header -->
     <header class="header-main header-enhanced">
         <div class="header-content">
-            <a href="/" class="nav-brand nav-brand-enhanced" aria-label="Home">{% if config.extra.nav_brand %}{{ config.extra.nav_brand }}{% else %}{{ config.title }}{% endif %}</a>
+            <a href="/" class="nav-brand nav-brand-enhanced" aria-label="Home">{% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.nav_brand is defined and config.extra.doordarshan.identity.nav_brand %}{{ config.extra.doordarshan.identity.nav_brand }}{% elif config.extra.nav_brand is defined and config.extra.nav_brand %}{{ config.extra.nav_brand }}{% else %}{{ config.title }}{% endif %}</a>
 
             <!-- Mobile menu toggle -->
             <button class="mobile-menu-toggle hidden-desktop" id="mobile-menu-toggle"
@@ -36,10 +40,17 @@
 
             <!-- Navigation (centered) -->
             <nav class="header-nav header-nav-enhanced" id="nav-menu" role="navigation" aria-label="Main navigation">
-                {% for item in config.extra.menu_main %}
-                <a href="{{ item.url }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
-                   {% if current_path and current_path == item.url %}aria-current="page"{% endif %}>{{ item.name }}</a>
-                {% endfor %}
+                {% if config.extra.doordarshan is defined and config.extra.doordarshan.nav is defined and config.extra.doordarshan.nav.menu is defined %}
+                    {% for item in config.extra.doordarshan.nav.menu %}
+                    <a href="{{ item.url }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
+                       {% if current_path and current_path == item.url %}aria-current="page"{% endif %}>{{ item.name }}</a>
+                    {% endfor %}
+                {% elif config.extra.menu_main is defined %}
+                    {% for item in config.extra.menu_main %}
+                    <a href="{{ item.url }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
+                       {% if current_path and current_path == item.url %}aria-current="page"{% endif %}>{{ item.name }}</a>
+                    {% endfor %}
+                {% endif %}
             </nav>
 
             <!-- Theme Toggle (right) -->
@@ -60,7 +71,7 @@
         <div class="footer-content">
             {% block footer %}
             <p>
-                {% if config.extra.github %}<a href="{{ config.extra.github }}">GitHub</a> · {% endif %}
+                {% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.github_url is defined and config.extra.doordarshan.identity.github_url %}<a href="{{ config.extra.doordarshan.identity.github_url }}">GitHub</a> · {% elif config.extra.github is defined and config.extra.github %}<a href="{{ config.extra.github }}">GitHub</a> · {% endif %}
                 <a href="{{ get_url(path="rss.xml") }}">RSS</a> ·
                 <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
             </p>
