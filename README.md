@@ -1,6 +1,22 @@
 # doordarshan
 
-Doordarshan is a Zola theme for a retro Indian terminal/notebook aesthetic.
+![Doordarshan screenshot](screenshot.png)
+
+Doordarshan is a Zola theme for a retro Indian terminal/notebook aesthetic: monospace-heavy typography, warm terracotta accents, compact navigation, and a layout that works for blogs, personal sites, and small digital gardens.
+
+- Live demo: https://oddship.github.io/doordarshan-zola/
+- Theme repository: https://github.com/oddship/doordarshan-zola
+
+## Features
+
+- homepage hero with optional recent-updates rail
+- blog archive and post templates
+- wiki/garden-style pages area with sidebar navigation
+- project pages with metadata links and optional status badges
+- theme-owned contact and search pages
+- light/dark mode toggle
+- namespaced config contract under `extra.doordarshan.*`
+- compatibility fallback for legacy flat keys during migration
 
 ## Install
 
@@ -18,7 +34,7 @@ If you use SSH keys with GitHub, this works too:
 git submodule add git@github.com:oddship/doordarshan-zola.git themes/doordarshan
 ```
 
-Then in your `config.toml`:
+Then in your site `config.toml`:
 
 ```toml
 theme = "doordarshan"
@@ -26,7 +42,13 @@ compile_sass = true
 build_search_index = true
 ```
 
-## Theme contract
+### Plain clone
+
+```bash
+git clone https://github.com/oddship/doordarshan-zola.git themes/doordarshan
+```
+
+## Quick start config
 
 The preferred config surface is namespaced under `extra.doordarshan`.
 
@@ -43,29 +65,21 @@ site_search = true
 social_image = "/images/social-card.png"
 
 [extra.doordarshan.homepage]
-show_recent = false
+show_recent = true
 recent_limit = 5
 
 [[extra.doordarshan.homepage.links]]
 label = "Blog"
 url = "/blog/"
 
-[extra.doordarshan.scripts]
-additional = ["js/site-only.js"]
-
 [extra.doordarshan.contact]
 intro = "Want to get in touch?"
 email = "hello@example.com"
 response_time = "Usually within a day or two."
 
-[[extra.doordarshan.contact.links]]
-label = "GitHub"
-url = "https://github.com/example"
-description = "code & projects"
-
 [extra.doordarshan.identity]
 nav_brand = "~/site"
-avatar = "/images/avatar.jpg"
+avatar = "/images/avatar.svg"
 homepage_title = "Your Name"
 homepage_tagline = "Short homepage tagline"
 handwritten_font = "https://fonts.googleapis.com/css2?family=Shrikhand&display=swap"
@@ -73,16 +87,51 @@ favicon = "/images/favicon.ico"
 github_url = "https://github.com/example/"
 twitter_handle = "@example"
 
-[extra.doordarshan.analytics]
-enabled = false
-script_url = ""
-website_id = ""
-
 [[extra.doordarshan.nav.menu]]
 name = "Home"
 url = "/"
 weight = 1
 ```
+
+For a complete working example, see the standalone sample site in this repo:
+- `config.toml`
+- `content/`
+
+## Sample site and local preview
+
+This repository is also a buildable Zola site used for:
+- the GitHub Pages demo
+- gallery screenshots
+- local theme development
+
+Run it locally with Zola:
+
+```bash
+zola serve
+```
+
+Or build it for production:
+
+```bash
+zola build
+```
+
+The demo published from `main` is deployed through `.github/workflows/pages.yml`.
+That workflow pins the Zola package source and computes `--base-url` dynamically from the repository URL by default. For forks or custom domains, set a repository variable named `PAGES_BASE_URL`.
+
+## Customization model
+
+Zola lets you override any file from the theme by shadowing it in your site root.
+
+Examples:
+
+```text
+templates/page.html              -> replace theme page template
+static/js/site.js                -> add site-specific behavior
+templates/partials/head.html     -> override head markup
+```
+
+Use config for the first layer of customization, then override individual templates or static files when you need deeper control.
 
 ## Compatibility policy
 
@@ -97,34 +146,18 @@ Preference order is:
 
 Analytics is a special case: if `extra.doordarshan.analytics` is present at the site level, it is authoritative, including `enabled = false`. Legacy `extra.umami` is only consulted when the namespaced analytics block is absent.
 
-## Ownership model
+## Repo layout
 
-### Theme-owned
-- layout templates
-- design system styles
-- homepage, 404, contact, and search defaults
-- pages navigation/search UI
-- blog archive behavior
-- optional features behind config flags
+```text
+config.toml                 sample-site config and Pages demo config
+content/                    committed standalone demo content
+sass/                       theme styles
+static/                     theme assets and JavaScript
+templates/                  theme templates
+screenshot.png              gallery screenshot for getzola/themes
+.github/workflows/pages.yml GitHub Pages deploy for the sample site
+```
 
-### Site-owned
-- content markdown
-- brand assets and identity text
-- contact details and external profile links
-- analytics credentials
-- site-specific scripts loaded via `extra.doordarshan.scripts.additional`
+## License
 
-## Section model
-
-The theme follows configured content roots via:
-- `extra.doordarshan.sections.blog`
-- `extra.doordarshan.sections.pages`
-
-Pages navigation, pages search, and blog archive links follow those configured roots instead of assuming `/pages/` and `/blog/`.
-
-## Search features
-
-- `extra.doordarshan.features.pages_search` enables scoped sidebar search for the configured pages section.
-- `extra.doordarshan.features.site_search` enables the standalone site search page.
-- Site search expects `build_search_index = true`.
-- The search page resolves `search_index.<lang>.js` from `page.lang` or `config.default_language`.
+MIT

@@ -1,0 +1,63 @@
+name: Demo via GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-doordarshan-demo
+  cancel-in-progress: true
+
+env:
+  ZOLA_NIXPKGS: github:NixOS/nixpkgs/b86751bc4085f48661017fa226dee99fab6c651b#zola
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Compute demo base URL
+        env:
+          PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}
+        run: |
+          if [ -n "${PAGES_BASE_URL}" ]; then
+            echo "ZOLA_BASE_URL=${PAGES_BASE_URL}" >> "$GITHUB_ENV"
+          else
+            repo="${GITHUB_REPOSITORY#*/}"
+            echo "ZOLA_BASE_URL=https://${GITHUB_REPOSITORY_OWNER}.github.io/${repo}/" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build demo site
+        run: nix --extra-experimental-features 'nix-command flakes' shell "$ZOLA_NIXPKGS" -c zola build --base-url "$ZOLA_BASE_URL"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

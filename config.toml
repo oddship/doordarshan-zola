@@ -1,0 +1,133 @@
+# Default canonical demo URL for the published sample site.
+# The GitHub Pages workflow overrides this with `--base-url` so forks and custom domains can publish without rewriting this file.
+base_url = "https://oddship.github.io/doordarshan-zola/"
+title = "Doordarshan Demo"
+description = "A retro Indian terminal and notebook Zola theme with warm terracotta accents."
+author = "Rohan Verma"
+default_language = "en"
+compile_sass = true
+minify_html = true
+generate_feeds = true
+feed_filenames = ["rss.xml"]
+build_search_index = true
+
+[markdown]
+render_emoji = true
+external_links_target_blank = true
+external_links_no_follow = true
+external_links_no_referrer = true
+
+[[taxonomies]]
+name = "tags"
+
+[slugify]
+paths = "on"
+taxonomies = "on"
+anchors = "on"
+
+[extra]
+author = "Doordarshan"
+bio = "A retro terminal-inspired notebook theme for Zola."
+handwritten_font = "https://fonts.googleapis.com/css2?family=Shrikhand&display=swap"
+nav_brand = "~/dd"
+github = "https://github.com/oddship/doordarshan-zola"
+twitter_handle = "@getzola"
+
+[extra.doordarshan.sections]
+blog = "blog/_index.md"
+pages = "pages/_index.md"
+
+[extra.doordarshan.features]
+pages_search = true
+site_search = true
+
+[extra.doordarshan.assets]
+social_image = "/images/social-card.png"
+
+[extra.doordarshan.homepage]
+show_recent = true
+recent_limit = 5
+
+[[extra.doordarshan.homepage.links]]
+label = "Blog"
+url = "/blog/"
+
+[[extra.doordarshan.homepage.links]]
+label = "Guides"
+url = "/pages/guides/"
+
+[[extra.doordarshan.homepage.links]]
+label = "Projects"
+url = "/pages/projects/"
+
+[[extra.doordarshan.homepage.links]]
+label = "Contact"
+url = "/contact/"
+
+[extra.doordarshan.scripts]
+additional = []
+
+[extra.doordarshan.contact]
+intro = "Questions about using the theme, adapting it for your site, or contributing an improvement?"
+email = "hello@example.com"
+response_time = "This is a demo inbox — swap in your own address when you install the theme."
+
+[[extra.doordarshan.contact.links]]
+label = "GitHub"
+url = "https://github.com/oddship/doordarshan-zola"
+description = "theme source"
+
+[[extra.doordarshan.contact.links]]
+label = "Live demo"
+url = "https://oddship.github.io/doordarshan-zola/"
+description = "GitHub Pages preview"
+
+[[extra.doordarshan.contact.links]]
+label = "Zola"
+url = "https://www.getzola.org/"
+description = "static site generator"
+
+[extra.doordarshan.identity]
+nav_brand = "~/dd"
+avatar = "/images/avatar.svg"
+homepage_title = "Doordarshan"
+homepage_tagline = "A retro Zola theme for blogs, digital gardens, and compact personal sites."
+handwritten_font = "https://fonts.googleapis.com/css2?family=Shrikhand&display=swap"
+favicon = "/images/favicon.ico"
+github_url = "https://github.com/oddship/doordarshan-zola"
+twitter_handle = "@getzola"
+
+[extra.doordarshan.analytics]
+enabled = false
+script_url = ""
+website_id = ""
+
+[[extra.doordarshan.nav.menu]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[extra.doordarshan.nav.menu]]
+name = "Blog"
+url = "/blog/"
+weight = 2
+
+[[extra.doordarshan.nav.menu]]
+name = "Pages"
+url = "/pages/"
+weight = 3
+
+[[extra.doordarshan.nav.menu]]
+name = "Now"
+url = "/now/"
+weight = 4
+
+[[extra.doordarshan.nav.menu]]
+name = "Search"
+url = "/search/"
+weight = 5
+
+[[extra.doordarshan.nav.menu]]
+name = "Contact"
+url = "/contact/"
+weight = 6
