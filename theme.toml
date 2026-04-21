@@ -13,6 +13,7 @@ pages = "pages/_index.md"
 
 [extra.doordarshan.features]
 pages_search = true
+site_search = true
 
 [extra.doordarshan.assets]
 social_image = ""
@@ -23,6 +24,11 @@ recent_limit = 5
 
 [extra.doordarshan.scripts]
 additional = []
+
+[extra.doordarshan.contact]
+intro = ""
+email = ""
+response_time = ""
 
 [extra.doordarshan.identity]
 nav_brand = ""

@@ -15,6 +15,7 @@ pages = "pages/_index.md"
 
 [extra.doordarshan.features]
 pages_search = true
+site_search = true
 
 [extra.doordarshan.assets]
 social_image = "/images/social-card.png"
@@ -29,6 +30,16 @@ url = "/blog/"
 
 [extra.doordarshan.scripts]
 additional = ["js/site-only.js"]
+
+[extra.doordarshan.contact]
+intro = "Want to get in touch?"
+email = "hello@example.com"
+response_time = "Usually within a day or two."
+
+[[extra.doordarshan.contact.links]]
+label = "GitHub"
+url = "https://github.com/example"
+description = "code & projects"
 
 [extra.doordarshan.identity]
 nav_brand = "~/site"
@@ -82,6 +93,7 @@ site level, it is treated as authoritative, including `enabled = false`. Legacy
 ### Site-owned concerns
 - content markdown
 - brand assets and identity text
+- contact details and external profile links
 - site-specific scripts that are not reusable theme behavior
 - analytics credentials
 
@@ -98,10 +110,19 @@ Pages navigation, pages search, and blog archive links now follow the configured
 `/blog/`. `features.pages_search` scopes search results to the configured pages
 section prefix and only loads the search assets when enabled.
 
+The default `contact.html` and `search.html` templates are now theme-owned.
+That means `content/contact.md` and `content/search.md` can stay thin — usually
+just frontmatter plus optional extra body copy. Contact identity lives in
+`extra.doordarshan.contact.*`. Site search is controlled by
+`extra.doordarshan.features.site_search` and expects `build_search_index = true`.
+The theme resolves the search index asset from the page/default language
+(`search_index.<lang>.js`) instead of assuming English.
+
 ## Known in-progress extraction items
 
 The following are still being normalized toward a cleaner theme/site split:
 - fallback social asset ownership
+- committed repo-local isolation fixture
 
 Phase 2 moved the default homepage and 404 templates into the theme. Root
 `templates/index.html`, `templates/404.html`, and `templates/base.html` are no

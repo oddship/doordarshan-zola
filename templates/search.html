@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set site_search_enabled = true %}
+{% if config.extra.doordarshan.features is defined and config.extra.doordarshan.features.site_search is defined %}
+    {% set site_search_enabled = config.extra.doordarshan.features.site_search %}
+{% endif %}
+<div class="content-container search-page">
+    <header class="section-header">
+        <h1 class="text-display">{{ page.title }}</h1>
+        {% if page.description %}
+        <p class="text-intro">{{ page.description }}</p>
+        {% endif %}
+    </header>
+
+    {% if site_search_enabled %}
+    <div class="site-search-shell">
+        <label class="visually-hidden" for="site-search-input">Search the site</label>
+        <input type="text" id="site-search-input" class="site-search-input" placeholder="Search posts, pages, and notes..." autocomplete="off">
+        <div id="site-search-status" class="site-search-status" aria-live="polite">Type at least 2 characters to search.</div>
+        <div id="site-search-results" class="site-search-results"></div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>Site search is disabled for this site.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% if site_search_enabled %}
+{% set search_lang = page.lang | default(value=config.default_language) %}
+{% set search_index_path = 'search_index.' ~ search_lang ~ '.js' %}
+<script src="{{ get_url(path='elasticlunr.min.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='elasticlunr.min.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+<script src="{{ get_url(path=search_index_path) | trim_end_matches(pat='/') }}?h={{ get_hash(path=search_index_path, sha_type=256) | truncate(length=8, end='') }}"></script>
+<script src="{{ get_url(path='js/site-search.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/site-search.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+{% endif %}
+{% endblock content %}

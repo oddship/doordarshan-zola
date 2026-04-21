@@ -10,7 +10,41 @@
     </header>
 
     <div class="contact-content">
-        {{ page.content | safe }}
+        <div class="contact-page">
+            <div class="contact-primary">
+                {% if config.extra.doordarshan.contact is defined and config.extra.doordarshan.contact.intro is defined and config.extra.doordarshan.contact.intro %}
+                <p class="contact-intro">{{ config.extra.doordarshan.contact.intro }}</p>
+                {% endif %}
+                {% if config.extra.doordarshan.contact is defined and config.extra.doordarshan.contact.email is defined and config.extra.doordarshan.contact.email %}
+                <a href="mailto:{{ config.extra.doordarshan.contact.email }}" class="contact-email">{{ config.extra.doordarshan.contact.email }}</a>
+                {% endif %}
+                {% if config.extra.doordarshan.contact is defined and config.extra.doordarshan.contact.response_time is defined and config.extra.doordarshan.contact.response_time %}
+                <p class="contact-note">{{ config.extra.doordarshan.contact.response_time }}</p>
+                {% endif %}
+            </div>
+
+            {% if config.extra.doordarshan.contact is defined and config.extra.doordarshan.contact.links is defined and config.extra.doordarshan.contact.links %}
+            <div class="contact-links">
+                <h2>Elsewhere</h2>
+                <ul class="link-list">
+                    {% for link in config.extra.doordarshan.contact.links %}
+                    <li>
+                        <a href="{{ link.url }}">{{ link.label }}</a>
+                        {% if link.description is defined and link.description %}
+                        <span class="link-desc">{{ link.description }}</span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if page.content | trim %}
+            <div class="spacing-component">
+                {{ page.content | safe }}
+            </div>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock content %}
