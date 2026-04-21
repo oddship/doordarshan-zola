@@ -12,10 +12,11 @@ permissions:
 
 concurrency:
   group: pages-doordarshan-demo
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   ZOLA_NIXPKGS: github:NixOS/nixpkgs/b86751bc4085f48661017fa226dee99fab6c651b#zola
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   build:
