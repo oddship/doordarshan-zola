@@ -4,7 +4,7 @@
 {% block content %}
 <div class="content-container">
     <nav class="section-nav">
-        <a href="/{{ taxonomy.name }}/">← All {{ taxonomy.name }}</a>
+        <a href="{{ get_url(path=taxonomy.name) }}">← All {{ taxonomy.name }}</a>
     </nav>
 
     <header class="section-header">

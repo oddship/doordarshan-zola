@@ -1,0 +1,15 @@
+{%- macro resolve(path) -%}
+{%- set value = path | trim -%}
+{%- if value is starting_with("http://")
+   or value is starting_with("https://")
+   or value is starting_with("mailto:")
+   or value is starting_with("tel:")
+   or value is starting_with("#")
+   or value is starting_with("//") -%}
+{{- value -}}
+{%- elif value == "/" -%}
+{{- get_url(path="") -}}
+{%- else -%}
+{{- get_url(path=value | trim_start_matches(pat="/")) -}}
+{%- endif -%}
+{%- endmacro resolve -%}

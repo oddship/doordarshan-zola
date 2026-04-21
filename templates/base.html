@@ -1,3 +1,4 @@
+{% import "macros/urls.html" as urls %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,7 @@
     <!-- Header -->
     <header class="header-main header-enhanced">
         <div class="header-content">
-            <a href="/" class="nav-brand nav-brand-enhanced" aria-label="Home">{% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.nav_brand is defined and config.extra.doordarshan.identity.nav_brand %}{{ config.extra.doordarshan.identity.nav_brand }}{% elif config.extra.nav_brand is defined and config.extra.nav_brand %}{{ config.extra.nav_brand }}{% else %}{{ config.title }}{% endif %}</a>
+            <a href="{{ urls::resolve(path='/') }}" class="nav-brand nav-brand-enhanced" aria-label="Home">{% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.nav_brand is defined and config.extra.doordarshan.identity.nav_brand %}{{ config.extra.doordarshan.identity.nav_brand }}{% elif config.extra.nav_brand is defined and config.extra.nav_brand %}{{ config.extra.nav_brand }}{% else %}{{ config.title }}{% endif %}</a>
 
             <!-- Mobile menu toggle -->
             <button class="mobile-menu-toggle hidden-desktop" id="mobile-menu-toggle"
@@ -42,12 +43,12 @@
             <nav class="header-nav header-nav-enhanced" id="nav-menu" role="navigation" aria-label="Main navigation">
                 {% if config.extra.doordarshan is defined and config.extra.doordarshan.nav is defined and config.extra.doordarshan.nav.menu is defined %}
                     {% for item in config.extra.doordarshan.nav.menu %}
-                    <a href="{{ item.url }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
+                    <a href="{{ urls::resolve(path=item.url) }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
                        {% if current_path and current_path == item.url %}aria-current="page"{% endif %}>{{ item.name }}</a>
                     {% endfor %}
                 {% elif config.extra.menu_main is defined %}
                     {% for item in config.extra.menu_main %}
-                    <a href="{{ item.url }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
+                    <a href="{{ urls::resolve(path=item.url) }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
                        {% if current_path and current_path == item.url %}aria-current="page"{% endif %}>{{ item.name }}</a>
                     {% endfor %}
                 {% endif %}
@@ -103,7 +104,7 @@
                 );
                 
                 if (!isOpen) {
-                    const firstNavItem = navMenu.querySelector('.nav-item a');
+                    const firstNavItem = navMenu.querySelector('.nav-item');
                     if (firstNavItem) {
                         setTimeout(() => firstNavItem.focus(), 100);
                     }

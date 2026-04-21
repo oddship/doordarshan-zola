@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/urls.html" as urls %}
 
 {% block content %}
 {% set blog_section_path = config.extra.doordarshan.sections.blog | default(value="blog/_index.md") %}
@@ -29,7 +30,7 @@ $ █</code></pre>
             <div class="error-404-suggestions">
                 <h2>Try these commands:</h2>
                 <ul>
-                    <li><a href="/">$ cd ~</a> — Go to homepage</li>
+                    <li><a href="{{ urls::resolve(path='/') }}">$ cd ~</a> — Go to homepage</li>
                     <li><a href="{{ blog_section_url }}">$ ls /{{ blog_section_name }}/</a> — Browse that section</li>
                     <li><a href="{{ pages_section_url }}">$ ls /{{ pages_section_name }}/</a> — Browse that section</li>
                     <li><a href="javascript:history.back()">$ cd -</a> — Go back to previous page</li>

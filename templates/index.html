@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/urls.html" as urls %}
 
 {% block content %}
 {% set blog_section_path = config.extra.doordarshan.sections.blog | default(value="blog/_index.md") %}
@@ -18,9 +19,9 @@
     <div class="content-container">
         <div class="hero-card">
             {% if config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.avatar is defined and config.extra.doordarshan.identity.avatar %}
-            <img src="{{ config.extra.doordarshan.identity.avatar }}" alt="{{ config.title }}" class="avatar energy-glow">
+            <img src="{{ urls::resolve(path=config.extra.doordarshan.identity.avatar) }}" alt="{{ config.title }}" class="avatar energy-glow">
             {% elif config.extra.avatar is defined and config.extra.avatar %}
-            <img src="{{ config.extra.avatar }}" alt="{{ config.title }}" class="avatar energy-glow">
+            <img src="{{ urls::resolve(path=config.extra.avatar) }}" alt="{{ config.title }}" class="avatar energy-glow">
             {% endif %}
 
             <h1 class="hero-title">
@@ -46,7 +47,7 @@
             <nav class="hero-links">
                 {% if config.extra.doordarshan.homepage is defined and config.extra.doordarshan.homepage.links is defined %}
                     {% for link in config.extra.doordarshan.homepage.links %}
-                <a href="{{ link.url }}" class="btn-retro">{{ link.label }}</a>
+                <a href="{{ urls::resolve(path=link.url) }}" class="btn-retro">{{ link.label }}</a>
                     {% endfor %}
                 {% else %}
                 <a href="{{ blog_section_url }}" class="btn-retro">Blog</a>
