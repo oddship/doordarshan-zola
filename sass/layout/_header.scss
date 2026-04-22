@@ -108,18 +108,19 @@
 // ========== FOOTER ==========
 .footer-main {
   margin-top: auto;
-  padding: var(--space-8) 0 var(--space-6);
+  padding: var(--space-6) 0 var(--space-4);
   border-top: 1px solid var(--c-border);
   transition: border-color var(--transition);
 }
 
 .footer-content {
-  max-width: var(--max-width);
+  max-width: 980px;
   margin: 0 auto;
   padding: 0 var(--container-padding);
-  font-size: var(--text-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: var(--text-xs);
+  text-transform: none;
+  letter-spacing: 0.03em;
+  line-height: var(--leading-relaxed);
   color: var(--c-text-tertiary);
   text-align: center;
 
@@ -136,6 +137,22 @@
 
   p {
     display: inline;
+  }
+
+  .footer-meta {
+    white-space: nowrap;
+  }
+
+  a {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 900px) {
+    max-width: var(--max-width);
+
+    .footer-meta {
+      white-space: normal;
+    }
   }
 }
 

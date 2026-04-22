@@ -71,8 +71,10 @@
     <footer class="footer-main">
         <div class="footer-content">
             {% block footer %}
-            <p>
-                {% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.github_url is defined and config.extra.doordarshan.identity.github_url %}<a href="{{ config.extra.doordarshan.identity.github_url }}">GitHub</a> · {% elif config.extra.github is defined and config.extra.github %}<a href="{{ config.extra.github }}">GitHub</a> · {% endif %}
+            {% set doordarshan_repo_url = "https://github.com/oddship/doordarshan-zola" %}
+            <p class="footer-meta">
+                Built with <a href="{{ doordarshan_repo_url }}">Doordarshan for Zola</a> ·
+                {% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.github_url is defined and config.extra.doordarshan.identity.github_url %}<a href="{{ config.extra.doordarshan.identity.github_url }}">Site source</a> · {% elif config.extra.github is defined and config.extra.github %}<a href="{{ config.extra.github }}">Site source</a> · {% endif %}
                 <a href="{{ get_url(path="rss.xml") }}">RSS</a> ·
                 <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
             </p>
