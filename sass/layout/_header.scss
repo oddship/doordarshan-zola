@@ -141,10 +141,24 @@
 
   .footer-meta {
     white-space: nowrap;
-  }
+    font-size: 0.6875rem;
+    color: var(--c-text-tertiary);
 
-  a {
-    white-space: nowrap;
+    a {
+      color: inherit;
+      white-space: nowrap;
+      text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+      text-underline-offset: 0.14em;
+      opacity: 0.82;
+      transition: color var(--transition), text-decoration-color var(--transition), opacity var(--transition);
+
+      &:hover,
+      &:focus-visible {
+        color: var(--c-text-primary);
+        text-decoration-color: currentColor;
+        opacity: 1;
+      }
+    }
   }
 
   @media (max-width: 900px) {
