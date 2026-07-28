@@ -4,6 +4,12 @@
 {% block content %}
 {% set pages_root_path = config.extra.doordarshan.sections.pages | default(value="pages/_index.md") %}
 {% set pages_root = get_section(path=pages_root_path) %}
+{% set_global pages_toc = [] %}
+{% if page is defined and page.toc %}
+    {% set_global pages_toc = page.toc %}
+{% elif section is defined and section.toc %}
+    {% set_global pages_toc = section.toc %}
+{% endif %}
 {% set pages_search_enabled = false %}
 {% if config.extra.doordarshan.features is defined and config.extra.doordarshan.features.pages_search is defined %}
     {% set pages_search_enabled = config.extra.doordarshan.features.pages_search %}
@@ -30,6 +36,26 @@
             {% block pages_content %}{% endblock pages_content %}
         </article>
     </div>
+
+    {% if pages_toc | length > 0 %}
+    <aside class="pages-toc" aria-label="On this page">
+        <p class="pages-toc-title">On this page</p>
+        <ol>
+            {% for heading in pages_toc %}
+            <li>
+                <a href="{{ heading.permalink | safe }}">{{ heading.title }}</a>
+                {% if heading.children %}
+                <ol>
+                    {% for child in heading.children %}
+                    <li><a href="{{ child.permalink | safe }}">{{ child.title }}</a></li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </aside>
+    {% endif %}
 </div>
 
 <script src="{{ get_url(path='js/sidebar.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/sidebar.js', sha_type=256) | truncate(length=8, end='') }}"></script>
