@@ -81,7 +81,7 @@
 // Homepage split sections
 .homepage-split-section {
   padding: var(--space-8) 0;
-  max-width: min(920px, 100% - (var(--container-padding) * 2));
+  max-width: min(1080px, 100% - (var(--container-padding) * 2));
   margin: 0 auto;
 
   .content-container {
@@ -92,10 +92,16 @@
 
 .homepage-split-columns {
   display: grid;
-  gap: var(--space-8);
+  align-items: start;
+  column-gap: clamp(var(--space-8), 7vw, var(--space-16));
+  row-gap: var(--space-8);
+
+  > * {
+    min-width: 0;
+  }
 
   @media (min-width: 860px) {
-    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -108,6 +114,7 @@
 .recent-updates.site-updates {
   @extend .homepage-split-section;
   border-top: 1px solid var(--c-border);
+  max-width: min(1080px, 100% - (var(--container-padding) * 2));
 }
 
 // Features
