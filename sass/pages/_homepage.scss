@@ -78,6 +78,38 @@
   flex-wrap: wrap;
 }
 
+// Homepage split sections
+.homepage-split-section {
+  padding: var(--space-8) 0;
+  max-width: min(920px, 100% - (var(--container-padding) * 2));
+  margin: 0 auto;
+
+  .content-container {
+    max-width: none;
+    padding-inline: 0;
+  }
+}
+
+.homepage-split-columns {
+  display: grid;
+  gap: var(--space-8);
+
+  @media (min-width: 860px) {
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+  }
+}
+
+.homepage-split-title {
+  font-size: var(--text-sm);
+  color: var(--c-text-secondary);
+  margin: 0 0 var(--space-3);
+}
+
+.recent-updates.site-updates {
+  @extend .homepage-split-section;
+  border-top: 1px solid var(--c-border);
+}
+
 // Features
 .section-features,
 .features-section {

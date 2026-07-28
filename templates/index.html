@@ -14,7 +14,6 @@
 {% if config.extra.doordarshan.homepage is defined and config.extra.doordarshan.homepage.show_recent is defined %}
     {% set show_recent = config.extra.doordarshan.homepage.show_recent %}
 {% endif %}
-
 <section class="hero-section">
     <div class="content-container">
         <div class="hero-card">
@@ -61,43 +60,50 @@
 {% if show_recent %}
 {% set blog_section = get_section(path=blog_section_path) %}
 {% set pages_section = get_section(path=pages_section_path) %}
-<section class="recent-updates">
+<section class="recent-updates site-updates">
     <div class="content-container">
-        <h2 class="recent-updates-title">/* Recent */</h2>
-        <ul class="recent-updates-list">
-            {% set_global all_items = [] %}
-            {% for post in blog_section.pages %}
-                {% set_global all_items = all_items | concat(with=[post]) %}
-            {% endfor %}
+        <h2 class="recent-updates-title">/* From Here */</h2>
+        <div class="homepage-split-columns">
+            <section>
+                <h3 class="homepage-split-title">Posts</h3>
+                <ul class="recent-updates-list">
+                    {% for post in blog_section.pages | sort(attribute="date") | reverse | slice(end=recent_limit) %}
+                    <li class="recent-update-item">
+                        <time datetime="{{ post.date }}">{{ post.date | date(format="%b %d") }}</time>
+                        <a href="{{ post.permalink }}">{{ post.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section>
+                <h3 class="homepage-split-title">Pages</h3>
+                <ul class="recent-updates-list">
+                    {% set_global recent_pages = [] %}
             {% for page in pages_section.pages %}
-                {% if page.date %}{% set_global all_items = all_items | concat(with=[page]) %}{% endif %}
+                        {% if page.date %}{% set_global recent_pages = recent_pages | concat(with=[page]) %}{% endif %}
             {% endfor %}
             {% for subsection_path in pages_section.subsections %}
                 {% set subsection = get_section(path=subsection_path) %}
                 {% for page in subsection.pages %}
-                    {% if page.date %}{% set_global all_items = all_items | concat(with=[page]) %}{% endif %}
+                            {% if page.date %}{% set_global recent_pages = recent_pages | concat(with=[page]) %}{% endif %}
                 {% endfor %}
                 {% for sub2_path in subsection.subsections %}
                     {% set sub2 = get_section(path=sub2_path) %}
                     {% for page in sub2.pages %}
-                        {% if page.date %}{% set_global all_items = all_items | concat(with=[page]) %}{% endif %}
+                                {% if page.date %}{% set_global recent_pages = recent_pages | concat(with=[page]) %}{% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
-            {% for item in all_items | sort(attribute="date") | reverse | slice(end=recent_limit) %}
-            <li class="recent-update-item">
-                <time datetime="{{ item.date }}">{{ item.date | date(format="%b %d") }}</time>
-                <a href="{{ item.permalink }}">{{ item.title }}</a>
-                {% if item.path is containing("projects") %}
-                <span class="update-type">project</span>
-                {% elif item.components is containing("pages") %}
-                <span class="update-type">page</span>
-                {% else %}
-                <span class="update-type">post</span>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
+                    {% for page in recent_pages | sort(attribute="date") | reverse | slice(end=recent_limit) %}
+                    <li class="recent-update-item">
+                        <time datetime="{{ page.date }}">{{ page.date | date(format="%b %d") }}</time>
+                        <a href="{{ page.permalink }}">{{ page.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
     </div>
 </section>
 {% endif %}
