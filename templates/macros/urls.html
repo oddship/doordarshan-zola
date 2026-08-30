@@ -8,8 +8,15 @@
    or value is starting_with("//") -%}
 {{- value -}}
 {%- elif value == "/" -%}
-{{- get_url(path="") -}}
+{%- set root_url = get_url(path="") | trim_end_matches(pat="/") -%}
+{{- root_url ~ "/" -}}
 {%- else -%}
-{{- get_url(path=value | trim_start_matches(pat="/")) -}}
+{%- set resolved = get_url(path=value | trim_start_matches(pat="/")) -%}
+{%- if value is ending_with("/") -%}
+{%- set directory_url = resolved | trim_end_matches(pat="/") -%}
+{{- directory_url ~ "/" -}}
+{%- else -%}
+{{- resolved -}}
+{%- endif -%}
 {%- endif -%}
 {%- endmacro resolve -%}
