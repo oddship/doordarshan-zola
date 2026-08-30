@@ -52,11 +52,33 @@
 {% endif %}
 
 {# ── Step 3: Title ── #}
+{% set show_pages_search = config.build_search_index %}
+{% if config.extra.doordarshan is defined and config.extra.doordarshan.features is defined %}
+  {% if config.extra.doordarshan.features.pages_search is defined %}
+    {% set show_pages_search = config.build_search_index and config.extra.doordarshan.features.pages_search %}
+  {% endif %}
+  {% if config.extra.doordarshan.features.site_search is defined and not config.extra.doordarshan.features.site_search %}
+    {% set show_pages_search = false %}
+  {% endif %}
+{% endif %}
+<div class="sidebar-section-header">
 {% if show_back %}
 <a href="{{ nav_root.permalink }}" class="sidebar-section-title">{{ nav_root.extra.section_title | default(value=nav_root.title) }}</a>
 {% else %}
 <a href="{{ pages_root.permalink }}" class="sidebar-section-title" {% if current_path == pages_root.path %}aria-current="page"{% endif %}>{{ pages_root.extra.section_title | default(value=pages_root.title) }}</a>
 {% endif %}
+{% if show_pages_search %}
+<button type="button" class="sidebar-section-search" data-global-search-trigger data-global-search-scope="/pages"
+        data-global-search-scope-label="Pages" aria-label="Search pages" aria-haspopup="dialog"
+        aria-controls="global-search-dialog" title="Search pages">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="m20 20-3.5-3.5"></path>
+  </svg>
+</button>
+{% endif %}
+</div>
 
 {# ── Step 4: One unified list ── #}
 <nav>

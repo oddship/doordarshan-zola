@@ -29,6 +29,11 @@
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
+    {% set site_search_enabled = config.build_search_index %}
+    {% if config.extra.doordarshan is defined and config.extra.doordarshan.features is defined and config.extra.doordarshan.features.site_search is defined %}
+        {% set site_search_enabled = config.build_search_index and config.extra.doordarshan.features.site_search %}
+    {% endif %}
+
     {% block body %}
     <!-- Header -->
     <header class="header-main header-enhanced">
@@ -54,13 +59,75 @@
                 {% endif %}
             </nav>
 
-            <!-- Theme Toggle (right) -->
-            <button class="theme-toggle" onclick="window.themeStore.toggle()" aria-label="Toggle theme">
-                <span class="theme-icon-light">☀️</span>
-                <span class="theme-icon-dark">🌙</span>
-            </button>
+            <div class="header-actions">
+                {% if site_search_enabled %}
+                <button type="button" class="header-icon-button global-search-toggle" id="global-search-toggle"
+                        aria-label="Search" aria-haspopup="dialog" aria-controls="global-search-dialog"
+                        title="Search (Ctrl/⌘ K)" data-global-search-trigger data-global-search-scope="">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m20 20-3.5-3.5"></path>
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </button>
+                {% endif %}
+
+                <!-- Theme Toggle -->
+                <button type="button" class="theme-toggle" onclick="window.themeStore.toggle()" aria-label="Toggle theme">
+                    <span class="theme-icon-light">☀️</span>
+                    <span class="theme-icon-dark">🌙</span>
+                </button>
+            </div>
         </div>
     </header>
+
+    {% if site_search_enabled %}
+    {% set search_index_path = 'search_index.' ~ config.default_language ~ '.js' %}
+    <dialog class="global-search-dialog" id="global-search-dialog" aria-labelledby="global-search-title"
+            data-search-core-url="{{ get_url(path='js/search-core.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/search-core.js', sha_type=256) | truncate(length=8, end='') }}"
+            data-search-index-url="{{ get_url(path=search_index_path) | trim_end_matches(pat='/') }}?h={{ get_hash(path=search_index_path, sha_type=256) | truncate(length=8, end='') }}"
+            data-search-base-path="{{ config.base_url }}"
+            data-full-search-url="{{ urls::resolve(path='/search/') }}">
+        <div class="global-search-panel">
+            <div class="global-search-heading">
+                <div>
+                    <p class="global-search-eyebrow">Search<span id="global-search-scope-label"></span></p>
+                    <h2 id="global-search-title">Find something</h2>
+                </div>
+                <button type="button" class="global-search-close" data-global-search-close aria-label="Close search">×</button>
+            </div>
+
+            <div class="global-search-scopes" aria-label="Search scope">
+                <button type="button" data-search-scope-value="" data-search-scope-label="All" aria-pressed="true">All</button>
+                <button type="button" data-search-scope-value="/blog" data-search-scope-label="Blog" aria-pressed="false">Blog</button>
+                <button type="button" data-search-scope-value="/pages" data-search-scope-label="Pages" aria-pressed="false">Pages</button>
+                <button type="button" data-search-scope-value="/pages/projects" data-search-scope-label="Projects" aria-pressed="false">Projects</button>
+            </div>
+
+            <label class="sr-only" for="global-search-input">Search posts, pages, and projects</label>
+            <div class="global-search-field">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m20 20-3.5-3.5"></path>
+                </svg>
+                <input type="search" id="global-search-input" placeholder="Search posts, pages, and projects…"
+                       autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list"
+                       aria-controls="global-search-results" aria-expanded="true">
+                <kbd>Esc</kbd>
+            </div>
+
+            <p class="global-search-status" id="global-search-status" aria-live="polite">Type at least 2 characters to search.</p>
+            <div class="global-search-results" id="global-search-results" role="listbox" aria-label="Search results"></div>
+
+            <div class="global-search-footer">
+                <span><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> open</span>
+                <a href="{{ urls::resolve(path='/search/') }}" id="global-search-all-results">View full search →</a>
+            </div>
+        </div>
+    </dialog>
+    {% endif %}
 
     <!-- Main Content -->
     <main id="main-content" class="main-content">
@@ -173,6 +240,10 @@
     <!-- Footnotes & Lightbox -->
     <script src="{{ get_url(path='js/footnotes.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/footnotes.js', sha_type=256) | truncate(length=8, end='') }}"></script>
     <script src="{{ get_url(path='js/lightbox.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/lightbox.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+
+    {% if site_search_enabled %}
+    <script src="{{ get_url(path='js/global-search.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/global-search.js', sha_type=256) | truncate(length=8, end='') }}"></script>
+    {% endif %}
 
     {% if config.extra.doordarshan is defined and config.extra.doordarshan.scripts is defined and config.extra.doordarshan.scripts.additional is defined %}
         {% for script_path in config.extra.doordarshan.scripts.additional %}

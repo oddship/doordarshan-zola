@@ -687,7 +687,8 @@ article {
     color: var(--c-text-primary);
     text-decoration: none;
 
-    &:hover {
+    &:hover,
+    &.active {
       color: var(--c-accent);
     }
   }

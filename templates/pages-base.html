@@ -10,19 +10,9 @@
 {% elif section is defined and section.toc %}
     {% set_global pages_toc = section.toc %}
 {% endif %}
-{% set pages_search_enabled = false %}
-{% if config.extra.doordarshan.features is defined and config.extra.doordarshan.features.pages_search is defined %}
-    {% set pages_search_enabled = config.extra.doordarshan.features.pages_search %}
-{% endif %}
 <div data-sidebar-layout class="pages-layout">
     <aside data-sidebar>
         <button data-sidebar-toggle class="pages-sidebar-toggle" aria-label="Close sidebar">✕</button>
-        {% if pages_search_enabled %}
-        <div class="sidebar-search">
-            <input type="text" id="pages-search" placeholder="Search {{ pages_root.title | lower }}..." autocomplete="off" aria-label="Search {{ pages_root.title | lower }}">
-            <div id="pages-search-results" class="search-results" data-search-prefix="{{ pages_root.permalink | trim_end_matches(pat='/') }}"></div>
-        </div>
-        {% endif %}
         {% block sidebar %}
         {{ nav::sidebar(ancestors=section.ancestors | default(value=page.ancestors), current_path=section.path | default(value=page.path)) }}
         {% endblock sidebar %}
@@ -59,9 +49,4 @@
 </div>
 
 <script src="{{ get_url(path='js/sidebar.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/sidebar.js', sha_type=256) | truncate(length=8, end='') }}"></script>
-{% if pages_search_enabled %}
-<script src="{{ get_url(path='elasticlunr.min.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='elasticlunr.min.js', sha_type=256) | truncate(length=8, end='') }}"></script>
-<script src="{{ get_url(path='search_index.en.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='search_index.en.js', sha_type=256) | truncate(length=8, end='') }}"></script>
-<script src="{{ get_url(path='js/search.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/search.js', sha_type=256) | truncate(length=8, end='') }}"></script>
-{% endif %}
 {% endblock content %}
