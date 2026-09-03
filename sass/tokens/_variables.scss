@@ -1,116 +1,55 @@
 // ==========================
-// Retro Indian Terminal Design System
+// Doordarshan composition tokens
 // ==========================
 //
-// Philosophy: Doordarshan meets Developer
-// - Monospace typography with weight hierarchy
-// - Indian color palette (terracotta, saffron, peacock)
-// - Jali patterns + halftone textures
-// - Playful retro energy
-//
-// ==========================
+// Oatbase owns the primitive design system. These aliases keep the theme's
+// existing layout styles readable while making every surface consume the
+// Oatbase Doordarshan preset.
 
-// IBM Plex Mono loaded via <link> in partials/head.html (avoids render-blocking CSS @import)
-
-// ========== DESIGN TOKENS ==========
 :root {
-  // ——— Color palette with signature accent
-  --c-text-primary: #1a1a1a;
-  --c-text-secondary: #555555;
-  --c-text-tertiary: #888888;
+  --c-text-primary: var(--foreground);
+  --c-text-secondary: var(--muted-foreground);
+  --c-text-tertiary: var(--faint-foreground);
+  --c-bg: var(--background);
+  --c-bg-subtle: var(--muted);
+  --c-border: var(--border);
+  --c-border-strong: var(--foreground);
+  --c-accent: var(--primary);
+  --c-accent-hover: color-mix(in srgb, var(--primary) 82%, black);
 
-  --c-bg: #fefefe;
-  --c-bg-subtle: #f8f8f8;
+  --c-saffron: var(--warning);
+  --c-marigold: var(--warning);
+  --c-peacock: var(--success);
+  --c-magenta: var(--danger);
+  --c-cream: var(--card);
+  --c-henna: color-mix(in srgb, var(--warning) 55%, var(--foreground));
 
-  --c-border: #e8e8e8;
-  --c-border-strong: #1a1a1a;
-
-  // Signature accent: warm terracotta
-  --c-accent: #c44536;
-  --c-accent-hover: #a33a2d;
-
-  // ——— Retro Indian palette
-  --c-saffron: #FF9933;        // Indian flag saffron
-  --c-marigold: #EAA221;       // Temple marigold
-  --c-peacock: #006D77;        // Peacock teal
-  --c-magenta: #D81159;        // Shaktimaan energy
-  --c-cream: #FFF8E7;          // Old paper / dhurrie
-  --c-henna: #8B4513;          // Mehndi brown
-
-  // ——— Typography: One font, perfect hierarchy
-  --font-mono: "IBM Plex Mono", monospace;
-
-  // Type scale - mathematical harmony (1.25 ratio)
-  --text-xs: 0.75rem;      // 12px
-  --text-sm: 0.875rem;     // 14px
-  --text-base: 1rem;       // 16px
-  --text-lg: 1.125rem;     // 18px
-  --text-xl: 1.25rem;      // 20px
-  --text-2xl: 1.5rem;      // 24px
-  --text-3xl: 2rem;        // 32px
-  --text-4xl: 2.5rem;      // 40px
-
-  // Font weights
-  --weight-normal: 400;
-  --weight-medium: 500;
-  --weight-bold: 600;
-
-  // Line heights - perfect rhythm
+  --font-mono: var(--font-sans);
+  --text-xs: var(--text-8);
+  --text-sm: var(--text-7);
+  --text-base: var(--text-regular);
+  --text-lg: var(--text-5);
+  --text-xl: var(--text-4);
+  --text-2xl: var(--text-3);
+  --text-3xl: var(--text-2);
+  --text-4xl: var(--text-1);
+  --weight-normal: var(--font-normal);
+  --weight-medium: var(--font-medium);
+  --weight-bold: var(--font-semibold);
   --leading-tight: 1.25;
   --leading-snug: 1.375;
-  --leading-normal: 1.5;
   --leading-relaxed: 1.625;
   --leading-loose: 2;
 
-  // ——— Spacing - 8px base scale
-  --space-1: 0.25rem;   // 4px
-  --space-2: 0.5rem;    // 8px
-  --space-3: 0.75rem;   // 12px
-  --space-4: 1rem;      // 16px
-  --space-6: 1.5rem;    // 24px
-  --space-8: 2rem;      // 32px
-  --space-12: 3rem;     // 48px
-  --space-16: 4rem;     // 64px
-  --space-24: 6rem;     // 96px
-
-  // Legacy spacing aliases (used in _mobile.scss, _helpers.scss)
+  // Oatbase already defines --space-1 through --space-16.
+  --space-24: 6rem;
   --space-xs: var(--space-1);
   --space-sm: var(--space-2);
   --space-md: var(--space-4);
   --space-lg: var(--space-6);
   --space-xl: var(--space-8);
-
-  // Legacy line-height alias
   --line-height-loose: var(--leading-loose);
 
-  // ——— Layout
   --max-width: 720px;
   --container-padding: clamp(1rem, 5vw, 2rem);
-
-  // ——— Transitions
-  --transition: 150ms ease;
-
-}
-
-// Dark theme: warm lamplight (tokyonight-inspired doordarshan dark)
-@mixin dark-theme {
-  --c-text-primary: #d5cec6;
-  --c-text-secondary: #9a918a;
-  --c-text-tertiary: #6b6360;
-
-  --c-bg: #1a1614;
-  --c-bg-subtle: #211e1a;
-
-  --c-border: #2e2822;
-  --c-border-strong: #d5cec6;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    @include dark-theme;
-  }
-}
-
-:root[data-theme="dark"] {
-  @include dark-theme;
 }

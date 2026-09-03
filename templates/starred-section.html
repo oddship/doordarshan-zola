@@ -9,9 +9,9 @@
 {{ section.content | safe }}
 
 {% if section.pages %}
-<ul class="pages-index-list">
+<ul class="pages-index-list item-group" data-divided>
     {% for page in section.pages %}
-    <li onclick="window.location='{{ page.permalink }}'">
+    <li class="item">
         {% if page.extra.github_url %}
         <a href="{{ page.permalink }}">{{ page.title }}</a>
         {% else %}

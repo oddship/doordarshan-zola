@@ -10,15 +10,17 @@
 <h1>
     {{ page.title }}
     {% if page.extra.status is defined and page.extra.status == "archived" %}
-    <span class="project-status">archived</span>
+    <span class="project-status badge outline">archived</span>
     {% endif %}
 </h1>
 {% if page.date %}
-<p class="pages-last-updated"><small>Last updated: {{ page.date | date(format="%B %d, %Y") }}</small></p>
+<dl class="pages-last-updated" data-description-list>
+    <div><dt>Last updated</dt><dd><time datetime="{{ page.date }}">{{ page.date | date(format="%B %d, %Y") }}</time></dd></div>
+</dl>
 {% endif %}
 
 {% if page.extra.github_url or page.extra.demo_url or page.extra.website_url %}
-<div class="project-links">
+<ot-toolbar class="project-links" role="toolbar" aria-label="Project links">
     {% if page.extra.github_url %}
     <a href="{{ page.extra.github_url }}" target="_blank" rel="noopener" class="project-link">GitHub</a>
     {% endif %}
@@ -28,7 +30,7 @@
     {% if page.extra.website_url %}
     <a href="{{ page.extra.website_url }}" target="_blank" rel="noopener" class="project-link">Website</a>
     {% endif %}
-</div>
+</ot-toolbar>
 {% endif %}
 
 {% if page.extra.context %}
@@ -39,13 +41,13 @@
 {% endif %}
 
 <div class="text-content spacing-component">
-    <div class="text-body">
+    <div class="text-body" data-prose>
         {{ page.content | safe }}
     </div>
 </div>
 
 {% if page.lower or page.higher %}
-<nav class="pages-prev-next" aria-label="Previous and next pages">
+<ot-toolbar class="pages-prev-next" role="toolbar" aria-label="Previous and next pages">
     {% if page.lower %}
     <a href="{{ page.lower.permalink }}" class="pages-nav-prev">
         <small>Previous</small>
@@ -60,6 +62,6 @@
         <span>{{ page.higher.title }}</span>
     </a>
     {% endif %}
-</nav>
+</ot-toolbar>
 {% endif %}
 {% endblock pages_content %}

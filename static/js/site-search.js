@@ -71,7 +71,7 @@
       var title = doc.title || path.split("/").filter(Boolean).pop() || path;
       var excerpt = searchCore.summarize(doc, term, 180);
       html +=
-        '<article class="site-search-result" id="site-search-result-' + i + '" role="option">' +
+        '<article class="site-search-result item" id="site-search-result-' + i + '" role="option">' +
         '<h2 class="site-search-result-title"><a href="' + escapeHtml(ref) + '">' + escapeHtml(title) + '</a></h2>' +
         '<p class="site-search-result-url">' + escapeHtml(path) + '</p>' +
         '<p class="site-search-result-excerpt">' + escapeHtml(excerpt) + '</p>' +

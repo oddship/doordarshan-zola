@@ -115,19 +115,12 @@
 <link href="{{ config.extra.handwritten_font }}" rel="stylesheet">
 {% endif %}
 
-<!-- Theme Detection Script (runs before render to prevent flash) -->
+<!-- Match Oatbase theme-switcher before render to prevent a color flash. -->
 <script>
-    window.themeStore = {
-        theme: localStorage.getItem('theme') ||
-               (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
-        toggle() {
-            this.theme = this.theme === 'dark' ? 'light' : 'dark';
-            this.apply();
-        },
-        apply() {
-            document.documentElement.setAttribute('data-theme', this.theme);
-            localStorage.setItem('theme', this.theme);
-        }
-    };
-    document.documentElement.setAttribute('data-theme', window.themeStore.theme);
+    (() => {
+        let theme = 'system';
+        try { theme = localStorage.getItem('oatbase-theme') || theme; } catch (_) {}
+        document.documentElement.style.colorScheme = theme === 'system' ? 'light dark' : theme;
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+    })();
 </script>

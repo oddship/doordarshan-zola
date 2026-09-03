@@ -11,9 +11,9 @@
     {% for year, posts in blog.pages | sort(attribute="date") | reverse | group_by(attribute="year") %}
     <section class="archive-year spacing-component">
         <h2 class="archive-year-header">{{ year }}</h2>
-        <div class="blog-list">
+        <div class="blog-list item-group" data-divided>
             {% for page in posts %}
-            <article class="blog-item">
+            <article class="blog-item item">
                 <time datetime="{{ page.date }}">{{ page.date | date(format="%m-%d") }}</time>
                 <a href="{{ page.permalink }}" class="blog-item-title">{{ page.title }}</a>
             </article>

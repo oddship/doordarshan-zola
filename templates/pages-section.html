@@ -8,5 +8,7 @@
 {% if section.title %}
 <h1>{{ section.title }}</h1>
 {% endif %}
+<div data-local-editor-content>
 {{ section.content | safe }}
+</div>
 {% endblock pages_content %}

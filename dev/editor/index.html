@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" data-oat-theme="doordarshan" data-theme="dark" style="color-scheme: dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Doordarshan local editor</title>
+  <link rel="stylesheet" href="/vendor/oatbase/oatbase.min.css">
+  <link rel="stylesheet" href="/vendor/oatbase/themes/doordarshan.css">
+  <script defer src="/vendor/oatbase/oatbase.min.js"></script>
+  <style>
+    :root { --bg: var(--background); --panel: var(--card); --panel-2: var(--secondary); --line: var(--border); --muted: var(--muted-foreground); --text: var(--foreground); --accent: var(--primary); --green: var(--success); }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; overflow: hidden; background: var(--bg); color: var(--text); }
+    .app { display: grid; grid-template-columns: 290px minmax(0, 1fr); height: 100vh; min-height: 0; overflow: hidden; }
+    aside { display: flex; min-height: 0; flex-direction: column; border-right: 1px solid var(--line); background: var(--card); padding: 22px 16px; }
+    .brand { display: flex; justify-content: space-between; align-items: center; margin: 0 4px 18px; }
+    h1, h2, p { margin-top: 0; }
+    h1 { font-size: var(--text-4); }
+    h2 { margin-bottom: 5px; font-size: var(--text-2); }
+    .eyebrow { color: var(--accent); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+    .notice { display: block; min-width: 0; margin: 0 0 14px; overflow-wrap: anywhere; font-size: var(--text-8); }
+    .notice code { padding: 0; background: transparent; white-space: normal; }
+    .search { width: 100%; margin-bottom: 12px; }
+    .kind-filter { width: 100%; margin-bottom: 12px; }
+    input, select, textarea { width: 100%; min-width: 0; }
+    .tabs { width: 100%; margin-bottom: 12px; }
+    .tabs label { flex: 1; }
+    .tabs span { width: 100%; text-align: center; }
+    .post-list { display: grid; flex: 1; min-width: 0; min-height: 0; align-content: start; overflow-x: hidden; overflow-y: auto; }
+    .post { width: 100%; min-width: 0; justify-content: start; text-align: left; }
+    .post:not([aria-selected="true"]) { background: transparent; color: var(--foreground); border-color: transparent; }
+    .post[aria-selected="true"] .badge { background: var(--foreground); color: var(--background); }
+    .post-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .post-meta { display: flex; min-width: 0; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 11px; margin-top: 3px; overflow: hidden; }
+    main { min-width: 0; height: 100vh; overflow: auto; padding: 32px clamp(24px, 3vw, 48px); }
+    .empty { max-width: 630px; padding-top: 8vh; }
+    .empty p, .hint { color: var(--muted); }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 22px; }
+    .toolbar > div:first-child { flex: 1; min-width: 0; }
+    .toolbar h2 { margin: var(--space-1) 0; }
+    .toolbar-actions { flex: 0 0 auto; flex-wrap: nowrap; justify-content: end; padding: 0; border: 0; background: transparent; }
+    .editor-layout { min-width: 0; }
+    .editor-layout > ot-splitter { min-height: 68vh; }
+    .editor-layout > ot-splitter > form { min-width: 0; }
+    .editor-layout > ot-splitter > .preview-pane { min-width: 0; overflow: hidden; padding: 0; }
+    .field-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .field-title { grid-column: span 5; }
+    .field-kind, .field-slug, .field-status { grid-column: span 3; }
+    .field-date { grid-column: span 4; }
+    .field-parent { grid-column: span 8; }
+    #editor-form.is-new .field-title { grid-column: span 6; }
+    .hidden { display: none; }
+    #editor-form label { display: grid; gap: 5px; color: var(--muted); font-size: 12px; }
+    #editor-form label.hidden { display: none; }
+    textarea { min-height: 57vh; resize: vertical; font: 14px/1.6 ui-monospace, SFMono-Regular, monospace; tab-size: 2; }
+    .frontmatter-panel { margin: 0 0 16px; }
+    .frontmatter-panel summary { display: flex; justify-content: space-between; gap: 16px; padding: 10px 12px; cursor: pointer; color: var(--text); }
+    .frontmatter-panel summary > span:first-child { white-space: nowrap; }
+    .frontmatter-content { padding: 0 12px 12px; }
+    .frontmatter-content p { margin: 0 0 9px; font-size: 12px; }
+    #front-matter { min-height: 180px; }
+    .preview-pane { position: sticky; top: 20px; }
+    .preview-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 12px; color: var(--muted); font-size: 12px; }
+    .preview-header a { color: var(--accent); }
+    .preview-frame { display: block; width: 100%; height: 66vh; border: 0; background: #fff; }
+    .preview-empty { display: grid; height: 66vh; place-items: center; padding: 28px; color: var(--muted); text-align: center; }
+    .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 12px; }
+    #message { color: var(--muted); font-size: 12px; }
+    #message.ok { color: var(--green); } #message.error { color: #f3ad9e; }
+    .path { color: var(--muted); font: 12px ui-monospace, monospace; overflow-wrap: anywhere; }
+    @media (max-width: 1000px) { .editor-layout > ot-splitter { grid-template-columns: 1fr; grid-template-rows: minmax(22rem, auto) 0 minmax(22rem, auto); min-height: 0; overflow: visible; } .editor-layout > ot-splitter > [data-splitter] { display: none; } .preview-pane { position: static; } .preview-frame { height: 55vh; } }
+    @media (max-width: 800px) { body { overflow: auto; } .app { grid-template-columns: 1fr; height: auto; min-height: 100vh; overflow: visible; } aside { min-height: auto; border-right: 0; border-bottom: 1px solid var(--line); } .post-list { flex: none; max-height: 260px; } main { height: auto; overflow: visible; padding: 26px 18px; } .field-grid { grid-template-columns: 1fr; } .field-grid > * { grid-column: 1 / -1; } .toolbar { display: block; } .toolbar-actions { justify-content: start; margin-top: 15px; } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand"><h1>Doordarshan</h1><button class="outline" id="new-button" title="Create a new draft">New draft</button></div>
+      <aside class="notice" role="alert" data-callout data-variant="warning">Local development editor. Changes write Markdown into <code>content/blog/</code> or <code>content/pages/</code>; nothing is pushed or deployed.</aside>
+      <input class="search" id="search" type="search" placeholder="Search content…">
+      <select class="kind-filter" id="kind-filter" aria-label="Content type"><option value="all">Blog posts and pages</option><option value="blog">Blog posts</option><option value="page">Pages</option></select>
+      <fieldset class="tabs" id="tabs" data-segmented>
+        <legend class="visually-hidden">Publication status</legend>
+        <label><input type="radio" name="status" value="all" checked><span>All</span></label>
+        <label><input type="radio" name="status" value="draft"><span>Drafts</span></label>
+        <label><input type="radio" name="status" value="public"><span>Public</span></label>
+      </fieldset>
+      <div class="post-list item-group" data-connected id="post-list"></div>
+    </aside>
+    <main id="main">
+      <div class="empty" data-variant="empty"><div class="eyebrow">Local content studio</div><h2>Write, review, publish.</h2><p>Select a blog post or page, or create a private draft. The actual site is available at <a href="/" target="_blank" rel="noreferrer">this local origin</a> and reloads when you save.</p><div data-slot="actions"><button id="empty-new">Create a draft</button></div></div>
+    </main>
+  </div>
+  <script>
+    const state = { posts: [], status: "all", kind: "all", query: "", selected: null, isNew: false, newKind: "blog" };
+    const $ = (selector) => document.querySelector(selector);
+    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[char]));
+    const localDate = () => { const now = new Date(); return now.toISOString().slice(0, 10); };
+    const notify = (message, variant = "info") => {
+      if (window.ot?.toast) window.ot.toast(message, { variant, placement: "bottom-right", duration: 2800 });
+    };
+
+    async function api(url, options) {
+      const response = await fetch(url, { headers: { "content-type": "application/json" }, ...options });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Request failed");
+      return data;
+    }
+
+    async function loadList() {
+      const params = new URLSearchParams({ status: state.status, kind: state.kind });
+      if (state.query) params.set("q", state.query);
+      const data = await api(`/api/content?${params}`);
+      state.posts = data.posts;
+      renderList();
+    }
+
+    function renderList() {
+      const list = $("#post-list");
+      if (!state.posts.length) { list.innerHTML = '<div class="hint" data-variant="empty" data-size="compact">No matching content.</div>'; return; }
+      list.innerHTML = state.posts.map((post) => `<button class="post item" aria-selected="${state.selected === post.id}" data-id="${escapeHtml(post.id)}"><section><span class="post-title">${escapeHtml(post.title)}</span><span class="post-meta" data-slot="meta"><span>${post.kind === "page" ? "PAGE" : escapeHtml(post.date || "BLOG")}</span><span class="badge" data-variant="${post.draft ? "warning" : "success"}">${post.draft ? "DRAFT" : "PUBLIC"}</span></span></section></button>`).join("");
+      list.querySelectorAll(".post").forEach((button) => button.addEventListener("click", () => openPost(button.dataset.id)));
+    }
+
+    function editorTemplate(post, isNew) {
+      const draft = isNew ? true : post.draft;
+      const kind = isNew ? (post.kind || state.newKind) : post.kind;
+      const title = isNew ? `New ${kind === "page" ? "page" : "blog post"}` : escapeHtml(post.title);
+      const previewLink = !isNew && post.previewUrl
+        ? `<a href="${escapeHtml(post.previewUrl)}" target="_blank" rel="noreferrer">Open full page ↗</a>`
+        : "<span>Save to preview this content</span>";
+      return `
+        <div class="toolbar">
+          <div>
+            <div class="eyebrow">${isNew ? "New draft" : (draft ? "Draft" : "Published")}</div>
+            <h2>${title}</h2>
+            ${isNew ? '<p class="hint">New content starts private. Save it, review the live page, then publish when ready.</p>' : `<div class="path">${escapeHtml(post.id)}</div>`}
+          </div>
+          <ot-toolbar class="toolbar-actions" role="toolbar" aria-label="Editor actions">
+            ${!isNew && post.previewUrl ? `<a class="button outline" href="${escapeHtml(post.previewUrl)}" target="_blank" rel="noreferrer">Open preview ↗</a>` : ""}
+            <button type="button" class="outline" id="cancel-button">Cancel</button>
+            <button type="button" id="save-button">${isNew ? "Create draft" : "Save changes"}</button>
+          </ot-toolbar>
+        </div>
+        <div class="editor-layout">
+          <ot-splitter id="editor-splitter" data-value="58" data-storage-key="doordarshan-editor-split" aria-label="Editor and preview">
+          <form id="editor-form" class="${isNew ? "is-new" : ""}">
+            <div class="field-grid">
+              <label class="field-title" data-field>Title<input id="title" required value="${escapeHtml(isNew ? "" : post.title)}"></label>
+              ${isNew ? `
+                <label class="field-kind" data-field>Content type<select id="kind"><option value="blog" ${kind === "blog" ? "selected" : ""}>Blog post</option><option value="page" ${kind === "page" ? "selected" : ""}>Page</option></select></label>
+                <label class="field-slug" data-field>Slug<input id="slug" placeholder="generated-from-title"></label>
+                <label id="parent-field" class="field-parent ${kind === "page" ? "" : "hidden"}" data-field>Parent folder<input id="parent" placeholder="harness-engineering/notes"></label>
+              ` : ""}
+              <label class="field-date" data-field>Date<input id="date" ${kind === "blog" ? "required" : ""} value="${escapeHtml(isNew ? localDate() : post.date)}"></label>
+              ${!isNew ? `<label class="field-status" data-field>Status<select id="draft"><option value="true" ${draft ? "selected" : ""}>Draft</option><option value="false" ${draft ? "" : "selected"}>Public</option></select></label>` : ""}
+            </div>
+            <details class="frontmatter-panel">
+              <summary><span>Front matter</span><span class="hint">Advanced · all TOML fields</span></summary>
+              <div class="frontmatter-content">
+                <p class="hint">Edit any metadata or TOML table here. Title, date, status, and the generated path are kept in sync by the editor. Do not include the <code>+++</code> delimiters.</p>
+                <label>Raw TOML<textarea id="front-matter" spellcheck="false" placeholder='description = "…"\nweight = 10\n\n[extra]\nog_image = "…"'>${escapeHtml(isNew ? "" : (post.frontMatter || ""))}</textarea></label>
+              </div>
+            </details>
+            <label data-field>Markdown body<textarea id="body" spellcheck="false" placeholder="Write in Markdown…">${escapeHtml(isNew ? "" : post.body)}</textarea></label>
+            <div class="footer"><span id="message" role="status" aria-live="polite"></span>${!isNew ? `<span class="hint">${draft ? "Drafts appear locally only." : "Public in the next production build."}</span>` : ""}</div>
+          </form>
+          <button type="button" data-splitter aria-label="Resize editor and preview" title="Resize editor and preview"></button>
+          <section class="preview-pane card">
+            <div class="preview-header"><span>Live site preview</span>${previewLink}</div>
+            ${!isNew && post.previewSourceUrl
+              ? `<iframe class="preview-frame" title="Live site preview" src="${escapeHtml(post.previewSourceUrl)}"></iframe>`
+              : '<div class="preview-empty" data-variant="empty">Create the draft to load its clean Zola preview.</div>'}
+          </section>
+          </ot-splitter>
+        </div>`;
+    }
+
+    function showEditor(post, isNew = false) {
+      state.isNew = isNew;
+      $("#main").innerHTML = editorTemplate(post || {}, isNew);
+      $("#cancel-button").addEventListener("click", () => { state.isNew = false; state.selected = null; renderEmpty(); });
+      $("#save-button").addEventListener("click", saveEditor);
+      $("#editor-form").addEventListener("submit", (event) => { event.preventDefault(); saveEditor(); });
+      if (isNew) $("#kind").addEventListener("change", (event) => { state.newKind = event.target.value; $("#parent-field").classList.toggle("hidden", state.newKind !== "page"); $("#date").required = state.newKind === "blog"; });
+    }
+
+    function renderEmpty() {
+      $("#main").innerHTML = '<div class="empty" data-variant="empty"><div class="eyebrow">Local content studio</div><h2>Write, review, publish.</h2><p>Select a blog post or page, or create a private draft. The site on this local origin reloads when you save.</p><div data-slot="actions"><button id="empty-new">Create a draft</button></div></div>';
+      $("#empty-new").addEventListener("click", () => newPost());
+      renderList();
+    }
+
+    async function openPost(id) {
+      try { const post = await api(`/api/content/${encodeURIComponent(id)}`); state.selected = id; showEditor(post); renderList(); }
+      catch (error) { notify(error.message, "danger"); }
+    }
+
+    function newPost(kind = "blog") { state.selected = null; state.newKind = kind; showEditor({ kind, title: "", date: localDate(), body: "" }, true); }
+
+    async function saveEditor() {
+      const message = $("#message");
+      const input = { title: $("#title").value, date: $("#date").value, body: $("#body").value, frontMatter: $("#front-matter").value };
+      if (state.isNew) { input.slug = $("#slug").value; input.kind = $("#kind").value; input.parent = $("#parent").value; }
+      else input.draft = $("#draft").value === "true";
+      message.className = ""; message.textContent = "Saving…";
+      try {
+        const post = state.isNew ? await api("/api/content", { method: "POST", body: JSON.stringify(input) }) : await api(`/api/content/${encodeURIComponent(state.selected)}`, { method: "PUT", body: JSON.stringify(input) });
+        state.selected = post.id; state.isNew = false; await loadList(); showEditor(post); const savedMessage = $("#message"); savedMessage.className = "ok"; savedMessage.textContent = "Saved to the working tree."; notify("Saved to the working tree.", "success");
+      } catch (error) { message.className = "error"; message.textContent = error.message; notify(error.message, "danger"); }
+    }
+
+    $("#new-button").addEventListener("click", () => newPost());
+    $("#empty-new").addEventListener("click", () => newPost());
+    document.addEventListener("keydown", (event) => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s" && $("#editor-form")) { event.preventDefault(); saveEditor(); } });
+    $("#search").addEventListener("input", (event) => { state.query = event.target.value; loadList().catch((error) => notify(error.message, "danger")); });
+    $("#kind-filter").addEventListener("change", (event) => { state.kind = event.target.value; loadList().catch((error) => notify(error.message, "danger")); });
+    $("#tabs").addEventListener("change", (event) => { if (!event.target.matches('input[name="status"]')) return; state.status = event.target.value; loadList().catch((error) => notify(error.message, "danger")); });
+    const initialParams = new URLSearchParams(window.location.search);
+    if (initialParams.get("new") === "1") newPost(initialParams.get("kind") === "page" ? "page" : "blog");
+    loadList().catch((error) => { $("#post-list").innerHTML = `<div class="hint">${escapeHtml(error.message)}</div>`; notify(error.message, "danger"); });
+  </script>
+</body>
+</html>

@@ -10,7 +10,7 @@
 
 {% for sub_path in section.subsections %}
 {% set sub = get_section(path=sub_path) %}
-<a href="{{ sub.permalink }}" class="pages-featured">
+<a href="{{ sub.permalink }}" class="pages-featured card">
     <div class="subsection-content">
         <span class="subsection-title">{{ sub.title }} Projects</span>
         {% if sub.description %}
@@ -22,11 +22,11 @@
 {% endfor %}
 
 {% if section.pages %}
-<ul class="pages-index-list">
+<ul class="pages-index-list item-group" data-divided>
     {% for page in section.pages %}
-    <li onclick="window.location='{{ page.permalink }}'">
+    <li class="item">
         <a href="{{ page.permalink }}">{{ page.title }}</a>
-        {% if page.extra.status is defined and page.extra.status == "archived" %}<span class="project-status">archived</span>{% endif %}
+        {% if page.extra.status is defined and page.extra.status == "archived" %}<span class="project-status badge outline">archived</span>{% endif %}
         {% if page.description %}
         <p class="section-desc">{{ page.description }}</p>
         {% endif %}

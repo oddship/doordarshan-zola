@@ -1,10 +1,14 @@
 {% import "macros/urls.html" as urls %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-oat-theme="doordarshan">
 <head>
     {% include "partials/head.html" %}
 
-    <!-- Design System Styles -->
+    <!-- Oatbase design system + Doordarshan token preset -->
+    <link rel="stylesheet" href="{{ get_url(path='vendor/oatbase/oatbase.min.css') | trim_end_matches(pat='/') }}?h={{ get_hash(path='vendor/oatbase/oatbase.min.css', sha_type=256) | truncate(length=8, end='') }}">
+    <link rel="stylesheet" href="{{ get_url(path='vendor/oatbase/themes/doordarshan.css') | trim_end_matches(pat='/') }}?h={{ get_hash(path='vendor/oatbase/themes/doordarshan.css', sha_type=256) | truncate(length=8, end='') }}">
+
+    <!-- Doordarshan layout and identity -->
     <link rel="stylesheet" href="{{ get_url(path='main.css') | trim_end_matches(pat='/') }}?h={{ get_hash(path='main.css', sha_type=256) | truncate(length=8, end='') }}">
 
     <!-- Syntax Highlighting -->
@@ -23,6 +27,7 @@
 
     <!-- Lucide Icons (pinned version) -->
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <script defer src="{{ get_url(path='vendor/oatbase/oatbase.min.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='vendor/oatbase/oatbase.min.js', sha_type=256) | truncate(length=8, end='') }}"></script>
 </head>
 
 <body>
@@ -41,7 +46,7 @@
             <a href="{{ urls::resolve(path='/') }}" class="nav-brand nav-brand-enhanced" aria-label="Home">{% if config.extra.doordarshan is defined and config.extra.doordarshan.identity is defined and config.extra.doordarshan.identity.nav_brand is defined and config.extra.doordarshan.identity.nav_brand %}{{ config.extra.doordarshan.identity.nav_brand }}{% elif config.extra.nav_brand is defined and config.extra.nav_brand %}{{ config.extra.nav_brand }}{% else %}{{ config.title }}{% endif %}</a>
 
             <!-- Mobile menu toggle -->
-            <button class="mobile-menu-toggle hidden-desktop" id="mobile-menu-toggle"
+            <button class="mobile-menu-toggle hidden-desktop outline icon" id="mobile-menu-toggle"
                     aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-menu">☰</button>
 
             <!-- Navigation (centered) -->
@@ -61,7 +66,7 @@
 
             <div class="header-actions">
                 {% if site_search_enabled %}
-                <button type="button" class="header-icon-button global-search-toggle" id="global-search-toggle"
+                <button type="button" class="header-icon-button global-search-toggle outline icon" id="global-search-toggle"
                         aria-label="Search" aria-haspopup="dialog" aria-controls="global-search-dialog"
                         title="Search (Ctrl/⌘ K)" data-global-search-trigger data-global-search-scope="">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
@@ -73,11 +78,14 @@
                 </button>
                 {% endif %}
 
-                <!-- Theme Toggle -->
-                <button type="button" class="theme-toggle" onclick="window.themeStore.toggle()" aria-label="Toggle theme">
-                    <span class="theme-icon-light">☀️</span>
-                    <span class="theme-icon-dark">🌙</span>
-                </button>
+                <ot-theme-switcher data-storage-key="oatbase-theme">
+                    <button type="button" class="theme-toggle outline icon" data-theme-toggle>
+                        <span data-theme-content="system" aria-hidden="true">◐</span>
+                        <span data-theme-content="light" aria-hidden="true">☀</span>
+                        <span data-theme-content="dark" aria-hidden="true">☾</span>
+                        <span class="visually-hidden" data-theme-label>Change theme</span>
+                    </button>
+                </ot-theme-switcher>
             </div>
         </div>
     </header>
@@ -95,15 +103,16 @@
                     <p class="global-search-eyebrow">Search<span id="global-search-scope-label"></span></p>
                     <h2 id="global-search-title">Find something</h2>
                 </div>
-                <button type="button" class="global-search-close" data-global-search-close aria-label="Close search">×</button>
+                <button type="button" class="global-search-close ghost icon" data-global-search-close aria-label="Close search">×</button>
             </div>
 
-            <div class="global-search-scopes" aria-label="Search scope">
-                <button type="button" data-search-scope-value="" data-search-scope-label="All" aria-pressed="true">All</button>
-                <button type="button" data-search-scope-value="/blog" data-search-scope-label="Blog" aria-pressed="false">Blog</button>
-                <button type="button" data-search-scope-value="/pages" data-search-scope-label="Pages" aria-pressed="false">Pages</button>
-                <button type="button" data-search-scope-value="/pages/projects" data-search-scope-label="Projects" aria-pressed="false">Projects</button>
-            </div>
+            <fieldset class="global-search-scopes" data-segmented>
+                <legend class="visually-hidden">Search scope</legend>
+                <label><input type="radio" name="global-search-scope" value="" data-search-scope-value="" data-search-scope-label="All" checked><span>All</span></label>
+                <label><input type="radio" name="global-search-scope" value="/blog" data-search-scope-value="/blog" data-search-scope-label="Blog"><span>Blog</span></label>
+                <label><input type="radio" name="global-search-scope" value="/pages" data-search-scope-value="/pages" data-search-scope-label="Pages"><span>Pages</span></label>
+                <label><input type="radio" name="global-search-scope" value="/pages/projects" data-search-scope-value="/pages/projects" data-search-scope-label="Projects"><span>Projects</span></label>
+            </fieldset>
 
             <label class="sr-only" for="global-search-input">Search posts, pages, and projects</label>
             <div class="global-search-field">
@@ -119,7 +128,7 @@
             </div>
 
             <p class="global-search-status" id="global-search-status" aria-live="polite">Type at least 2 characters to search.</p>
-            <div class="global-search-results" id="global-search-results" role="listbox" aria-label="Search results"></div>
+            <div class="global-search-results item-group" data-divided id="global-search-results" role="listbox" aria-label="Search results"></div>
 
             <div class="global-search-footer">
                 <span><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> open</span>
@@ -130,9 +139,24 @@
     {% endif %}
 
     <!-- Main Content -->
-    <main id="main-content" class="main-content">
-        {% block content %}{% endblock content %}
-    </main>
+    <ot-footnotes>
+        <ot-lightbox id="site-lightbox">
+            <main id="main-content" class="main-content">
+                {% block content %}{% endblock content %}
+            </main>
+            <dialog data-lightbox-dialog closedby="any" aria-label="Image viewer">
+                <figure><img data-lightbox-image alt=""><figcaption data-lightbox-caption></figcaption></figure>
+                <footer>
+                    <span data-lightbox-status aria-live="polite"></span>
+                    <ot-toolbar role="toolbar" aria-label="Image controls">
+                        <button type="button" class="outline small" data-lightbox-previous>Previous</button>
+                        <button type="button" class="outline small" data-lightbox-next>Next</button>
+                        <button type="button" class="small" data-lightbox-close>Close</button>
+                    </ot-toolbar>
+                </footer>
+            </dialog>
+        </ot-lightbox>
+    </ot-footnotes>
 
     <!-- Footer -->
     <footer class="footer-main">
@@ -149,11 +173,12 @@
         </div>
     </footer>
 
-    <!-- Reading Progress Bar (Bottom) -->
+    <!-- Oatbase reading progress -->
     {% if page and current_path and current_path != "/" %}
-    <div class="progress-container-bottom">
-        <div class="progress-bar" id="progress-bar"></div>
-    </div>
+    <ot-reading-progress class="progress-container-bottom" data-target="#main-content">
+        <label class="visually-hidden" for="page-reading-progress">Reading progress</label>
+        <progress id="page-reading-progress" value="0" max="100">0%</progress>
+    </ot-reading-progress>
     {% endif %}
     {% endblock body %}
 
@@ -200,21 +225,6 @@
             });
         }
 
-        // Reading progress bar (for articles)
-        if (document.getElementById('progress-bar')) {
-            function updateProgressBar() {
-                const progressBar = document.getElementById('progress-bar');
-                if (!progressBar) return;
-                
-                const totalHeight = document.body.scrollHeight - window.innerHeight;
-                const progress = (window.pageYOffset / totalHeight) * 100;
-                progressBar.style.width = Math.min(progress, 100) + '%';
-            }
-            
-            window.addEventListener('scroll', updateProgressBar);
-            window.addEventListener('resize', updateProgressBar);
-        }
-
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -237,7 +247,7 @@
         });
     </script>
 
-    <!-- Footnotes & Lightbox -->
+    <!-- Doordarshan layout adapters for generated Markdown content -->
     <script src="{{ get_url(path='js/footnotes.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/footnotes.js', sha_type=256) | truncate(length=8, end='') }}"></script>
     <script src="{{ get_url(path='js/lightbox.js') | trim_end_matches(pat='/') }}?h={{ get_hash(path='js/lightbox.js', sha_type=256) | truncate(length=8, end='') }}"></script>
 

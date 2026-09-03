@@ -4,7 +4,6 @@
 
 // Base card styles
 .card-base,
-.card,
 .card-interactive,
 .content-preview {
   background: var(--c-bg);
@@ -15,6 +14,16 @@
 
   &:hover {
     border-color: var(--c-text-primary);
+  }
+}
+
+// Oatbase owns `.card`; Doordarshan adds only site-specific rhythm.
+.card {
+  margin-bottom: var(--space-6);
+  transition: border-color var(--transition-fast);
+
+  &:hover {
+    border-color: var(--foreground);
   }
 }
 
@@ -36,5 +45,4 @@
   color: var(--c-text-secondary);
   line-height: var(--leading-relaxed);
 }
-
 

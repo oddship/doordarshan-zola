@@ -55,8 +55,10 @@
       var title = raw.title || "";
       var description = raw.description || "";
       var body = raw.body || "";
-      var ref = raw.url || raw.path || "/";
-      var path = normalizePath(ref, basePath);
+      var indexedRef = raw.url || raw.path || "/";
+      var path = normalizePath(indexedRef, basePath);
+      var base = rawPath(basePath);
+      var ref = base && base !== "/" ? base + (path === "/" ? "" : path) : path;
       if (seen[path]) continue;
       seen[path] = true;
 

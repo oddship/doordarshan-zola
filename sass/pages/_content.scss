@@ -36,14 +36,6 @@
   }
 }
 
-// Blog list - simple terminal-style listing
-.blog-list {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: stretch;
-}
-
 .blog-item {
   display: flex;
   align-items: baseline;
@@ -105,20 +97,6 @@
   }
 }
 
-// Projects list
-.projects-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.project-item {
-  padding: var(--space-4) 0;
-  border-bottom: 1px solid var(--c-border);
-  // Override article defaults
-  max-width: none;
-  margin: 0;
-}
-
 .project-name {
   font-size: var(--text-base);
   font-weight: var(--weight-medium);
@@ -154,9 +132,15 @@
 // Project page links
 .project-links {
   display: flex;
+  width: 100%;
+  flex-wrap: wrap;
   gap: var(--space-4);
   margin-top: var(--space-4);
   margin-bottom: var(--space-6);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
 }
 
 .project-link {
@@ -466,7 +450,7 @@
 }
 
 // --- Narrow screen: Wikipedia-style callout boxes ---
-@media (max-width: 1099px) {
+@media (max-width: 1279px) {
   .footnote-definition {
     margin: var(--space-4) 0;
     padding: var(--space-3) var(--space-4);
@@ -481,7 +465,7 @@
 }
 
 // --- Widescreen: Tufte-style margin notes ---
-@media (min-width: 1100px) {
+@media (min-width: 1280px) {
   .footnote-definition {
     float: right;
     clear: right;
@@ -719,20 +703,17 @@ article {
   line-height: var(--leading-relaxed);
 }
 
-.contact-email {
-  display: inline-block;
-  font-size: var(--text-xl);
-  font-family: var(--font-mono);
-  color: var(--c-text-primary);
-  text-decoration: none;
-  padding: var(--space-4) var(--space-6);
-  border: 2px solid var(--c-marigold);
-  transition: background 150ms ease, color 150ms ease;
+.contact-email-actions {
+  max-width: 100%;
+  margin-inline: auto;
+  text-align: start;
+}
 
-  &:hover {
-    background: var(--c-marigold);
-    color: var(--c-bg);
-  }
+.contact-email {
+  display: block;
+  max-width: 100%;
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
 }
 
 .contact-note {
@@ -760,9 +741,6 @@ article {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
 
   li {
     display: flex;
@@ -783,54 +761,5 @@ article {
   .link-desc {
     font-size: var(--text-sm);
     color: var(--c-text-tertiary);
-  }
-}
-
-// ==========================
-// Image Lightbox
-// ==========================
-
-.lightbox-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.95);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: zoom-out;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 200ms ease, visibility 200ms ease;
-
-  &.is-visible {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  img {
-    max-width: calc(100vw - 4rem);
-    max-height: calc(100vh - 6rem);
-    object-fit: contain;
-    border: none;
-    margin: 0;
-    cursor: default;
-    border-radius: 2px;
-    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
-  }
-
-  .lightbox-original-link {
-    margin-top: var(--space-3);
-    font-size: var(--text-sm);
-    font-family: var(--font-mono);
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    cursor: pointer;
-    transition: color 150ms ease;
-
-    &:hover {
-      color: #fff;
-    }
   }
 }

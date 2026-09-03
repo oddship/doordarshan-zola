@@ -9,12 +9,16 @@
 {% block pages_content %}
 <h1>{{ page.title }}</h1>
 {% if page.date %}
-<p class="pages-last-updated"><small>Last updated: {{ page.date | date(format="%B %d, %Y") }}</small></p>
+<dl class="pages-last-updated" data-description-list>
+    <div><dt>Last updated</dt><dd><time datetime="{{ page.date }}">{{ page.date | date(format="%B %d, %Y") }}</time></dd></div>
+</dl>
 {% endif %}
+<div data-local-editor-content>
 {{ page.content | safe }}
+</div>
 
 {% if page.lower or page.higher %}
-<nav class="pages-prev-next" aria-label="Previous and next pages">
+<ot-toolbar class="pages-prev-next" role="toolbar" aria-label="Previous and next pages">
     {% if page.lower %}
     <a href="{{ page.lower.permalink }}" class="pages-nav-prev">
         <small>Previous</small>
@@ -29,6 +33,6 @@
         <span>{{ page.higher.title }}</span>
     </a>
     {% endif %}
-</nav>
+</ot-toolbar>
 {% endif %}
 {% endblock pages_content %}

@@ -12,7 +12,7 @@
 {% endif %}
 <div data-sidebar-layout class="pages-layout">
     <aside data-sidebar>
-        <button data-sidebar-toggle class="pages-sidebar-toggle" aria-label="Close sidebar">✕</button>
+        <button data-sidebar-toggle class="pages-sidebar-toggle ghost icon" aria-label="Close sidebar">✕</button>
         {% block sidebar %}
         {{ nav::sidebar(ancestors=section.ancestors | default(value=page.ancestors), current_path=section.path | default(value=page.path)) }}
         {% endblock sidebar %}
@@ -20,30 +20,32 @@
 
     <div class="pages-main-wrapper">
         <div class="pages-mobile-bar">
-            <button data-sidebar-toggle class="pages-sidebar-open" aria-label="Open sidebar">☰ Pages</button>
+            <button data-sidebar-toggle class="pages-sidebar-open outline" aria-label="Open sidebar">☰ Pages</button>
         </div>
-        <article class="pages-article">
+        <article class="pages-article" data-prose>
             {% block pages_content %}{% endblock pages_content %}
         </article>
     </div>
 
     {% if pages_toc | length > 0 %}
     <aside class="pages-toc" aria-label="On this page">
-        <p class="pages-toc-title">On this page</p>
-        <ol>
-            {% for heading in pages_toc %}
-            <li>
-                <a href="{{ heading.permalink | safe }}">{{ heading.title }}</a>
-                {% if heading.children %}
-                <ol>
-                    {% for child in heading.children %}
-                    <li><a href="{{ child.permalink | safe }}">{{ child.title }}</a></li>
-                    {% endfor %}
-                </ol>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ol>
+        <ot-scrollspy data-target=".pages-article">
+            <p class="pages-toc-title">On this page</p>
+            <ol>
+                {% for heading in pages_toc %}
+                <li>
+                    <a href="{{ heading.permalink | safe }}">{{ heading.title }}</a>
+                    {% if heading.children %}
+                    <ol>
+                        {% for child in heading.children %}
+                        <li><a href="{{ child.permalink | safe }}">{{ child.title }}</a></li>
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol>
+        </ot-scrollspy>
     </aside>
     {% endif %}
 </div>

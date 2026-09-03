@@ -27,20 +27,20 @@
             {% if page.taxonomies.tags %}
             <div class="tag-list spacing-top-element">
                 {% for tag in page.taxonomies.tags %}
-                <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag">{{ tag }}</a>
+                <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag badge outline">{{ tag }}</a>
                 {% endfor %}
             </div>
             {% endif %}
         </header>
 
         <div class="text-content spacing-component">
-            <div class="text-body">
+            <div class="text-body" data-prose data-local-editor-content>
                 {{ page.content | safe }}
             </div>
         </div>
 
         {% if page.extra.toc %}
-        <aside class="card spacing-component">
+        <aside class="card spacing-component" data-callout>
             <h3 class="text-title">Table of Contents</h3>
             <div class="toc-content">
                 {{ page.toc | safe }}

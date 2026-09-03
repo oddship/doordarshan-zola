@@ -28,6 +28,14 @@ test("folds accents without generating one-character fragments", () => {
 test("normalizes deployment base paths and removes duplicate URLs", () => {
   assert.equal(docs.filter((doc) => doc.path === "/pages/worktrees").length, 1);
   assert.equal(docs.find((doc) => doc.path === "/pages/worktrees").title, "Git worktrees");
+  assert.equal(docs.find((doc) => doc.path === "/pages/worktrees").ref, "/base/pages/worktrees");
+});
+
+test("uses local paths instead of indexed production origins", () => {
+  const localDocs = core.prepare([
+    { url: "https://production.example/blog/local-preview/", title: "Local preview", body: "" },
+  ], "http://127.0.0.1:1111");
+  assert.equal(localDocs[0].ref, "/blog/local-preview");
 });
 
 test("supports path predicates for scoped search", () => {

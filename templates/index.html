@@ -46,11 +46,11 @@
             <nav class="hero-links">
                 {% if config.extra.doordarshan.homepage is defined and config.extra.doordarshan.homepage.links is defined %}
                     {% for link in config.extra.doordarshan.homepage.links %}
-                <a href="{{ urls::resolve(path=link.url) }}" class="btn-retro">{{ link.label }}</a>
+                <a href="{{ urls::resolve(path=link.url) }}" class="button outline btn-retro">{{ link.label }}</a>
                     {% endfor %}
                 {% else %}
-                <a href="{{ blog_section_url }}" class="btn-retro">Blog</a>
-                <a href="{{ pages_section_url }}" class="btn-retro">Pages</a>
+                <a href="{{ blog_section_url }}" class="button outline btn-retro">Blog</a>
+                <a href="{{ pages_section_url }}" class="button outline btn-retro">Pages</a>
                 {% endif %}
             </nav>
         </div>
@@ -66,9 +66,9 @@
         <div class="homepage-split-columns">
             <section>
                 <h3 class="homepage-split-title">Posts</h3>
-                <ul class="recent-updates-list">
+                <ul class="recent-updates-list item-group" data-divided>
                     {% for post in blog_section.pages | sort(attribute="date") | reverse | slice(end=recent_limit) %}
-                    <li class="recent-update-item">
+                    <li class="recent-update-item item">
                         <time datetime="{{ post.date }}">{{ post.date | date(format="%b %d") }}</time>
                         <a href="{{ post.permalink }}">{{ post.title }}</a>
                     </li>
@@ -78,7 +78,7 @@
 
             <section>
                 <h3 class="homepage-split-title">Pages</h3>
-                <ul class="recent-updates-list">
+                <ul class="recent-updates-list item-group" data-divided>
                     {% set_global recent_pages = [] %}
             {% for page in pages_section.pages %}
                         {% if page.date %}{% set_global recent_pages = recent_pages | concat(with=[page]) %}{% endif %}
@@ -96,7 +96,7 @@
                 {% endfor %}
             {% endfor %}
                     {% for page in recent_pages | sort(attribute="date") | reverse | slice(end=recent_limit) %}
-                    <li class="recent-update-item">
+                    <li class="recent-update-item item">
                         <time datetime="{{ page.date }}">{{ page.date | date(format="%b %d") }}</time>
                         <a href="{{ page.permalink }}">{{ page.title }}</a>
                     </li>

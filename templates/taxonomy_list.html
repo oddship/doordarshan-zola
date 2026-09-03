@@ -11,7 +11,7 @@
 
     <div class="tags-index spacing-component">
         {% for term in terms %}
-        <a href="{{ term.permalink }}" class="tag-index-item">
+        <a href="{{ term.permalink }}" class="tag-index-item badge outline">
             <span class="tag-name">{{ term.name }}</span>
             <span class="tag-count">{{ term.pages | length }}</span>
         </a>

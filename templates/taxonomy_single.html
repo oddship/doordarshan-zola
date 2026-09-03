@@ -14,9 +14,9 @@
         </p>
     </header>
 
-    <div class="blog-list spacing-component">
+    <div class="blog-list item-group spacing-component" data-divided>
         {% for post in term.pages %}
-        <article class="blog-item">
+        <article class="blog-item item">
             <time datetime="{{ post.date }}">{{ post.date | date(format="%Y-%m-%d") }}</time>
             <a href="{{ post.permalink }}" class="blog-item-title">{{ post.title }}</a>
         </article>

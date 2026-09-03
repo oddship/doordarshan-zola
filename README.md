@@ -16,6 +16,7 @@ Doordarshan is a Zola theme for a retro Indian terminal/notebook aesthetic: mono
 - project-section templates with GitHub/demo/website links and archived status
 - theme-owned contact, search, 404, and homepage defaults
 - light/dark theme toggle
+- Oatbase-powered tokens, forms, dialogs, prose, cards, lists, editor controls, lightbox, footnotes, and reading progress
 - RSS, Open Graph, Twitter card, favicon, and JSON-LD metadata defaults
 - namespaced config contract under `extra.doordarshan.*`
 - compatibility fallbacks for legacy flat keys during migration
@@ -93,6 +94,12 @@ Only two section roots are important to the theme contract:
 You can move them by changing `extra.doordarshan.sections.blog` and `extra.doordarshan.sections.pages`.
 
 ## Built-in templates and behaviors
+
+Doordarshan vendors the browser-ready [Oatbase](https://github.com/oddship/oatbase)
+bundle under `static/vendor/oatbase/` and applies its dedicated `doordarshan`
+theme preset. Oatbase owns the reusable component and accessibility layer;
+Doordarshan's Sass is the site-specific composition and retro terminal identity.
+The exact vendored revision and license notices are documented beside the bundle.
 
 | Route / content type | Template | Notes |
 |---|---|---|
@@ -350,6 +357,19 @@ Run it locally with Zola:
 ```bash
 zola serve
 ```
+
+### Local content editor
+
+Doordarshan includes an optional development-only editor under `dev/`. It is outside the directories Zola copies into a production build.
+
+With Zola serving drafts on port 1111, run this from the site root:
+
+```bash
+zola serve --drafts --interface 127.0.0.1 --port 1111
+node themes/doordarshan/dev/admin-server.js
+```
+
+Open `http://127.0.0.1:1112/admin/`. The local gateway serves the actual Zola preview at `/`, adds in-page editing controls, and can create or edit drafts under `content/blog/` and `content/pages/`. Set `ADMIN_PORT` or `ADMIN_PREVIEW_URL` to override the two local ports. The server always binds to loopback and never commits, pushes, or deploys content.
 
 Build it for production:
 

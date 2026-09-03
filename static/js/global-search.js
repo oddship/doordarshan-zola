@@ -135,7 +135,7 @@
       var heading = document.createElement("span");
       var excerpt = document.createElement("span");
 
-      item.className = "global-search-result";
+      item.className = "global-search-result item";
       item.href = ref;
       item.id = "global-search-result-" + i;
       item.setAttribute("role", "option");
@@ -192,9 +192,9 @@
     if (scopeLabel) scopeLabel.textContent = currentScope ? " · " + currentScopeLabel : "";
     input.placeholder = currentScope ? "Search " + currentScopeLabel.toLowerCase() + "…" : "Search posts, pages, and projects…";
 
-    Array.prototype.forEach.call(scopeButtons, function (button) {
-      var selected = normalizePath(button.dataset.searchScopeValue) === currentScope;
-      button.setAttribute("aria-pressed", selected ? "true" : "false");
+    Array.prototype.forEach.call(scopeButtons, function (control) {
+      var selected = normalizePath(control.dataset.searchScopeValue) === currentScope;
+      control.checked = selected;
     });
 
     updateFullResultsLink(input.value.trim());
@@ -239,9 +239,10 @@
     });
   });
 
-  Array.prototype.forEach.call(scopeButtons, function (button) {
-    button.addEventListener("click", function () {
-      setScope(button.dataset.searchScopeValue || "", button.dataset.searchScopeLabel || "All");
+  Array.prototype.forEach.call(scopeButtons, function (control) {
+    control.addEventListener("change", function () {
+      if (!control.checked) return;
+      setScope(control.dataset.searchScopeValue || "", control.dataset.searchScopeLabel || "All");
       input.focus();
     });
   });

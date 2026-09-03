@@ -1,0 +1,30 @@
+@layer theme {
+  [data-oat-theme="doordarshan"] {
+    --background: light-dark(#fefefe, #1a1614);
+    --foreground: light-dark(#1a1a1a, #d5cec6);
+    --card: light-dark(#fffdf8, #211e1a);
+    --card-foreground: light-dark(#1a1a1a, #d5cec6);
+    --primary: light-dark(#c44536, #eaa221);
+    --primary-foreground: light-dark(#ffffff, #1a1614);
+    --secondary: light-dark(#faf6ee, #2e2822);
+    --secondary-foreground: light-dark(#754c3f, #d5cec6);
+    --muted: light-dark(#f8f6f2, #211e1a);
+    --muted-foreground: light-dark(#6f665f, #9a918a);
+    --faint: light-dark(#fbf8f2, #1d1916);
+    --faint-foreground: light-dark(#756c66, #958b86);
+    --accent: light-dark(#f7efe5, #352b20);
+    --danger: light-dark(#d81159, #ff7096);
+    --danger-foreground: light-dark(#ffffff, #1a1614);
+    --success: light-dark(#006d77, #63c5cc);
+    --success-foreground: light-dark(#ffffff, #102022);
+    --warning: light-dark(#eaa221, #ffb84d);
+    --warning-foreground: #1a1614;
+    --border: light-dark(#e7e0d8, #3b332c);
+    --input: light-dark(#938679, #776a60);
+    --ring: light-dark(#c44536, #eaa221);
+    --font-sans: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+    --radius-small: 0.125rem;
+    --radius-medium: 0.25rem;
+    --radius-large: 0.5rem;
+  }
+}

@@ -20,10 +20,10 @@
                autocomplete="off" spellcheck="false" autofocus role="combobox" aria-autocomplete="list"
                aria-controls="site-search-results" aria-expanded="true">
         <div id="site-search-status" class="site-search-status" aria-live="polite">Type at least 2 characters to search.</div>
-        <div id="site-search-results" class="site-search-results" role="listbox" aria-label="Search results"></div>
+        <div id="site-search-results" class="site-search-results item-group" data-divided role="listbox" aria-label="Search results"></div>
     </div>
     {% else %}
-    <div class="empty-state">
+    <div class="empty-state" data-variant="empty">
         <p>Site search is disabled for this site.</p>
     </div>
     {% endif %}

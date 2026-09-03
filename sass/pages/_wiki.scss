@@ -156,7 +156,13 @@
   color: var(--c-text-tertiary);
   margin-bottom: var(--space-8) !important;
 
-  small {
+  // Oatbase's description-list supplies the geometry; keep only the
+  // Doordarshan timestamp treatment here.
+  > div {
+    padding-block: var(--space-2);
+  }
+
+  dt {
     font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -165,6 +171,11 @@
       content: '॰ ';
       color: var(--c-marigold);
     }
+  }
+
+  dd {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
   }
 }
 
@@ -411,11 +422,18 @@ pre code {
 // Prev/next navigation
 .pages-prev-next {
   display: flex;
+  width: 100%;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-4);
   margin-top: var(--space-12);
   padding-top: var(--space-6);
   border-top: 1px solid var(--c-border);
+  padding-inline: 0;
+  border-inline: 0;
+  border-bottom: 0;
+  background: transparent;
+  border-radius: 0;
 
   a {
     display: flex;
