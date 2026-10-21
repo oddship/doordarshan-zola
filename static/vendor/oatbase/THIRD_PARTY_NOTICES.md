@@ -1,6 +1,6 @@
 # Third-party notices
 
-The default Oatbase CSS and JavaScript bundles include [Oat UI](https://oat.ink) 0.7.2.
+The default Oatbase CSS and JavaScript bundles include [Oat UI](https://oat.ink) 1.0.0.
 
 Oat UI is distributed under the MIT License:
 
