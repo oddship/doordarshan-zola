@@ -5,7 +5,7 @@
 // Article container
 .pages-article {
   max-width: 100%;
-  line-height: var(--leading-loose);
+  line-height: 1.8;
   --prose-width: min(76ch, 100%);
 
   // Direct prose elements share one measure. Custom page furniture opts into
@@ -82,16 +82,6 @@
     border-radius: 0;
     margin: var(--space-8) 0;
     box-shadow: 0 2px 8px color-mix(in srgb, var(--c-marigold) 8%, transparent);
-  }
-
-  // Inline code
-  code:not(pre code) {
-    font-size: 0.875em;
-    background: var(--c-bg-subtle);
-    color: var(--c-accent);
-    padding: 0.15em 0.4em;
-    border-radius: 0;
-    border: 1px solid color-mix(in srgb, var(--c-accent) 15%, transparent);
   }
 
   // Blockquotes — warm treatment
@@ -179,23 +169,6 @@
   }
 }
 
-// Gruvbox code blocks
-pre {
-  .pages-article & {
-    background: #1d2021 !important;
-    color: #ebdbb2 !important;
-    border-left: 3px solid var(--c-marigold);
-    border-radius: 0 !important;
-  }
-}
-
-pre code {
-  .pages-article & {
-    background: none !important;
-    color: inherit !important;
-  }
-}
-
 // ==========================
 // Pages Index — Featured Cards & Section List
 // ==========================
@@ -210,7 +183,7 @@ pre code {
   padding: var(--space-4) var(--space-6);
   margin-block: var(--space-4) var(--space-8);
   max-width: 100%;
-  background: transparent;
+  background: var(--c-cream);
   text-decoration: none !important;
   color: inherit;
   transition: border-color 150ms ease, background 150ms ease;
@@ -236,12 +209,12 @@ pre code {
 
   .section-desc {
     color: var(--c-text-secondary);
-    font-size: var(--text-sm);
+    font-size: 1rem;
   }
 
   .subsection-arrow {
     font-size: var(--text-lg);
-    color: var(--c-marigold);
+    color: var(--c-accent);
     transition: transform 150ms ease;
   }
 
@@ -254,12 +227,14 @@ pre code {
   }
 }
 
-.pages-index-list {
+.pages-article .pages-index-list {
   list-style: none;
   padding: 0;
   max-width: 100%;
 
   li {
+    display: block;
+    padding-inline: 0;
     margin-block-end: var(--space-4);
     padding-block-end: var(--space-4);
     border-bottom: 1px solid var(--c-border);
@@ -322,7 +297,7 @@ pre code {
     flex-wrap: wrap;
     margin: var(--space-2) 0 var(--space-4);
     padding: var(--space-2) var(--space-4);
-    border-left: 3px solid var(--c-accent);
+    border-left: 3px solid var(--c-marigold);
     border-radius: 0;
 
     img {

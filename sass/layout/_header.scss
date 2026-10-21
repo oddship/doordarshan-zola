@@ -16,7 +16,7 @@
 }
 
 .header-content {
-  max-width: var(--max-width);
+  max-width: 1120px;
   margin: 0 auto;
   padding: 0 var(--container-padding);
   display: grid;
@@ -141,7 +141,7 @@
 
   .footer-meta {
     white-space: nowrap;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     color: var(--c-text-tertiary);
 
     a {

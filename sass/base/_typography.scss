@@ -5,9 +5,10 @@
 // Everything uses the same monospace font
 h1, h2, h3, h4, h5, h6, p, li, a, span, div {
   font-family: var(--font-mono);
-  color: var(--c-text-primary);
   transition: color var(--transition);
 }
+
+body { color: var(--c-text-primary); }
 
 // Headings - simple weight hierarchy
 h1 {
@@ -102,55 +103,72 @@ ol {
   list-style-type: decimal;
 }
 
-// Code - inline code with accent styling
-code {
+// Inline code belongs to the sentence; fenced code gets its own quiet surface.
+code, kbd, samp {
   font-family: var(--font-mono);
-  font-size: 0.875em;
-  background: var(--c-bg-subtle);
-  color: var(--c-accent);
-  padding: 0.15em 0.4em;
-  border-radius: 2px;
-  // Subtle border matching accent
-  border: 1px solid color-mix(in srgb, var(--c-accent) 20%, transparent);
 }
 
-// Code blocks - terminal style
-// Zola puts .z-code class directly on pre element
-pre,
-pre.z-code {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: var(--leading-relaxed);
-  background: #1d2021 !important; // Gruvbox dark bg
-  color: #ebdbb2; // Gruvbox fg
-  padding: var(--space-4);
-  border: 1px solid #3c3836;
+code:not(pre code) {
+  font-size: 0.84em;
+  background: var(--c-bg-subtle);
+  color: var(--c-text-primary);
+  padding: 0.15em 0.35em;
+  border: 1px solid var(--c-border);
   border-radius: 2px;
-  overflow-x: auto;
-  margin: var(--space-6) 0;
-  // Subtle left accent border
+  overflow-wrap: anywhere;
+}
+
+pre, pre.z-code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  background: #242321;
+  color: #e8e0d5;
+  padding: 1.5rem;
+  border: 1px solid #3c3935;
+  border-radius: 2px;
   border-left: 3px solid var(--c-marigold);
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 2rem 0;
+  tab-size: 4;
+  text-align: left;
+  scrollbar-width: thin;
+  scrollbar-color: #82786b #302d29;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
 
   code {
+    display: block;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
     background: transparent;
-    color: inherit; // Use pre's Gruvbox fg, not accent color
+    color: inherit;
     padding: 0;
-    border: none;
+    border: 0;
+    border-radius: 0;
+    white-space: inherit;
+    overflow-wrap: normal;
   }
 }
 
-// ========== SYNTAX HIGHLIGHTING ==========
-// Ensure all syntax highlighting spans use Gruvbox colors on dark bg
-pre, pre.z-code {
-  // Reset ALL nested spans to inherit the Gruvbox foreground
-  span, code span {
-    color: #ebdbb2; // Gruvbox fg - override any inherited page colors
-  }
+// Keep comments readable on the dark code surface.
+pre .z-comment, pre .z-comment span { color: #b5a897; }
+
+pre[data-lang]::before {
+  content: '/* ' attr(data-lang) ' */';
+  display: block;
+  width: fit-content;
+  margin-bottom: 1rem;
+  color: #bdb2a4;
+  font: 0.75rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-// Punctuation slightly muted
-.z-punctuation {
-  color: #a89984 !important; // Gruvbox gray
+@media (max-width: 640px) {
+  pre, pre.z-code { padding: 1rem 0.75rem; font-size: 0.8125rem; }
 }
 
 // Blockquotes
@@ -176,3 +194,7 @@ hr {
   background: var(--c-text-primary);
   color: var(--c-bg);
 }
+
+pre::-webkit-scrollbar { height: 8px; }
+pre::-webkit-scrollbar-track { background: #302d29; }
+pre::-webkit-scrollbar-thumb { background: #82786b; border-radius: 4px; }

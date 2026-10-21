@@ -53,13 +53,13 @@
             <nav class="header-nav header-nav-enhanced" id="nav-menu" role="navigation" aria-label="Main navigation">
                 {% if config.extra.doordarshan is defined and config.extra.doordarshan.nav is defined and config.extra.doordarshan.nav.menu is defined %}
                     {% for item in config.extra.doordarshan.nav.menu %}
-                    <a href="{{ urls::resolve(path=item.url) }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
-                       {% if current_path and current_path == item.url %}aria-current="page"{% endif %}>{{ item.name }}</a>
+                    <a href="{{ urls::resolve(path=item.url) }}" class="nav-item {% if current_path and (current_path == item.url or (item.url != "/" and current_path is starting_with(item.url))) %}active{% endif %}"
+                       {% if current_path and (current_path == item.url or (item.url != "/" and current_path is starting_with(item.url))) %}aria-current="{% if current_path == item.url %}page{% else %}location{% endif %}"{% endif %}>{{ item.name }}</a>
                     {% endfor %}
                 {% elif config.extra.menu_main is defined %}
                     {% for item in config.extra.menu_main %}
-                    <a href="{{ urls::resolve(path=item.url) }}" class="nav-item {% if current_path and current_path == item.url %}active{% endif %}"
-                       {% if current_path and current_path == item.url %}aria-current="page"{% endif %}>{{ item.name }}</a>
+                    <a href="{{ urls::resolve(path=item.url) }}" class="nav-item {% if current_path and (current_path == item.url or (item.url != "/" and current_path is starting_with(item.url))) %}active{% endif %}"
+                       {% if current_path and (current_path == item.url or (item.url != "/" and current_path is starting_with(item.url))) %}aria-current="{% if current_path == item.url %}page{% else %}location{% endif %}"{% endif %}>{{ item.name }}</a>
                     {% endfor %}
                 {% endif %}
             </nav>
@@ -80,9 +80,9 @@
 
                 <ot-theme-switcher data-storage-key="oatbase-theme">
                     <button type="button" class="theme-toggle outline icon" data-theme-toggle>
-                        <span data-theme-content="system" aria-hidden="true">◐</span>
-                        <span data-theme-content="light" aria-hidden="true">☀</span>
-                        <span data-theme-content="dark" aria-hidden="true">☾</span>
+                        <span data-theme-content="system" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" stroke="none"/></svg></span>
+                        <span data-theme-content="light" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></span>
+                        <span data-theme-content="dark" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 14a8.5 8.5 0 0 1-10-10A8.5 8.5 0 1 0 20 14Z"/></svg></span>
                         <span class="visually-hidden" data-theme-label>Change theme</span>
                     </button>
                 </ot-theme-switcher>
